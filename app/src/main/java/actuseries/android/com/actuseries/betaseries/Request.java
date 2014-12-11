@@ -43,12 +43,9 @@ public class Request {
         this.method = RequestMethod.HOME;
         this.chaineObject = null;
         this.options = new HashMap<>();
-
-        // initializing the requete
-        // initializing the session
     }
 
-    public void send(CompletionHandlerData completionHandler) {
+    public <T> T send(CompletionHandlerData<T> completionHandler) {
         InputStream is = null;
         try {
             URL url = new URL(this.urlStringForRequest());
@@ -85,7 +82,7 @@ public class Request {
 
                 completionHandler.handleError(e);
             } else {
-                completionHandler.completionMethod(json);
+                return completionHandler.completionMethod(json);
             }
 
         } catch (Exception e) {
@@ -98,6 +95,7 @@ public class Request {
                     completionHandler.handleError(e);
                 }
             }
+            return null;
         }
 
     }
@@ -117,4 +115,27 @@ public class Request {
         return builder.toString();
     }
 
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setCategory(RequestCategory category) {
+        this.category = category;
+    }
+
+    public void setMethod(RequestMethod method) {
+        this.method = method;
+    }
+
+    public void setChaineObject(String chaineObject) {
+        this.chaineObject = chaineObject;
+    }
+
+    public void addOption(String nameOption, String option) {
+        this.options.put(nameOption, option);
+    }
 }
