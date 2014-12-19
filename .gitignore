@@ -14,8 +14,7 @@ local.properties
 .signing/
 
 # User-specific configurations
-/.idea/workspace.xml
-/.idea/libraries
+/.idea
 *.iml
 
 # OS-specific files
