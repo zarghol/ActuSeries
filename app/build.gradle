@@ -20,10 +20,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "commons-io:commons-io:+"
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'commons-io:commons-io:+'
+    compile 'org.apache.commons:commons-lang3:+'
+    compile 'commons-codec:commons-codec:+'
     compile 'com.android.support:appcompat-v7:21.0.+'
+}
 
-    compile files('/Volumes/Transcend/Developpement/Java/Android/ActuSeries/libs/commons-io-2.4.jar')
-    compile files('/Volumes/Transcend/Developpement/Java/Android/ActuSeries/libs/commons-lang3-3.3.2.jar')
+android {
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }

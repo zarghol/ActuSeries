@@ -9,7 +9,9 @@ public enum RequestCategory {
     PLANNING("planning"),
     SHOWS("shows"),
     SUBTITLES("subtitles"),
-    TIMELINE("timeline");
+    TIMELINE("timeline"),
+    // pas l'air d'être fonctionnel de leur coté
+    PICTURES("pictures");
 
 
     private String contenu;
@@ -22,30 +24,4 @@ public enum RequestCategory {
         return this.contenu;
     }
 
-
-    // peut-etre inutile
-    public static RequestCategory fromContenu(String contenu) {
-        switch (contenu) {
-            case "comments":
-                return COMMENTS;
-
-            case "members":
-                return MEMBERS;
-
-            case "planning":
-                return PLANNING;
-
-            case "shows":
-                return SHOWS;
-
-            case "subtitles":
-                return SUBTITLES;
-
-            case "timeline":
-                return TIMELINE;
-
-            default:
-                return null;
-        }
-    }
 }
