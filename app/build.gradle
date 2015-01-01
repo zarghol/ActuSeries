@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "actuseries.android.com.actuseries"
@@ -20,10 +20,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "commons-io:commons-io:+"
-    compile 'com.android.support:appcompat-v7:21.0.+'
-
-    compile files('/Volumes/Transcend/Developpement/Java/Android/ActuSeries/libs/commons-io-2.4.jar')
-    compile files('/Volumes/Transcend/Developpement/Java/Android/ActuSeries/libs/commons-lang3-3.3.2.jar')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'commons-io:commons-io:2.4'
 }
