@@ -1,5 +1,7 @@
 package actuseries.android.com.actuseries.metier;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,21 +49,22 @@ public class Serie {
         try {
             this.nomSerie = show.getString("title");
             this.active = show.getJSONObject("user").getBoolean("archived");
-            this.url = show.getString("ressource_url");
+            this.url = show.getString("resource_url");
             this.id = show.getInt("id");
             this.id_thetvdb = show.getInt("thetvdb_id");
             this.description = show.getString("description");
-            this.anneeCreation = show.getInt("anneeCreation");
+            this.anneeCreation = show.getInt("creation");
             this.genres = new ArrayList<>();
             JSONArray genresjson = show.getJSONArray("genres");
             for (int i = 0; i < genresjson.length(); i++) {
                 this.genres.add(genresjson.getString(i));
             }
-            this.statut = SerieStatus.valueOf(show.getString("status"));
+
+            this.statut = SerieStatus.valueOfByString(show.getString("status"));
             this.dureeEpisode = show.getInt("length");
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e("ActuSeries", "erreur de creation de serie", e);
         }
     }
 

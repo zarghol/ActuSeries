@@ -1,5 +1,7 @@
 package actuseries.android.com.actuseries.betaseries;
 
+import android.util.Log;
+
 import actuseries.android.com.actuseries.metier.Member;
 
 /**
@@ -39,16 +41,14 @@ public class AccesBetaseries {
     }
 
     public static void test() {
-        Runnable runnable = new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 AccesBetaseries inst = AccesBetaseries.getInstance();
 
-                inst.membreConnecte = new Member(inst.betaSeries.obtainToken("zarghol", "abernaty"));
                 inst.betaSeries.getMemberInformations(inst.membreConnecte);
+                Log.d("ActuSeries", "series : " + inst.membreConnecte.getSeries().size());
             }
-        };
-        new Thread(runnable).start();
-
+        }).start();
     }
 }

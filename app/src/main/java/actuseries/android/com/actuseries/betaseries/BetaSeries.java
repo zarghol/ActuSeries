@@ -22,10 +22,6 @@ public class BetaSeries {
     // TODO voir comment pas dupliquer entre membre et ici
     private String token;
 
-    public BetaSeries() {
-        this("", "");
-    }
-
     public BetaSeries(String apiKey, String token) {
         this.apiKey = apiKey;
         this.token = token;
@@ -35,38 +31,26 @@ public class BetaSeries {
         this(apiKey, "");
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public String obtainToken(String username, String password) {
+    public Member obtainMember(String username, String password) {
         String passMD5 = this.getMD5(password);
-        return this.obtainTokenWithMD5(username, passMD5);
+        return this.obtainMemberWithMD5(username, passMD5);
     }
 
-    public String obtainTokenWithMD5(String username, String passwordMD5) {
+    public Member obtainMemberWithMD5(String username, String passwordMD5) {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.AUTH);
-
         request.addOption("login", username);
         request.addOption("password", passwordMD5);
+        request.setHttpMethod(HttpMethod.POST);
 
-        this.token = request.send(new CompletionHandlerData<String>() {
-            @Override
-            public String completionMethod(JSONObject json) throws Exception {
-                return json.getJSONObject("member").getString("token");
-            }
-
-            @Override
-            public void handleError(Exception e) {
-                Log.e("ActuSeries", "erreur de récupération de token ", e);
-            }
-        });
-
-        if (this.token == null) {
-            this.token = "";
+        try {
+            JSONObject json = request.send();
+            Member m = new Member(json.getString("token"), json.getJSONObject("user").getString("login"));
+            this.token = m.getToken();
+            return m;
+        } catch (Exception e) {
+            Log.e("ActuSeries", "erreur de récupération de token ", e);
+            return null;
         }
-
-        return this.token;
     }
 
     public Member createAccount(String username, String password, String mail) {
@@ -75,73 +59,40 @@ public class BetaSeries {
         request.addOption("password", password);
         request.addOption("email", mail);
 
-        return request.send(new CompletionHandlerData<Member>() {
-            @Override
-            public Member completionMethod(JSONObject json) throws JSONException {
-                if (json.getJSONArray("errors").length() == 0 && !json.isNull("user")) {
-                    // TODO apres création du compte, pas besoin de se logger -> récupération du token
-                    Member m = new Member("kglg");
 
-                    return m;
-                }
-                return null;
-            }
+        try {
+            JSONObject json = request.send();
+            JSONObject jsonuser = json.getJSONObject("user");
+            Member m = new Member("kglg", "oug");
 
-            @Override
-            public void handleError(Exception e) {
-                Log.e("ActuSeries", "erreur lors de la creation de compte utilisateur", e);
-            }
-        });
+            return m;
+        } catch (Exception e) {
+            Log.e("ActuSeries", "erreur lors de la creation de compte utilisateur", e);
+        }
+        return null;
     }
 
     public void destroyToken() {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.DESTROY);
 
-        request.send(new CompletionHandlerData<Void>() {
-            @Override
-            public Void completionMethod(JSONObject json) throws Exception {
-
-                return null;
-            }
-
-            @Override
-            public void handleError(Exception e) {
-                Log.e("Actuseries", "erreur lors de la deconnexion", e);
-            }
-        });
+        try {
+            request.send();
+        } catch (Exception e) {
+            Log.e("Actuseries", "erreur lors de la deconnexion", e);
+        }
     }
 
 
-    public List<Serie> getMemberInformations(final Member member) {
+    public void getMemberInformations(Member member) {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.INFOS);
 
-        final List<Serie> series = request.send(new CompletionHandlerData<List<Serie>>() {
-            @Override
-            public List<Serie> completionMethod(JSONObject json) throws Exception {
-                List<Serie> series = new ArrayList<>();
-                Log.d("ActuSeries", json.toString());
-
-                JSONObject memberjson = json.getJSONObject("member");
-
-                JSONArray array = memberjson.getJSONArray("shows");
-
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject show = array.getJSONObject(i);
-                    series.add(new Serie(show));
-                }
-
-               member.fillMember(memberjson);
-
-                return series;
-            }
-
-            @Override
-            public void handleError(Exception e) {
-                Log.e("Actuseries", "erreur lors de la récupération du membre", e);
-            }
-        });
-
-        return series;
+        try {
+            JSONObject memberjson = request.send().getJSONObject("member");
+            member.fillMember(memberjson);
+            // TODO utiliser fillSerie ?
+        } catch (Exception e) {
+            Log.e("Actuseries", "erreur lors de la récupération du membre", e);
+        }
     }
 
     public Serie fillSerie(JSONObject show) {
@@ -164,23 +115,17 @@ public class BetaSeries {
 
         request.addOption("title", name);
 
-        List<String> noms = request.send(new CompletionHandlerData<List<String>>() {
-            @Override
-            public List<String> completionMethod(JSONObject json) throws Exception {
-                List<String> result = new ArrayList<String>();
-                JSONObject shows = json.getJSONObject("shows");
-                for (int i = 0; i < (shows.length() > 5 ? 5 : shows.length()); i++) {
-                    result.add(shows.getJSONObject("title").getString("" + i));
-                }
+        try {
+            JSONObject json = request.send();
+            List<String> result = new ArrayList<String>();
 
-                return result;
+            JSONObject shows = json.getJSONObject("shows");
+            for (int i = 0; i < (shows.length() > 5 ? 5 : shows.length()); i++) {
+                result.add(shows.getJSONObject("title").getString("" + i));
             }
-
-            @Override
-            public void handleError(Exception e) {
-                Log.e("ActuSeries", "erreur de recherche", e);
-            }
-        });
+        } catch (Exception e) {
+            Log.e("ActuSeries", "erreur de recherche", e);
+        }
     }
 
     private Request buildRequest(RequestCategory category, RequestMethod method) {

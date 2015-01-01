@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +21,6 @@ public class Request {
     private final static String betaseriesAPIUrl = "https://api.betaseries.com/";
     private final static String betaseriesUserAgent = "Android BetaSeries Library - ClemNonn (1.0)";
     private final static String betaseriesVersionAPI = "2.4";
-    // reseaux : session
-    // vrai requete : NSMutableRequest
 
     private String apiKey;
     private String token;
@@ -49,48 +48,37 @@ public class Request {
         this.httpMethod = HttpMethod.GET;
     }
 
-    public <T> T send(CompletionHandlerData<T> completionHandler) {
+    public JSONObject send() throws Exception{
         InputStream is = null;
+        JSONObject retour = null;
         try {
             HttpsURLConnection conn = this.createConnection();
-            Log.d("actuseries", "connexion créé");
             conn.connect();
-            Log.d("actuseries", "connecté");
-
+            Log.d("actuseries", "connecté pour url :" + this.urlStringForRequest());
             int response = conn.getResponseCode();
             Log.d("actuseries", "The response is: " + response);
             is = conn.getInputStream();
 
             JSONObject json = new JSONObject(IOUtils.toString(is));
 
-            if (!json.getJSONObject("errors").isNull("error")) {
-                Exception e = new Exception("code : " + json.getJSONObject("errors").getJSONObject("error").getInt("code"));
-
-                completionHandler.handleError(e);
+            if (json.getJSONArray("errors").length() > 0) {
+                Exception e = new Exception("code : " + json.getJSONArray("errors").getJSONObject(0).getInt("code"));
+                throw e;
             } else {
-                return completionHandler.completionMethod(json);
+                retour = json;
             }
-
-        } catch (Exception e) {
-            completionHandler.handleError(e);
         } finally {
             if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    completionHandler.handleError(e);
-                }
+                is.close();
             }
-            return null;
         }
-
+        return retour;
     }
 
     private HttpsURLConnection createConnection() {
         try {
             URL url = new URL(this.urlStringForRequest());
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-            conn.setReadTimeout(this.timeout);
             conn.setConnectTimeout(this.timeout);
             conn.setRequestMethod(this.httpMethod.getMethod());
 
@@ -102,7 +90,6 @@ public class Request {
                 conn.setRequestProperty("X-BetaSeries-Token", this.token);
             }
             conn.setDoInput(true);
-
             return conn;
         } catch (IOException e) {
             e.printStackTrace();
@@ -118,13 +105,13 @@ public class Request {
 
         if (this.options.size() > 0) {
             builder.append("?");
-        }
 
-        for (Map.Entry entree : this.options.entrySet()) {
-            builder.append(entree.getKey() + "=" + entree.getValue() + "&");
-        }
+            for (Map.Entry entree : this.options.entrySet()) {
+                builder.append(entree.getKey() + "=" + entree.getValue() + "&");
+            }
 
-        builder.deleteCharAt(builder.length()-1);
+            builder.deleteCharAt(builder.length()-1);
+        }
 
         return builder.toString();
     }
@@ -144,6 +131,8 @@ public class Request {
     public void setMethod(RequestMethod method) {
         this.method = method;
     }
+
+    public void setHttpMethod(HttpMethod method) { this.httpMethod = method; }
 
     public void setChaineObject(String chaineObject) {
         this.chaineObject = chaineObject;
