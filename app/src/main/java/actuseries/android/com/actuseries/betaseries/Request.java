@@ -57,6 +57,11 @@ public class Request {
             Log.d("actuseries", "connecté pour url :" + this.urlStringForRequest());
             int response = conn.getResponseCode();
             Log.d("actuseries", "The response is: " + response);
+            if (response != 200) {
+                Exception e = new Exception("code : " + response);
+                throw e;
+            }
+
             is = conn.getInputStream();
 
             JSONObject json = new JSONObject(IOUtils.toString(is));

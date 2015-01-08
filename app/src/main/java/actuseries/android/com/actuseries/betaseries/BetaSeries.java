@@ -19,16 +19,15 @@ import actuseries.android.com.actuseries.metier.Serie;
  */
 public class BetaSeries {
     private String apiKey;
-    // TODO voir comment pas dupliquer entre membre et ici
-    private String token;
+    private Member member;
 
-    public BetaSeries(String apiKey, String token) {
+    public BetaSeries(String apiKey, Member member) {
         this.apiKey = apiKey;
-        this.token = token;
+        this.member = member;
     }
 
     public BetaSeries(String apiKey) {
-        this(apiKey, "");
+        this(apiKey, null);
     }
 
     public Member obtainMember(String username, String password) {
@@ -44,9 +43,7 @@ public class BetaSeries {
 
         try {
             JSONObject json = request.send();
-            Member m = new Member(json.getString("token"), json.getJSONObject("user").getString("login"));
-            this.token = m.getToken();
-            return m;
+            return new Member(json.getString("token"), json.getJSONObject("user").getString("login"));
         } catch (Exception e) {
             Log.e("ActuSeries", "erreur de récupération de token ", e);
             return null;
@@ -128,12 +125,13 @@ public class BetaSeries {
         }
     }
 
+
     private Request buildRequest(RequestCategory category, RequestMethod method) {
         Request request = new Request();
         request.setApiKey(this.apiKey);
 
-        if (!this.token.equals("")) {
-            request.setToken(this.token);
+        if (this.member != null) {
+            request.setToken(this.member.getToken());
         }
 
         request.setCategory(category);
@@ -150,6 +148,7 @@ public class BetaSeries {
         for (int i = 0; i < mdpCrypt.length; i++) {
             m += String.format("%02x", mdpCrypt[i]);
         }
+
         return m;
     }
 }

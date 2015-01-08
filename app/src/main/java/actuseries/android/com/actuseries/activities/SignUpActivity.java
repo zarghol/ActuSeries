@@ -1,22 +1,26 @@
-package actuseries.android.com.actuseries;
+package actuseries.android.com.actuseries.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 
-public class LoginActivity extends ActionBarActivity {
+/**
+ * Created by Clement on 08/01/2015.
+ */
+public class SignUpActivity extends ActionBarActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
-        AccesBetaseries.test();
-    }
+        setContentView(R.layout.signup_activity);
 
+        findViewById(R.id.signup_button).setOnClickListener(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -31,6 +35,15 @@ public class LoginActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        AccesBetaseries.creationCompte();
+        this.finish();
     }
 }

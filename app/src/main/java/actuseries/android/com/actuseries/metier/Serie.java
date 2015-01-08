@@ -68,5 +68,13 @@ public class Serie {
         }
     }
 
+    public String getNomSerie() {
+        return this.nomSerie;
+    }
+
+    public String getUrlBanner() {
+        return this.url_banner;
+    }
+
 
 }
