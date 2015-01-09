@@ -41,6 +41,7 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
         GetSeriesTask task = new GetSeriesTask();
         task.execute();
         lv.setOnItemClickListener(this);
+
     }
 
 
@@ -59,6 +60,24 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_deconnexion) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AccesBetaseries.deconnexionMembre();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent j = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(j);
+                            finish();
+                        }
+                    });
+                }
+            }).start();
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -68,8 +87,11 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent j = new Intent(this, ListEpisodesActivity.class);
         j.putExtra("numSerie", position);
+
+/*        if (this.series.get(position).getEpisodes().size() == 0) {
+            this.taskEpisodes.cancel(true);
+        }*/
         startActivityForResult(j, 1);
-        this.finish();
     }
 
     private class GetSeriesTask extends AsyncTask<Void, Void, List<Serie> > {

@@ -3,14 +3,20 @@ package actuseries.android.com.actuseries.activities;
 import java.util.ArrayList;
 import java.util.List;
 
+import actuseries.android.com.actuseries.asynctasks.GetEpisodesTask;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.metier.Episode;
+
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import actuseries.android.com.actuseries.*;
+import actuseries.android.com.actuseries.metier.Serie;
 
 /**
  * Created by Clement on 08/01/2015.
@@ -19,25 +25,22 @@ public class ListEpisodesActivity extends ActionBarActivity {
 
 	private LogAdapterEpisodes adapter;
 	private List<Episode> episodes;
-	Bundle b;
+	private int numSerie;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.list_episodes_activity);
-		int numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
+		this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
 
 		ListView lv = (ListView) findViewById(R.id.listeEpisodes);
         lv.setEmptyView(findViewById(R.id.noEpisodesTextView));
 
-        this.episodes = AccesBetaseries.getSeries().get(numSerie).getEpisodes();
-        if (this.episodes == null) {
-            this.episodes = new ArrayList<>();
-        }
-		adapter = new LogAdapterEpisodes(this.episodes, getBaseContext());
-		lv.setAdapter(adapter);
+        this.episodes = new ArrayList<>();
 
+		GetEpisodesTask task = new GetEpisodesTask();
+        task.execute();
 }
 
 	@Override
@@ -55,7 +58,45 @@ public class ListEpisodesActivity extends ActionBarActivity {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
-		}
+		} else if (id == R.id.action_deconnexion) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AccesBetaseries.deconnexionMembre();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent j = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(j);
+                            finish();
+                        }
+                    });
+                }
+            }).start();
+
+            return true;
+        }
 		return super.onOptionsItemSelected(item);
 	}
+
+    private class GetEpisodesTask extends AsyncTask<Void, Void, List<Episode> > {
+
+        @Override
+        protected List<Episode> doInBackground(Void... rien) {
+
+            // Debug the task thread name
+            Log.d("actuseries", Thread.currentThread().getName() + " récupérations des infos");
+            return AccesBetaseries.recupereEpisodes(AccesBetaseries.getSeries().get(numSerie));
+        }
+
+        @Override
+        protected void onPostExecute(List<Episode> result) {
+            episodes = result;
+            ListView lv = (ListView) findViewById(R.id.listeEpisodes);
+
+            adapter = new LogAdapterEpisodes(episodes, getApplicationContext());
+            lv.setAdapter(adapter);
+        }
+    }
 }

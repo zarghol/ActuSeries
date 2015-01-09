@@ -1,12 +1,18 @@
 package actuseries.android.com.actuseries.metier;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,6 +26,7 @@ public class Serie {
     private String url;
     private int id;
     private String url_banner;
+    private Bitmap banner;
     private String description;
     private int dureeEpisode;
     private List<String> genres;
@@ -50,7 +57,6 @@ public class Serie {
             this.nomSerie = show.getString("title");
             this.active = show.getJSONObject("user").getBoolean("archived");
             this.url = show.getString("resource_url");
-            this.url_banner = show.getString("url_banner");
             this.id = show.getInt("id");
             this.id_thetvdb = show.getInt("thetvdb_id");
             this.description = show.getString("description");
@@ -64,6 +70,7 @@ public class Serie {
             this.statut = SerieStatus.valueOfByString(show.getString("status"));
             this.dureeEpisode = show.getInt("length");
 
+            this.episodes = new ArrayList<>();
         } catch (JSONException e) {
             Log.e("ActuSeries", "erreur de creation de serie", e);
         }
@@ -77,9 +84,32 @@ public class Serie {
         return this.url_banner;
     }
 
+    public void setUrlBanner(String urlBanner) {
+        this.url_banner = urlBanner;
+    }
+
     public List<Episode> getEpisodes() {
         return this.episodes;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void addEpisode(Episode e) {
+        this.episodes.add(e);
+    }
+
+    public void trieEpisode() {
+        Collections.sort(this.episodes);
+    }
+
+
+    public Bitmap getBanner() {
+        return banner;
+    }
+
+    public void setBanner(Bitmap banner) {
+        this.banner = banner;
+    }
 }

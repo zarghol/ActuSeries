@@ -32,7 +32,7 @@ public class Member {
         this.series = new ArrayList<>();
     }
 
-    public void fillMember(JSONObject member) {
+    public void fillMember(JSONObject member, List<Serie> series) {
         try {
             this.login = member.getString("login");
             this.avatarUrl = member.getString("avatar");
@@ -44,12 +44,9 @@ public class Member {
             this.nbSeasons = stats.getInt("seasons");
             this.nbShows = stats.getInt("shows");
 
-            JSONArray array = member.getJSONArray("shows");
+            this.series = series;
 
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject show = array.getJSONObject(i);
-                this.series.add(new Serie(show));
-            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

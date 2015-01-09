@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -31,11 +32,19 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         findViewById(R.id.connect_button).setOnClickListener(this);
         findViewById(R.id.signup_button).setOnClickListener(this);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+
         if (AccesBetaseries.estConnecte()) {
             this.passeAuth();
         } else {
             AccesBetaseries.addObs(this);
         }
+
+        super.onResume();
     }
 
     @Override
@@ -70,11 +79,19 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         if (AccesBetaseries.estConnecte()) {
             AccesBetaseries.removeObs(this);
             this.passeAuth();
+        } else {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Erreur d'authentification", Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 
     public void passeAuth() {
         Intent i = new Intent(this, ListSeriesActivity.class);
         startActivity(i);
+        this.finish();
     }
 }

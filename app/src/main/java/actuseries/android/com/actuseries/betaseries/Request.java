@@ -58,7 +58,7 @@ public class Request {
             int response = conn.getResponseCode();
             Log.d("actuseries", "The response is: " + response);
             if (response != 200) {
-                Exception e = new Exception("code : " + response);
+                Exception e = new Exception("code : " + response + " : " + conn.getResponseMessage());
                 throw e;
             }
 

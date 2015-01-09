@@ -1,16 +1,22 @@
 package actuseries.android.com.actuseries.betaseries;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Member;
 import actuseries.android.com.actuseries.metier.Serie;
 
@@ -52,17 +58,17 @@ public class BetaSeries {
 
     public Member createAccount(String username, String password, String mail) {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.SIGNUP);
+        request.setHttpMethod(HttpMethod.POST);
         request.addOption("login", username);
         request.addOption("password", password);
         request.addOption("email", mail);
 
+        Log.d("actuseries", "essai de creation avec \nlogin : " + username + "\npassword : " + password + "\nmail : " + mail);
+
 
         try {
             JSONObject json = request.send();
-            JSONObject jsonuser = json.getJSONObject("user");
-            Member m = new Member("kglg", "oug");
-
-            return m;
+            return new Member(json.getString("token"), json.getJSONObject("user").getString("login"));
         } catch (Exception e) {
             Log.e("ActuSeries", "erreur lors de la creation de compte utilisateur", e);
         }
@@ -71,6 +77,7 @@ public class BetaSeries {
 
     public void destroyToken() {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.DESTROY);
+        request.setHttpMethod(HttpMethod.POST);
 
         try {
             request.send();
@@ -84,9 +91,18 @@ public class BetaSeries {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.INFOS);
 
         try {
+            List<Serie> series = new ArrayList<>();
+
             JSONObject memberjson = request.send().getJSONObject("member");
-            member.fillMember(memberjson);
-            // TODO utiliser fillSerie ?
+
+            JSONArray array = memberjson.getJSONArray("shows");
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject show = array.getJSONObject(i);
+                series.add(this.fillSerie(show));
+            }
+
+            member.fillMember(memberjson, series);
         } catch (Exception e) {
             Log.e("Actuseries", "erreur lors de la récupération du membre", e);
         }
@@ -94,14 +110,69 @@ public class BetaSeries {
 
     public Serie fillSerie(JSONObject show) {
         Serie s = new Serie(show);
-        /*
-        Async.background {
-            self.recupBanner(serie)
-            self.recupEpisodes(serie)
-        }
-         */
+
+
+/*        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //recupBanner(s);
+                recupEpisodes(s);
+            }
+        }).start();*/
+
+
         // TODO récupérer la liste des épisodes et la banniere de maniere asynchrone => permet d'avoir la liste de série dans un premier temps pour affichage simple
         return s;
+    }
+
+    private void recupBanner(Serie serie) {
+        Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.PICTURES);
+
+        request.addOption("id", "" + serie.getId());
+        try {
+            JSONArray pictures = request.send().getJSONArray("pictures");
+
+            for (int i = 0; i < pictures.length(); i++) {
+                JSONObject obj = pictures.getJSONObject(i);
+                if (obj.getString("picked").equals("banner")) {
+                    serie.setUrlBanner(obj.getString("url"));
+                    break;
+                }
+            }
+            if (serie.getUrlBanner() != null) {
+                URL url = new URL(serie.getUrlBanner());
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true);
+                conn.setUseCaches(true);
+                conn.connect();
+                InputStream is = conn.getInputStream();
+
+                serie.setBanner(BitmapFactory.decodeStream(is));
+            }
+
+        } catch (Exception e) {
+            Log.e("Actuseries", "erreur lors de la récupération de la banniere", e);
+        }
+    }
+
+    public void recupEpisodes(Serie serie) {
+        Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.EPISODES);
+
+        request.addOption("id", "" + serie.getId());
+
+        try {
+            JSONArray episodes = request.send().getJSONArray("episodes");
+
+            for (int i = 0; i < episodes.length(); i++) {
+                JSONObject ep = episodes.getJSONObject(i);
+                Episode episode = new Episode(ep);
+                serie.addEpisode(episode);
+            }
+
+            serie.trieEpisode();
+        } catch (Exception e) {
+            Log.e("Actuseries", "erreur lors de la récupération des épisodes", e);
+        }
     }
 
 

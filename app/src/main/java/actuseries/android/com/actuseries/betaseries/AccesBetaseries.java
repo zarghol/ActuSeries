@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Member;
 import actuseries.android.com.actuseries.metier.Serie;
 
@@ -53,24 +54,22 @@ public class AccesBetaseries extends Observable {
         return inst.membreConnecte.getSeries();
     }
 
+    public static List<Episode> recupereEpisodes(Serie s) {
+        AccesBetaseries.getInstance().betaSeries.recupEpisodes(s);
+        return s.getEpisodes();
+    }
+
     public static void deconnexionMembre() {
-       // TODO unimplemented method
+        AccesBetaseries inst = AccesBetaseries.getInstance();
+       inst.betaSeries.destroyToken();
+       inst.setMembreConnecte(null);
+
     }
 
-    public static void creationCompte(/* TODO not defined */) {
-        // TODO unimplemented method
-    }
+    public static void creationCompte(String identifiant, String password, String email) {
+        AccesBetaseries inst = AccesBetaseries.getInstance();
 
-    public static void test() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AccesBetaseries inst = AccesBetaseries.getInstance();
-                inst.setMembreConnecte(inst.betaSeries.obtainMember("zarghol", "abernaty"));
-                inst.betaSeries.getMemberInformations(inst.membreConnecte);
-                Log.d("ActuSeries", "series : " + inst.membreConnecte.getSeries().size());
-            }
-        }).start();
+        inst.setMembreConnecte(inst.betaSeries.createAccount(identifiant, password, email));
     }
 
     private void setMembreConnecte(Member membreConnecte) {
@@ -79,17 +78,16 @@ public class AccesBetaseries extends Observable {
     }
 
     public static List<Serie> getSeries() {
-        Log.d("actuseries", "getSeries");
         return AccesBetaseries.getInstance().membreConnecte.getSeries();
     }
 
+    @Deprecated
     public static void addObs(Observer o) {
-        Log.d("actuseries", "addObs");
         AccesBetaseries.getInstance().addObserver(o);
     }
-    public static void removeObs(Observer o) {
-        Log.d("actuseries", "removeObs");
 
+    @Deprecated
+    public static void removeObs(Observer o) {
         AccesBetaseries.getInstance().deleteObserver(o);
     }
 

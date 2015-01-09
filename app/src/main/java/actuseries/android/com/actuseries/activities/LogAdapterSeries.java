@@ -65,12 +65,12 @@ class LogAdapterSeries extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.nomSerie.setText(this.series.get(position).getNomSerie());
-        Bitmap bm = afficheBanniere(this.series.get(position).getUrlBanner());
+        Bitmap bm = this.series.get(position).getBanner();
         holder.banniereView.setImageBitmap(bm);
         return convertView;
     }
 
-    private Bitmap afficheBanniere(String s) {
+/*    private Bitmap afficheBanniere(String s) {
         try {
             Log.d("actuseries", "url : " + s);
             URL url = new URL(s);
@@ -84,5 +84,5 @@ class LogAdapterSeries extends BaseAdapter {
             Log.e("actuseries", "erreur de récupération de banniere", e);
         }
         return null;
-    }
+    }*/
 }
