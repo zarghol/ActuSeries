@@ -55,7 +55,6 @@ class LogAdapterSeries extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        Log.d("actuseries", "getView");
         if (convertView == null){
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.serie_item, null);

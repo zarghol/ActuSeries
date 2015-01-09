@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/numEpisode"
+        android:id="@+id/nomEpisode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/labelEpisode"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <TextView
-        android:id="@+id/numSaison"
+        android:id="@+id/numEpisode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/labelSaison"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    	
+/*
+    TODO rajouter un champ pour cocher vue
+    */
 </LinearLayout>

@@ -8,12 +8,14 @@ public class Episode {
 
     private int saison;
     private String descriptionEpisode;
+    private String nomEpisode;
 
 
-    public Episode(int numEpisode, int saison, String description) {
+    public Episode(String nomEpisode, int numEpisode, int saison, String description) {
         this.numEpisode = numEpisode;
         this.saison = saison;
         this.descriptionEpisode = description;
+        this.nomEpisode = nomEpisode;
     }
 
 
@@ -27,5 +29,9 @@ public class Episode {
 
     public String getDescriptionEpisode() {
         return descriptionEpisode;
+    }
+
+    public String getNomEpisode() {
+        return nomEpisode;
     }
 }

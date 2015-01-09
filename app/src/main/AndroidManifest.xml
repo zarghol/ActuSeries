@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".activities.ListSeriesActivity"/>
         <activity android:name=".activities.SignUpActivity"/>
+        <activity android:name=".activities.ListEpisodesActivity"/>
     </application>
 
 </manifest>

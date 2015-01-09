@@ -1,11 +1,14 @@
 package actuseries.android.com.actuseries.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,7 +22,7 @@ import actuseries.android.com.actuseries.metier.Serie;
 /**
  * Created by Clement on 08/01/2015.
  */
-public class ListSeriesActivity extends ActionBarActivity {
+public class ListSeriesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     private LogAdapterSeries adapter;
     private List<Serie> series;
@@ -37,6 +40,7 @@ public class ListSeriesActivity extends ActionBarActivity {
 
         GetSeriesTask task = new GetSeriesTask();
         task.execute();
+        lv.setOnItemClickListener(this);
     }
 
 
@@ -56,7 +60,16 @@ public class ListSeriesActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent j = new Intent(this, ListEpisodesActivity.class);
+        j.putExtra("numSerie", position);
+        startActivityForResult(j, 1);
+        this.finish();
     }
 
     private class GetSeriesTask extends AsyncTask<Void, Void, List<Serie> > {
