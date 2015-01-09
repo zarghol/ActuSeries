@@ -23,11 +23,11 @@ import actuseries.android.com.actuseries.metier.Serie;
 /**
  * Created by Clement on 08/01/2015.
  */
-class LogAdapterSerie extends BaseAdapter {
+class LogAdapterSeries extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Serie> series;
 
-    public LogAdapterSerie(List<Serie> series, Context c) {
+    public LogAdapterSeries(List<Serie> series, Context c) {
         this.series = series;
         this.inflater = LayoutInflater.from(c);
     }

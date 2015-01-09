@@ -21,7 +21,7 @@ import actuseries.android.com.actuseries.metier.Serie;
  */
 public class ListSeriesActivity extends ActionBarActivity implements Observer {
 
-    private LogAdapterSerie adapter;
+    private LogAdapterSeries adapter;
     private List<Serie> series;
 
     @Override
@@ -35,7 +35,7 @@ public class ListSeriesActivity extends ActionBarActivity implements Observer {
         AccesBetaseries.recupereInfosMembre();
         this.series = new ArrayList<>();
 
-        adapter = new LogAdapterSerie(this.series, getBaseContext());
+        adapter = new LogAdapterSeries(this.series, getBaseContext());
         lv.setAdapter(adapter);
     }
 
