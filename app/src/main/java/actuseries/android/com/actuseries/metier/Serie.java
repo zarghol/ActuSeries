@@ -50,6 +50,7 @@ public class Serie {
             this.nomSerie = show.getString("title");
             this.active = show.getJSONObject("user").getBoolean("archived");
             this.url = show.getString("resource_url");
+            this.url_banner = show.getString("url_banner");
             this.id = show.getInt("id");
             this.id_thetvdb = show.getInt("thetvdb_id");
             this.description = show.getString("description");
@@ -74,6 +75,10 @@ public class Serie {
 
     public String getUrlBanner() {
         return this.url_banner;
+    }
+
+    public List<Episode> getEpisodes() {
+        return this.episodes;
     }
 
 

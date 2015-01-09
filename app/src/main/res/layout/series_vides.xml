@@ -2,19 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/listeSeries"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </ListView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Pas de séries :("
-        android:id="@+id/noseriesTextView"
+        android:id="@+id/textView"
         android:textSize="40dp"
         android:textColor="@color/grey"
         android:layout_centerVertical="true"

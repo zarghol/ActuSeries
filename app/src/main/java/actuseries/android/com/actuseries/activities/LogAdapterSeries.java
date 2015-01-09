@@ -55,6 +55,7 @@ class LogAdapterSeries extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        Log.d("actuseries", "getView");
         if (convertView == null){
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.serie_item, null);
@@ -72,6 +73,7 @@ class LogAdapterSeries extends BaseAdapter {
 
     private Bitmap afficheBanniere(String s) {
         try {
+            Log.d("actuseries", "url : " + s);
             URL url = new URL(s);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoInput(true);

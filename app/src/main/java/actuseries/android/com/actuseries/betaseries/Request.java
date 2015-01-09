@@ -39,7 +39,7 @@ public class Request {
         this.token = "";
 
         this.userAgent = betaseriesUserAgent;
-        this.timeout = 200;
+        this.timeout = 2000;
 
         this.category = RequestCategory.TIMELINE;
         this.method = RequestMethod.HOME;

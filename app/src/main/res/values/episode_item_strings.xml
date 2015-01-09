@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="labelEpisode">Numéro de l épisode</string>
+    <string name="labelSaison">Numéro de la saison</string>
+    <string name="titleE">Liste des épisodes</string>
+</resources>

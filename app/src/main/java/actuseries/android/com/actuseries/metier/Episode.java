@@ -9,4 +9,23 @@ public class Episode {
     private int saison;
     private String descriptionEpisode;
 
+
+    public Episode(int numEpisode, int saison, String description) {
+        this.numEpisode = numEpisode;
+        this.saison = saison;
+        this.descriptionEpisode = description;
+    }
+
+
+    public int getNumEpisode() {
+        return numEpisode;
+    }
+
+    public int getSaison() {
+        return saison;
+    }
+
+    public String getDescriptionEpisode() {
+        return descriptionEpisode;
+    }
 }

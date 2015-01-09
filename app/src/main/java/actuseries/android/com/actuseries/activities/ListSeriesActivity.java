@@ -1,16 +1,16 @@
 package actuseries.android.com.actuseries.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
@@ -19,7 +19,7 @@ import actuseries.android.com.actuseries.metier.Serie;
 /**
  * Created by Clement on 08/01/2015.
  */
-public class ListSeriesActivity extends ActionBarActivity implements Observer {
+public class ListSeriesActivity extends ActionBarActivity {
 
     private LogAdapterSeries adapter;
     private List<Serie> series;
@@ -30,13 +30,13 @@ public class ListSeriesActivity extends ActionBarActivity implements Observer {
 
         setContentView(R.layout.list_series_activity);
 
-        ListView lv = (ListView) findViewById(R.id.listeSeries);
-        AccesBetaseries.addObs(this);
-        AccesBetaseries.recupereInfosMembre();
         this.series = new ArrayList<>();
+        ListView lv = (ListView) findViewById(R.id.listeSeries);
+        TextView noseriesview = (TextView) findViewById(R.id.noseriesTextView);
+        lv.setEmptyView(noseriesview);
 
-        adapter = new LogAdapterSeries(this.series, getBaseContext());
-        lv.setAdapter(adapter);
+        GetSeriesTask task = new GetSeriesTask();
+        task.execute();
     }
 
 
@@ -59,18 +59,28 @@ public class ListSeriesActivity extends ActionBarActivity implements Observer {
         return super.onOptionsItemSelected(item);
     }
 
+    private class GetSeriesTask extends AsyncTask<Void, Void, List<Serie> > {
 
-    @Override
-    public void update(Observable observable, Object data) {
-        Log.d("actuseries", "update des series : " + data);
-        this.series = (List<Serie>) data;
+        @Override
+        protected List<Serie> doInBackground(Void... rien) {
+            List<Serie> series = null;
+            // Debug the task thread name
+            Log.d("actuseries", Thread.currentThread().getName() + " récupérations des infos");
+            series = AccesBetaseries.recupereInfosMembre();
+            return series;
+        }
 
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged();
+        @Override
+        protected void onPostExecute(List<Serie> result) {
+            series = result;
+            ListView lv = (ListView) findViewById(R.id.listeSeries);
 
+            adapter = new LogAdapterSeries(series, getApplicationContext());
+            lv.setAdapter(adapter);
+
+            for (Serie s : series) {
+                Log.d("actuseries", s.getNomSerie());
             }
-        });
+        }
     }
 }

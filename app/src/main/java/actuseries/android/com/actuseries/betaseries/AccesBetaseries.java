@@ -40,24 +40,17 @@ public class AccesBetaseries extends Observable {
             public void run() {
                 AccesBetaseries inst = AccesBetaseries.getInstance();
                 inst.setMembreConnecte(inst.betaSeries.obtainMember(identifiant, password));
-                Log.d("ActuSeries", "connecté, token : " + inst.membreConnecte.getToken());
                 inst.setChanged();
                 inst.notifyObservers();
             }
         }).start();
     }
 
-    public static void recupereInfosMembre() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AccesBetaseries inst = AccesBetaseries.getInstance();
-                inst.betaSeries.getMemberInformations(inst.membreConnecte);
-                Log.d("ActuSeries", "series : " + inst.membreConnecte.getSeries().size());
-                inst.setChanged();
-                inst.notifyObservers(inst.membreConnecte.getSeries());
-            }
-        }).start();
+    public static List<Serie> recupereInfosMembre() {
+        AccesBetaseries inst = AccesBetaseries.getInstance();
+        inst.betaSeries.getMemberInformations(inst.membreConnecte);
+        Log.d("ActuSeries", "series : " + inst.membreConnecte.getSeries().size());
+        return inst.membreConnecte.getSeries();
     }
 
     public static void deconnexionMembre() {
