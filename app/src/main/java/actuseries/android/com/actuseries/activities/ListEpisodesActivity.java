@@ -1,21 +1,24 @@
 package actuseries.android.com.actuseries.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.metier.Episode;
-
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import actuseries.android.com.actuseries.*;
-import actuseries.android.com.actuseries.metier.Serie;
+
+import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.GetEpisodesResultEvent;
+import actuseries.android.com.actuseries.metier.Episode;
+import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 
 /**
  * Created by Clement on 08/01/2015.
@@ -24,7 +27,8 @@ public class ListEpisodesActivity extends ActionBarActivity {
 
 	private LogAdapterEpisodes adapter;
 	private List<Episode> episodes;
-	private int numSerie;
+    ListView lv;
+	private Integer numSerie;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +37,22 @@ public class ListEpisodesActivity extends ActionBarActivity {
 		setContentView(R.layout.list_episodes_activity);
 		this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
 
-		ListView lv = (ListView) findViewById(R.id.listeEpisodes);
+		lv = (ListView) findViewById(R.id.listeEpisodes);
         lv.setEmptyView(findViewById(R.id.noEpisodesTextView));
 
         this.episodes = new ArrayList<>();
 
-		GetEpisodesTask task = new GetEpisodesTask();
-        task.execute();
-}
+	    new GetEpisodesTask().execute(numSerie);
+        //on s'abonne au bus d'évènements
+        EventBus.getInstance().register(this);
+    }
+
+    @Override
+    protected void onDestroy(){
+        //on se désabonne du bus d'évènement
+        EventBus.getInstance().unregister(this);
+        super.onDestroy();
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,23 +91,14 @@ public class ListEpisodesActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-    private class GetEpisodesTask extends AsyncTask<Void, Void, List<Episode> > {
-
-        @Override
-        protected List<Episode> doInBackground(Void... rien) {
-
-            // Debug the task thread name
-            Log.d("actuseries", Thread.currentThread().getName() + " récupérations des infos");
-            return AccesBetaseries.recupereEpisodes(AccesBetaseries.getSeries().get(numSerie));
-        }
-
-        @Override
-        protected void onPostExecute(List<Episode> result) {
-            episodes = result;
-            ListView lv = (ListView) findViewById(R.id.listeEpisodes);
-
-            adapter = new LogAdapterEpisodes(episodes, getApplicationContext());
-            lv.setAdapter(adapter);
-        }
+    //on reçoit le message associé à l'évènement de récupération des épisodes
+    @Subscribe
+    public void onGetEpisodesTaskResult(GetEpisodesResultEvent event) {
+        Log.d("actuseries", "nb episodes: " + episodes.size());
+        episodes = event.getEpisodes();
+        Log.d("actuseries", "nb episodes: " + episodes.size());
+        adapter = new LogAdapterEpisodes(episodes, getApplicationContext());
+        Log.d("actuseries", "nb episodes: " + episodes.size());
+        lv.setAdapter(adapter);
     }
 }

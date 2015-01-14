@@ -112,4 +112,8 @@ public class Serie {
     public void setBanner(Bitmap banner) {
         this.banner = banner;
     }
+
+    public void clearEpisodes(){
+        episodes.clear();
+    }
 }

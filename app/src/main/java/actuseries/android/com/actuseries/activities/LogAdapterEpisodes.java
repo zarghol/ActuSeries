@@ -1,8 +1,6 @@
 package actuseries.android.com.actuseries.activities;
 
 
-import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.metier.Episode;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+
+import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.metier.Episode;
 
 
 class LogAdapterEpisodes extends BaseAdapter {
@@ -55,7 +56,7 @@ class LogAdapterEpisodes extends BaseAdapter {
 			holder = (ViewHolder) convertview.getTag();
 		}
 
-		Episode e = (Episode) episodes.get(pos);
+		Episode e = episodes.get(pos);
 		holder.nomEpisode.setText(e.getNomEpisode());
 		holder.numEpisode.setText(e.getSaison() + " x " + e.getNumEpisode());
 

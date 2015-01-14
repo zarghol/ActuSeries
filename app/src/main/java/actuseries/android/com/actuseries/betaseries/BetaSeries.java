@@ -156,6 +156,9 @@ public class BetaSeries {
     }
 
     public void recupEpisodes(Serie serie) {
+        if(serie.getEpisodes().size()!= 0){
+            serie.clearEpisodes();
+        }
         Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.EPISODES);
 
         request.addOption("id", "" + serie.getId());
