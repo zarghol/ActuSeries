@@ -1,5 +1,7 @@
 package actuseries.android.com.actuseries.betaseries;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
@@ -72,6 +74,32 @@ public class Request {
             } else {
                 retour = json;
             }
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+        return retour;
+    }
+
+    public Bitmap getImage() throws Exception {
+        InputStream is = null;
+
+        Bitmap retour = null;
+        try {
+            HttpsURLConnection conn = this.createConnection();
+            conn.connect();
+            Log.d("actuseries", "connecté pour url :" + this.urlStringForRequest());
+            int response = conn.getResponseCode();
+            Log.d("actuseries", "The response is: " + response);
+            if (response != 200) {
+                Exception e = new Exception("code : " + response + " : " + conn.getResponseMessage());
+                throw e;
+            }
+
+            is = conn.getInputStream();
+
+            retour = BitmapFactory.decodeStream(is);
         } finally {
             if (is != null) {
                 is.close();

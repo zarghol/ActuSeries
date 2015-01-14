@@ -19,6 +19,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Member;
 import actuseries.android.com.actuseries.metier.Serie;
+import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
  * Created by Clement on 11/12/2014.
@@ -91,65 +92,30 @@ public class BetaSeries {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.INFOS);
 
         try {
-            List<Serie> series = new ArrayList<>();
-
             JSONObject memberjson = request.send().getJSONObject("member");
 
             JSONArray array = memberjson.getJSONArray("shows");
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject show = array.getJSONObject(i);
-                series.add(this.fillSerie(show));
+                member.addSerie(new Serie(show));
             }
 
-            member.fillMember(memberjson, series);
+            member.fillMember(memberjson);
         } catch (Exception e) {
             Log.e("Actuseries", "erreur lors de la récupération du membre", e);
         }
     }
 
-    public Serie fillSerie(JSONObject show) {
-        Serie s = new Serie(show);
-
-
-/*        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //recupBanner(s);
-                recupEpisodes(s);
-            }
-        }).start();*/
-
-
-        // TODO récupérer la liste des épisodes et la banniere de maniere asynchrone => permet d'avoir la liste de série dans un premier temps pour affichage simple
-        return s;
-    }
-
-    private void recupBanner(Serie serie) {
-        Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.PICTURES);
-
+    public void recupBanner(Serie serie) {
+        Request request = this.buildRequest(RequestCategory.PICTURES, RequestMethod.SHOWS);
         request.addOption("id", "" + serie.getId());
+        //request.addOption("height", "" + 100);
+        request.addOption("width", "" + 300);
+        request.addOption("picked", "banner");
+
         try {
-            JSONArray pictures = request.send().getJSONArray("pictures");
-
-            for (int i = 0; i < pictures.length(); i++) {
-                JSONObject obj = pictures.getJSONObject(i);
-                if (obj.getString("picked").equals("banner")) {
-                    serie.setUrlBanner(obj.getString("url"));
-                    break;
-                }
-            }
-            if (serie.getUrlBanner() != null) {
-                URL url = new URL(serie.getUrlBanner());
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true);
-                conn.setUseCaches(true);
-                conn.connect();
-                InputStream is = conn.getInputStream();
-
-                serie.setBanner(BitmapFactory.decodeStream(is));
-            }
-
+            serie.setBanner(request.getImage());
         } catch (Exception e) {
             Log.e("Actuseries", "erreur lors de la récupération de la banniere", e);
         }

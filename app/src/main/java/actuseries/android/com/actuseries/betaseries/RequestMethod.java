@@ -30,7 +30,7 @@ public enum RequestMethod {
     REMOVE("remove"),
     SCRAPER("scraper"),
     SEARCH("search"),
-    SHOW("show"),
+    SHOWS("shows"),
     SIGNUP("signup"),
     WATCHED("watched");
 

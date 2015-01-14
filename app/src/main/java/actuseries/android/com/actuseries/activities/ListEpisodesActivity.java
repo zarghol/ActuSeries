@@ -28,7 +28,7 @@ public class ListEpisodesActivity extends ActionBarActivity {
 	private LogAdapterEpisodes adapter;
 	private List<Episode> episodes;
     ListView lv;
-	private Integer numSerie;
+	private int numSerie;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

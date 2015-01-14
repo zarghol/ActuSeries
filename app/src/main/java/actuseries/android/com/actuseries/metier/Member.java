@@ -44,12 +44,18 @@ public class Member {
             this.nbSeasons = stats.getInt("seasons");
             this.nbShows = stats.getInt("shows");
 
-            this.series = series;
+            if (series != null) {
+                this.series = series;
+            }
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void fillMember(JSONObject member) {
+        this.fillMember(member, null);
     }
 
     public static Member getFromPersistance() {
@@ -65,5 +71,10 @@ public class Member {
 
     public List<Serie> getSeries() {
         return this.series;
+    }
+
+    public void addSerie(Serie serie) {
+        this.series.add(serie);
+        // TODO notify ??
     }
 }

@@ -9,6 +9,7 @@ import java.util.Observer;
 import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Member;
 import actuseries.android.com.actuseries.metier.Serie;
+import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
  * Created by Clement on 11/12/2014.
@@ -48,6 +49,11 @@ public class AccesBetaseries extends Observable {
         inst.betaSeries.getMemberInformations(inst.membreConnecte);
         Log.d("ActuSeries", "series : " + inst.membreConnecte.getSeries().size());
         return inst.membreConnecte.getSeries();
+    }
+
+    public static void recupereSerieAvecBanniere(Serie s) {
+        AccesBetaseries inst = AccesBetaseries.getInstance();
+        inst.betaSeries.recupBanner(s);
     }
 
     public static List<Episode> recupereEpisodes(Serie s) {

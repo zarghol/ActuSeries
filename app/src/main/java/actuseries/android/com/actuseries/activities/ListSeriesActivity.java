@@ -19,6 +19,7 @@ import java.util.List;
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.GetSerieResultEvent;
 import actuseries.android.com.actuseries.event.GetSeriesResultEvent;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.GetSeriesTask;
@@ -42,6 +43,9 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
         lv = (ListView) findViewById(R.id.listeSeries);
         TextView noseriesview = (TextView) findViewById(R.id.noseriesTextView);
         lv.setEmptyView(noseriesview);
+
+        adapter = new LogAdapterSeries(series, getApplicationContext());
+        lv.setAdapter(adapter);
 
         new GetSeriesTask().execute();
         lv.setOnItemClickListener(this);
@@ -116,5 +120,12 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
         for (Serie s : series) {
             Log.d("actuseries", s.getNomSerie());
         }
+    }
+
+    //on reçoit le message associé à l'évènement de récupération d'une série
+    @Subscribe
+    public void onGetSeriesTaskResult(GetSerieResultEvent event) {
+        series.add(event.getSerie());
+        adapter.notifyDataSetChanged();
     }
 }

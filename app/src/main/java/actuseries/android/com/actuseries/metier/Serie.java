@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import actuseries.android.com.actuseries.betaseries.Request;
+
 /**
  * Created by Clement on 19/12/2014.
  */
