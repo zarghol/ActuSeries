@@ -34,17 +34,13 @@ public class AccesBetaseries extends Observable {
         this.betaSeries = new BetaSeries(cleApi);
     }
 
-    public static void connexionMembre(final String identifiant, final String password) {
+    public static Member connexionMembre(final String identifiant, final String password) {
         // TODO pas plutot au niveau des task ??
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AccesBetaseries inst = AccesBetaseries.getInstance();
-                inst.setMembreConnecte(inst.betaSeries.obtainMember(identifiant, password));
-                inst.setChanged();
-                inst.notifyObservers();
-            }
-        }).start();
+        AccesBetaseries inst = AccesBetaseries.getInstance();
+        inst.setMembreConnecte(inst.betaSeries.obtainMember(identifiant, password));
+        inst.setChanged();
+        inst.notifyObservers();
+        return inst.membreConnecte;
     }
 
     public static List<Serie> recupereInfosMembre() {

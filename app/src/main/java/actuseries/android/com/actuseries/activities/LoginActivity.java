@@ -7,16 +7,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.LoginResultEvent;
+import actuseries.android.com.actuseries.tasks.LoginTask;
 
 public class LoginActivity extends ActionBarActivity implements View.OnClickListener, Observer {
 
@@ -31,7 +37,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         passwordEditText = (EditText) findViewById(R.id.password_editText);
         findViewById(R.id.connect_button).setOnClickListener(this);
         findViewById(R.id.signup_button).setOnClickListener(this);
-
+        //on s'abonne au bus d'évènements
+        EventBus.getInstance().register(this);
 
     }
 
@@ -45,6 +52,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         }
 
         super.onResume();
+    }
+    @Override
+    protected void onDestroy(){
+        //on se désabonne du bus d'évènement
+        EventBus.getInstance().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -66,7 +79,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.connect_button) {
-            AccesBetaseries.connexionMembre(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+            new LoginTask().execute(usernameEditText.getText().toString(),passwordEditText.getText().toString());
         } else {
             Intent i = new Intent(this, SignUpActivity.class);
             startActivity(i);
@@ -93,5 +106,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         Intent i = new Intent(this, ListSeriesActivity.class);
         startActivity(i);
         this.finish();
+    }
+
+    //on reçoit le message associé à l'évènement de connexion
+    @Subscribe
+    public void onLoginTaskResult(LoginResultEvent event) {
+        Log.d("actuseries", event.getResult());
     }
 }

@@ -3,7 +3,6 @@ package actuseries.android.com.actuseries.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-import actuseries.android.com.actuseries.asynctasks.GetEpisodesTask;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.metier.Episode;
 
