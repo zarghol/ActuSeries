@@ -43,7 +43,7 @@ public class AccesBetaseries extends Observable {
         return inst.membreConnecte;
     }
 
-    public static List<Serie> recupereInfosMembre() {
+    public static List<Serie> recupereSeriesMembre() {
         AccesBetaseries inst = AccesBetaseries.getInstance();
         inst.betaSeries.getMemberInformations(inst.membreConnecte);
         Log.d("ActuSeries", "series : " + inst.membreConnecte.getSeries().size());

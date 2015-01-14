@@ -12,12 +12,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.GetSeriesResultEvent;
+import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.metier.Serie;
+import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
  * Created by Clement on 08/01/2015.
@@ -26,6 +32,7 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
 
     private LogAdapterSeries adapter;
     private List<Serie> series;
+    private ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +41,23 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
         setContentView(R.layout.list_series_activity);
 
         this.series = new ArrayList<>();
-        ListView lv = (ListView) findViewById(R.id.listeSeries);
+        lv = (ListView) findViewById(R.id.listeSeries);
         TextView noseriesview = (TextView) findViewById(R.id.noseriesTextView);
         lv.setEmptyView(noseriesview);
 
-        GetSeriesTask task = new GetSeriesTask();
-        task.execute();
+        new GetSeriesTask().execute();
         lv.setOnItemClickListener(this);
+        //on s'abonne au bus d'évènements
+        EventBus.getInstance().register(this);
 
     }
 
+    @Override
+    protected void onDestroy(){
+        //on se désabonne du bus d'évènement
+        EventBus.getInstance().unregister(this);
+        super.onDestroy();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,28 +108,15 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
         startActivityForResult(j, 1);
     }
 
-    private class GetSeriesTask extends AsyncTask<Void, Void, List<Serie> > {
+    //on reçoit le message associé à l'évènement de récupération des séries
+    @Subscribe
+    public void onGetSeriesTaskResult(GetSeriesResultEvent event) {
+        series = event.getSeries();
+        adapter = new LogAdapterSeries(series, getApplicationContext());
+        lv.setAdapter(adapter);
 
-        @Override
-        protected List<Serie> doInBackground(Void... rien) {
-            List<Serie> series = null;
-            // Debug the task thread name
-            Log.d("actuseries", Thread.currentThread().getName() + " récupérations des infos");
-            series = AccesBetaseries.recupereInfosMembre();
-            return series;
-        }
-
-        @Override
-        protected void onPostExecute(List<Serie> result) {
-            series = result;
-            ListView lv = (ListView) findViewById(R.id.listeSeries);
-
-            adapter = new LogAdapterSeries(series, getApplicationContext());
-            lv.setAdapter(adapter);
-
-            for (Serie s : series) {
-                Log.d("actuseries", s.getNomSerie());
-            }
+        for (Serie s : series) {
+            Log.d("actuseries", s.getNomSerie());
         }
     }
 }
