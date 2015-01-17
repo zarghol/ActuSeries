@@ -1,6 +1,7 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,7 +22,7 @@ import actuseries.android.com.actuseries.event.EventBus;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.tasks.LoginTask;
 
-public class LoginActivity extends ActionBarActivity implements View.OnClickListener, Observer {
+public class LoginActivity extends ActionBarActivity implements View.OnClickListener {
 
     private EditText usernameEditText;
     private EditText passwordEditText;
@@ -36,7 +37,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         findViewById(R.id.signup_button).setOnClickListener(this);
         //on s'abonne au bus d'évènements
         EventBus.getInstance().register(this);
-
     }
 
     @Override
@@ -44,8 +44,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         if (AccesBetaseries.estConnecte()) {
             this.passeAuth();
-        } else {
-            AccesBetaseries.addObs(this);
         }
 
         super.onResume();
@@ -83,21 +81,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         }
     }
 
-    @Override
+    //TODO faire autrement ? avec async task ?
+    /*@Override
     public void update(Observable observable, Object data) {
 
         if (AccesBetaseries.estConnecte()) {
-            AccesBetaseries.removeObs(this);
             this.passeAuth();
         } else {
-            this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "Erreur d'authentification", Toast.LENGTH_LONG).show();
-                }
-            });
+
         }
-    }
+    }*/
 
     public void passeAuth() {
         Intent i = new Intent(this, ListSeriesActivity.class);
@@ -108,6 +101,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     //on reçoit le message associé à l'évènement de connexion
     @Subscribe
     public void onLoginTaskResult(LoginResultEvent event) {
-        Log.d("actuseries", event.getResult());
+        if (event.getResult()) {
+            this.passeAuth();
+        } else {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Erreur d'authentification", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 }

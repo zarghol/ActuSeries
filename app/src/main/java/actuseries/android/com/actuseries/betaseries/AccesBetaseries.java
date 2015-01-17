@@ -1,5 +1,6 @@
 package actuseries.android.com.actuseries.betaseries;
 
+import android.graphics.Point;
 import android.util.Log;
 
 import java.util.List;
@@ -14,12 +15,13 @@ import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 /**
  * Created by Clement on 11/12/2014.
  */
-public class AccesBetaseries extends Observable {
+public class AccesBetaseries {
     private final static String cleApi = "e88a334499a9";
     private Member membreConnecte;
     private BetaSeries betaSeries;
 
     private static AccesBetaseries instance;
+    private Point screenSize;
 
     private static AccesBetaseries getInstance() {
         if (instance == null) {
@@ -31,16 +33,13 @@ public class AccesBetaseries extends Observable {
     private AccesBetaseries() {
         this.membreConnecte = Member.getFromPersistance();
         String token = this.membreConnecte != null ? this.membreConnecte.getToken() : "";
-
+        this.screenSize = new Point();
         this.betaSeries = new BetaSeries(cleApi);
     }
 
     public static Member connexionMembre(final String identifiant, final String password) {
-        // TODO pas plutot au niveau des task ??
         AccesBetaseries inst = AccesBetaseries.getInstance();
         inst.setMembreConnecte(inst.betaSeries.obtainMember(identifiant, password));
-        inst.setChanged();
-        inst.notifyObservers();
         return inst.membreConnecte;
     }
 
@@ -51,9 +50,13 @@ public class AccesBetaseries extends Observable {
         return inst.membreConnecte.getSeries();
     }
 
+
+
     public static void recupereSerieAvecBanniere(Serie s) {
         AccesBetaseries inst = AccesBetaseries.getInstance();
-        inst.betaSeries.recupBanner(s);
+
+        inst.betaSeries.recupInfoEpisode(s, inst.screenSize);
+        //inst.betaSeries.recupBanner(s);
     }
 
     public static List<Episode> recupereEpisodes(Serie s) {
@@ -74,6 +77,14 @@ public class AccesBetaseries extends Observable {
         inst.setMembreConnecte(inst.betaSeries.createAccount(identifiant, password, email));
     }
 
+    public static void setScreenSize(Point screenSize) {
+        AccesBetaseries.getInstance().screenSize = screenSize;
+    }
+
+    public static Point getScreenSize() {
+        return AccesBetaseries.getInstance().screenSize;
+    }
+
     private void setMembreConnecte(Member membreConnecte) {
         this.membreConnecte = membreConnecte;
         this.betaSeries = new BetaSeries(cleApi, membreConnecte);
@@ -81,16 +92,6 @@ public class AccesBetaseries extends Observable {
 
     public static List<Serie> getSeries() {
         return AccesBetaseries.getInstance().membreConnecte.getSeries();
-    }
-
-    @Deprecated
-    public static void addObs(Observer o) {
-        AccesBetaseries.getInstance().addObserver(o);
-    }
-
-    @Deprecated
-    public static void removeObs(Observer o) {
-        AccesBetaseries.getInstance().deleteObserver(o);
     }
 
     public static boolean estConnecte() {

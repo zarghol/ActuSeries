@@ -18,9 +18,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ListSeriesActivity"/>
-        <activity android:name=".activities.SignUpActivity"/>
-        <activity android:name=".activities.ListEpisodesActivity"/>
+
+        <activity android:name=".activities.ListSeriesActivity" />
+
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:parentActivityName=".activities.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="actuseries.android.com.actuseries.activities.LoginActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.ListEpisodesActivity"
+            android:parentActivityName=".activities.ListSeriesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="actuseries.android.com.actuseries.activities.ListSeriesActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.DetailEpisodeActivity"
+            android:parentActivityName=".activities.ListEpisodesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="actuseries.android.com.actuseries.activities.ListEpisodesActivity" />
+        </activity>
     </application>
 
 </manifest>

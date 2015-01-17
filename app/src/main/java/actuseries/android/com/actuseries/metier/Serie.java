@@ -118,4 +118,13 @@ public class Serie {
     public void clearEpisodes(){
         episodes.clear();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !o.getClass().equals(Serie.class)) {
+            return false;
+        }
+        Serie s = (Serie) o;
+        return this.getNomSerie().equals(s.getNomSerie()) && this.getId() == s.getId();
+    }
 }

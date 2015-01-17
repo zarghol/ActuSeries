@@ -2,6 +2,7 @@ package actuseries.android.com.actuseries.betaseries;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -107,11 +108,22 @@ public class BetaSeries {
         }
     }
 
-    public void recupBanner(Serie serie) {
+    public void recupInfoEpisode(Serie serie, Point size) {
+        this.recupEpisodes(serie);
+        this.recupBanner(serie, size);
+    }
+
+    public void recupBanner(Serie serie, Point realSize) {
         Request request = this.buildRequest(RequestCategory.PICTURES, RequestMethod.SHOWS);
         request.addOption("id", "" + serie.getId());
-        //request.addOption("height", "" + 100);
-        request.addOption("width", "" + 300);
+
+        int heightBanniere = 100;
+
+        int widthBanniere = realSize.y == 0 ? 390 : (realSize.x * heightBanniere ) / realSize.y;
+
+
+        request.addOption("height", "" + heightBanniere);
+        request.addOption("width", "" + widthBanniere);
         request.addOption("picked", "banner");
 
         try {

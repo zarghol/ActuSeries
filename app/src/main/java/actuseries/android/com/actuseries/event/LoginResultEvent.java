@@ -4,13 +4,13 @@ package actuseries.android.com.actuseries.event;
  * Created by charly on 14/01/2015.
  */
 public class LoginResultEvent {
-    private String result;
+    private boolean estAuthentifie;
 
-    public LoginResultEvent(String result) {
-        this.result = result;
+    public LoginResultEvent(boolean estAuthentifie) {
+        this.estAuthentifie = estAuthentifie;
     }
 
-    public String getResult() {
-        return result;
+    public boolean getResult() {
+        return this.estAuthentifie;
     }
 }

@@ -1,6 +1,7 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -27,31 +28,42 @@ import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 /**
  * Created by Clement on 08/01/2015.
  */
+// TODO afficher onglet pour passer entre épisodes a voir uniquement, série actus, et séries archivées
 public class ListSeriesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     private LogAdapterSeries adapter;
     private List<Serie> series;
     private ListView lv;
+    private GetSeriesTask currentTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.list_series_activity);
 
-        this.series = new ArrayList<>();
-        lv = (ListView) findViewById(R.id.listeSeries);
-        TextView noseriesview = (TextView) findViewById(R.id.noseriesTextView);
-        lv.setEmptyView(noseriesview);
+        this.lv = (ListView) findViewById(R.id.listeSeries);
+        this.lv.setEmptyView(findViewById(R.id.noseriesTextView));
+        this.lv.setOnItemClickListener(this);
 
-        adapter = new LogAdapterSeries(series, getApplicationContext());
-        lv.setAdapter(adapter);
+        this.series = AccesBetaseries.getSeries();
 
-        new GetSeriesTask().execute();
-        lv.setOnItemClickListener(this);
+        this.adapter = new LogAdapterSeries(this.series, getApplicationContext());
+        this.lv.setAdapter(this.adapter);
+
+        this.currentTask = new GetSeriesTask();
+        this.currentTask.execute();
+
         //on s'abonne au bus d'évènements
         EventBus.getInstance().register(this);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (this.currentTask != null && this.currentTask.isCancelled()) {
+            this.currentTask.execute();
+        }
     }
 
     @Override
@@ -59,6 +71,15 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
         //on se désabonne du bus d'évènement
         EventBus.getInstance().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        if (this.currentTask != null) {
+            Log.d("actuseries", "cancelling recup banniere");
+            this.currentTask.cancel(true);
+        }
+        super.onPause();
     }
 
     @Override
@@ -104,20 +125,17 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
         Intent j = new Intent(this, ListEpisodesActivity.class);
         j.putExtra("numSerie", position);
 
-/*        if (this.series.get(position).getEpisodes().size() == 0) {
-            this.taskEpisodes.cancel(true);
-        }*/
         startActivityForResult(j, 1);
     }
 
     //on reçoit le message associé à l'évènement de récupération des séries
     @Subscribe
     public void onGetSeriesTaskResult(GetSeriesResultEvent event) {
-        series = event.getSeries();
-        adapter = new LogAdapterSeries(series, getApplicationContext());
-        lv.setAdapter(adapter);
+        this.series = event.getSeries();
+        this.adapter = new LogAdapterSeries(series, getApplicationContext());
+        this.lv.setAdapter(this.adapter);
 
-        for (Serie s : series) {
+        for (Serie s : this.series) {
             Log.d("actuseries", s.getNomSerie());
         }
     }
@@ -125,7 +143,15 @@ public class ListSeriesActivity extends ActionBarActivity implements AdapterView
     //on reçoit le message associé à l'évènement de récupération d'une série
     @Subscribe
     public void onGetSeriesTaskResult(GetSerieResultEvent event) {
-        series.add(event.getSerie());
+        if (AccesBetaseries.getScreenSize().x == 0) {
+            this.lv.getMeasuredHeight();
+            // TODO voir comment récupérer les dimensions d'une cellule !!!
+            View v = this.adapter.getView(0, null, null);
+            Point p = new Point(v.getWidth(), v.getHeight());
+            Log.d("actuseries", "size : "+ p);
+            AccesBetaseries.setScreenSize(p);
+        }
+
         adapter.notifyDataSetChanged();
     }
 }

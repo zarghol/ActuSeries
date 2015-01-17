@@ -57,8 +57,9 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         if (!this.identifiantEditText.getText().toString().equals("") &&
                 !this.emailEditText.getText().toString().equals("") &&
                 !this.passwordEditText.getText().toString().equals("") &&
-                this.passwordEditText.getText().toString().equals(this.passwordEditText.getText().toString())) {
+                this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
 
+            // TODO a faire dans une async task
             new Thread(new Runnable() {
                 @Override
                 public void run() {

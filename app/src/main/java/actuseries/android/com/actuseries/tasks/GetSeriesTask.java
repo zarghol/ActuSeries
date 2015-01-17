@@ -1,5 +1,6 @@
 package actuseries.android.com.actuseries.tasks;
 
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
@@ -22,11 +23,18 @@ public class GetSeriesTask extends AsyncTask<Void, Serie, Void> {
     protected Void doInBackground(Void... params) {
         // Debug the task thread name
         Log.d("actuseries", Thread.currentThread().getName() + " récupérations des infos");
-        // Comment faire un
-        List<Serie> series = AccesBetaseries.recupereSeriesMembre();
 
-        for (Serie s: series) {
-            AccesBetaseries.recupereSerieAvecBanniere(s);
+        List<Serie> series = AccesBetaseries.getSeries();
+
+        if (series.size() == 0) {
+            series = AccesBetaseries.recupereSeriesMembre();
+        }
+
+        for (Serie s : series) {
+            if (s.getBanner() == null) {
+                AccesBetaseries.recupereSerieAvecBanniere(s);
+            }
+
             this.publishProgress(s);
         }
         return null;

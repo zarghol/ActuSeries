@@ -63,20 +63,4 @@ class LogAdapterSeries extends BaseAdapter {
         holder.banniereView.setImageBitmap(bm);
         return convertView;
     }
-
-/*    private Bitmap afficheBanniere(String s) {
-        try {
-            Log.d("actuseries", "url : " + s);
-            URL url = new URL(s);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setDoInput(true);
-            conn.setUseCaches(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            return BitmapFactory.decodeStream(is);
-        } catch (Exception e) {
-            Log.e("actuseries", "erreur de récupération de banniere", e);
-        }
-        return null;
-    }*/
 }

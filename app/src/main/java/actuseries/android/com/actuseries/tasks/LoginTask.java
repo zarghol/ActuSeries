@@ -16,11 +16,11 @@ public class LoginTask extends AsyncTask<String, Void, Member> {
     protected Member doInBackground(String... params) {
         String login = params[0];
         String password = params[1];
-        return AccesBetaseries.connexionMembre(login,password);
+        return AccesBetaseries.connexionMembre(login, password);
     }
     @Override
     protected void onPostExecute(Member member){
         //on poste un évènement dans le bus d'évènement qui indique la connexion réussie
-        EventBus.getInstance().post(new LoginResultEvent("the user "+member.getLogin()+" is now connected"));
+        EventBus.getInstance().post(new LoginResultEvent(member != null));
     }
 }
