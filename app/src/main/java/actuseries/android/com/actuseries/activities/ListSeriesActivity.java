@@ -110,6 +110,7 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
         if (this.currentTask != null) {
             Log.d("actuseries", "cancelling recup banniere");
             this.currentTask.cancel(true);
+            this.currentTask = null;
         }
         super.onPause();
     }
