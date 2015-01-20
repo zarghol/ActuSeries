@@ -46,7 +46,11 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_serie_activity);
 
-        this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
+        Bundle extras = this.getIntent().getExtras();
+        if(extras != null) {
+            this.numSerie = extras.getInt("numSerie", 0);
+        }
+
         this.typeSeriesDisplayed = TypeSeriesDisplayed.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
 
         this.lv = (ListView) findViewById(R.id.listeEpisodes);
@@ -157,5 +161,11 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
         paint.getTextBounds(text, 0, text.length(), bounds);
 
         description.setTextSize(bounds.height());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("numSerie", this.numSerie);
     }
 }
