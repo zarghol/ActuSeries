@@ -72,10 +72,10 @@ public class AccesBetaseries {
 
     }
 
-    public static void creationCompte(String identifiant, String password, String email) {
+    public static Member creationCompte(String identifiant, String password, String email) {
         AccesBetaseries inst = AccesBetaseries.getInstance();
-
         inst.setMembreConnecte(inst.betaSeries.createAccount(identifiant, password, email));
+        return inst.membreConnecte;
     }
 
     public static void setScreenSize(Point screenSize) {
