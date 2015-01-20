@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".activities.DetailSerieActivity"
-            android:parentActivityName=".activities.ListSeriesActivity" >
+            android:parentActivityName=".activities.ListSeriesActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="actuseries.android.com.actuseries.activities.ListSeriesActivity" />
