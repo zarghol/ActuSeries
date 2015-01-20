@@ -1,31 +1,16 @@
 package actuseries.android.com.actuseries.activities.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
-import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.DetailSerieActivity;
 import actuseries.android.com.actuseries.activities.LogAdapterSeries;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.EventBus;
-import actuseries.android.com.actuseries.event.GetSerieResultEvent;
-import actuseries.android.com.actuseries.event.GetSeriesResultEvent;
 import actuseries.android.com.actuseries.metier.Serie;
-import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
  * A fragment representing a list of Items.
@@ -143,7 +128,9 @@ public class ListSerieFragment extends android.support.v4.app.ListFragment {
     }*/
 
     public void notifyDataChanged() {
-        this.adapter.notifyDataSetChanged();
+        if(this.adapter != null) {
+            this.adapter.notifyDataSetChanged();
+        }
     }
 
 }

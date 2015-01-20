@@ -193,9 +193,9 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
             Log.d("actuseries", "size : "+ p);
             AccesBetaseries.setScreenSize(p);
         }*/
-/*
+
         ListSerieFragment fragment = (ListSerieFragment) this.sectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
 
-        fragment.notifyDataChanged();*/
+        fragment.notifyDataChanged();
     }
 }

@@ -15,7 +15,7 @@ import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
  */
 public class SignUpActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private EditText identifiantEditText;
+    private EditText loginEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText passwordConfirmEditText;
@@ -25,7 +25,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
 
-        this.identifiantEditText = (EditText) findViewById(R.id.user_editText);
+        this.loginEditText = (EditText) findViewById(R.id.user_editText);
         this.emailEditText = (EditText) findViewById(R.id.email_editText);
         this.passwordEditText = (EditText) findViewById(R.id.password_editText);
         this.passwordConfirmEditText = (EditText) findViewById(R.id.password_confirm_editText);
@@ -54,7 +54,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (!this.identifiantEditText.getText().toString().equals("") &&
+        if (!this.loginEditText.getText().toString().equals("") &&
                 !this.emailEditText.getText().toString().equals("") &&
                 !this.passwordEditText.getText().toString().equals("") &&
                 this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
@@ -63,7 +63,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    AccesBetaseries.creationCompte(identifiantEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString());
+                    AccesBetaseries.creationCompte(loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString());
 
                 }
             }).start();

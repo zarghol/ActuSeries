@@ -66,7 +66,7 @@ public class AccesBetaseries {
     }
 
     public static void deconnexionMembre() {
-        AccesBetaseries inst = AccesBetaseries.getInstance();
+       AccesBetaseries inst = AccesBetaseries.getInstance();
        inst.betaSeries.destroyToken();
        inst.setMembreConnecte(null);
 
