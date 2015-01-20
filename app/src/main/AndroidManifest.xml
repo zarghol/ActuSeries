@@ -40,10 +40,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.DetailSerieActivity" />
         </activity>
-        <activity
-            android:name=".activities.test"
-            android:label="@string/title_activity_test" >
-        </activity>
     </application>
 
 </manifest>
