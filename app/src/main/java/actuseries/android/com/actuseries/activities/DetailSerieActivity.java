@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
@@ -32,14 +33,14 @@ import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 /**
  * Created by Clement on 08/01/2015.
  */
-public class DetailSerieActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, OnClickListener {
+public class DetailSerieActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     private LogAdapterEpisodes adapter;
     private Serie serie;
     ListView lv;
     private int numSerie;
     private TypeSeriesDisplayed typeSeriesDisplayed;
-    private TextView description;
+    private ExpandableTextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,10 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
 /*        BitmapDrawable bd = new BitmapDrawable(this.serie.getBanner());
         titre.setBackground(bd);*/
         TextView statut = (TextView) findViewById(R.id.textView_statut);
+        // TODO voir si erreur pour ça (quand on veut collapse, il se expand en plus)
         statut.setText("Statut : " + this.serie.getStatut().getStringStatus());
-        this.description = (TextView) findViewById(R.id.textView_description);
+        this.description = (ExpandableTextView) findViewById(R.id.expand_text_view);
         this.description.setText(this.serie.getDescription());
-        this.description.setOnClickListener(this);
         //on s'abonne au bus d'évènements
         EventBus.getInstance().register(this);
     }
@@ -123,7 +124,6 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Log.d("actuseries", "clique ! ");
-        Episode e = this.serie.getEpisodes().get(position);
 
         Intent j = new Intent(this, DetailEpisodeActivity.class);
         j.putExtra("indexSerie", this.numSerie);
@@ -139,23 +139,5 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
         Log.d("actuseries", "nb episodes: " + episodes.size());
         adapter.notifyDataSetChanged();
         Log.d("actuseries", "nb episodes: " + episodes.size());*/
-    }
-
-    @Override
-    public void onClick(View v) {
-        Paint paint = new Paint();
-        Rect bounds = new Rect();
-
-        int text_height = 0;
-        int text_width = 0;
-
-        paint.setTypeface(Typeface.DEFAULT);
-        paint.setTextSize(description.getWidth());
-
-        String text = description.getText().toString();
-
-        paint.getTextBounds(text, 0, text.length(), bounds);
-
-        description.setTextSize(bounds.height());
     }
 }

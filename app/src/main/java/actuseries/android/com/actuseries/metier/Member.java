@@ -48,7 +48,6 @@ public class Member {
                 this.series = series;
             }
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -75,6 +74,5 @@ public class Member {
 
     public void addSerie(Serie serie) {
         this.series.add(serie);
-        // TODO notify ??
     }
 }

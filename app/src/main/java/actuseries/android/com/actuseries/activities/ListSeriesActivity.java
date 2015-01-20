@@ -22,7 +22,6 @@ import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 /**
  * Created by Clement on 08/01/2015.
  */
-// TODO afficher onglet pour passer entre épisodes a voir uniquement, série actus, et séries archivées
 public class ListSeriesActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener{
 
     SectionsPagerAdapter sectionsPagerAdapter;

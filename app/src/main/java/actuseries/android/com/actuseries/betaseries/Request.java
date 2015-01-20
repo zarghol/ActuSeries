@@ -99,8 +99,11 @@ public class Request {
 
             is = conn.getInputStream();
             // TODO voir si on peut optimisater les images : java.lang.OutOfMemoryError si beaucoup de séries
-           /* BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 8;*/
+           /*
+           BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 8;
+            BitmapFactory.decodeStream(is, rect, options);
+            */
             retour = BitmapFactory.decodeStream(is);
         } finally {
             if (is != null) {

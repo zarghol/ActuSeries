@@ -100,4 +100,8 @@ public class AccesBetaseries {
         return inst.membreConnecte != null && !inst.membreConnecte.getToken().equals("");
 
     }
+
+    public static void marqueVue(Episode episode) {
+        // TODO a faire
+    }
 }

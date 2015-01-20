@@ -56,7 +56,7 @@ public class Episode implements Comparable<Episode> {
 
     public void setVue(boolean vue) {
         this.vue = vue;
-        //TODO AccesBetaseries.marqueVue(this);
+        AccesBetaseries.marqueVue(this);
     }
 
     public String getDescriptionEpisode() {
