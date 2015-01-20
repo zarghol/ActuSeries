@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.tasks.SignupTask;
 
 /**
  * Created by Clement on 08/01/2015.
@@ -59,15 +60,8 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 !this.passwordEditText.getText().toString().equals("") &&
                 this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
 
-            // TODO a faire dans une async task
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    AccesBetaseries.creationCompte(identifiantEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString());
-
-                }
-            }).start();
-
+            SignupTask task = new SignupTask();
+            task.execute(identifiantEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString());
         }
 
         this.finish();

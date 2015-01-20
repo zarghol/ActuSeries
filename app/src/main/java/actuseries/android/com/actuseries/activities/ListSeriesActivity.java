@@ -2,7 +2,6 @@ package actuseries.android.com.actuseries.activities;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -10,21 +9,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.squareup.otto.Subscribe;
-
-import java.util.List;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.ListSerieFragment;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.EventBus;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
-import actuseries.android.com.actuseries.event.GetSeriesResultEvent;
-import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
@@ -35,7 +27,6 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
 
     SectionsPagerAdapter sectionsPagerAdapter;
     ViewPager mViewPager;
-    private int currentPosition;
 
     private GetSeriesTask currentTask;
 
@@ -44,9 +35,6 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_series_activity);
-
-        this.currentPosition = 0;
-
 
         /* pour tabs */
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -156,31 +144,15 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
     @Override
     public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         mViewPager.setCurrentItem(tab.getPosition());
-
-
     }
 
     @Override
     public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
     }
 
     @Override
     public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
     }
-
-/*    //on reçoit le message associé à l'évènement de récupération des séries
-    @Subscribe
-    public void onGetSeriesTaskResult(GetSeriesResultEvent event) {
-        this.series = event.getSeries();
-        this.adapter = new LogAdapterSeries(series, getActivity().getApplicationContext());
-        setListAdapter(this.adapter);
-
-        for (Serie s : this.series) {
-            Log.d("actuseries", s.getNomSerie());
-        }
-    }*/
 
     //on reçoit le message associé à l'évènement de récupération d'une série
     @Subscribe
@@ -193,9 +165,8 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
             Log.d("actuseries", "size : "+ p);
             AccesBetaseries.setScreenSize(p);
         }*/
-/*
         ListSerieFragment fragment = (ListSerieFragment) this.sectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
 
-        fragment.notifyDataChanged();*/
+        fragment.notifyDataChanged();
     }
 }

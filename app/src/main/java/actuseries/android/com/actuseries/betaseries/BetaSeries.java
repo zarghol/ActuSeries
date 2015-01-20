@@ -62,7 +62,7 @@ public class BetaSeries {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.SIGNUP);
         request.setHttpMethod(HttpMethod.POST);
         request.addOption("login", username);
-        request.addOption("password", password);
+        request.addOption("password", this.getMD5(password));
         request.addOption("email", mail);
 
         Log.d("actuseries", "essai de creation avec \nlogin : " + username + "\npassword : " + password + "\nmail : " + mail);

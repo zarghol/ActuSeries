@@ -81,17 +81,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         }
     }
 
-    //TODO faire autrement ? avec async task ?
-    /*@Override
-    public void update(Observable observable, Object data) {
-
-        if (AccesBetaseries.estConnecte()) {
-            this.passeAuth();
-        } else {
-
-        }
-    }*/
-
     public void passeAuth() {
         Intent i = new Intent(this, ListSeriesActivity.class);
         startActivity(i);

@@ -1,13 +1,18 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,23 +32,24 @@ import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 /**
  * Created by Clement on 08/01/2015.
  */
-public class DetailSerieActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class DetailSerieActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, OnClickListener {
 
-	private LogAdapterEpisodes adapter;
-	private Serie serie;
+    private LogAdapterEpisodes adapter;
+    private Serie serie;
     ListView lv;
-	private int numSerie;
+    private int numSerie;
     private TypeSeriesDisplayed typeSeriesDisplayed;
+    private TextView description;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.detail_serie_activity);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.detail_serie_activity);
 
-		this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
+        this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
         this.typeSeriesDisplayed = TypeSeriesDisplayed.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
 
-		this.lv = (ListView) findViewById(R.id.listeEpisodes);
+        this.lv = (ListView) findViewById(R.id.listeEpisodes);
         this.lv.setEmptyView(findViewById(R.id.noEpisodesTextView));
         this.lv.setOnItemClickListener(this);
 
@@ -62,8 +68,9 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
         titre.setBackground(bd);*/
         TextView statut = (TextView) findViewById(R.id.textView_statut);
         statut.setText("Statut : " + this.serie.getStatut().getStringStatus());
-        TextView description = (TextView) findViewById(R.id.textView_description);
-        description.setText(this.serie.getDescription());
+        this.description = (TextView) findViewById(R.id.textView_description);
+        this.description.setText(this.serie.getDescription());
+        this.description.setOnClickListener(this);
         //on s'abonne au bus d'évènements
         EventBus.getInstance().register(this);
     }
@@ -75,22 +82,22 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
         super.onDestroy();
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.my, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.my, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		} else if (id == R.id.action_deconnexion) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_deconnexion) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -109,11 +116,12 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
 
             return true;
         }
-		return super.onOptionsItemSelected(item);
-	}
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
         Log.d("actuseries", "clique ! ");
         Episode e = this.serie.getEpisodes().get(position);
 
@@ -131,5 +139,23 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
         Log.d("actuseries", "nb episodes: " + episodes.size());
         adapter.notifyDataSetChanged();
         Log.d("actuseries", "nb episodes: " + episodes.size());*/
+    }
+
+    @Override
+    public void onClick(View v) {
+        Paint paint = new Paint();
+        Rect bounds = new Rect();
+
+        int text_height = 0;
+        int text_width = 0;
+
+        paint.setTypeface(Typeface.DEFAULT);
+        paint.setTextSize(description.getWidth());
+
+        String text = description.getText().toString();
+
+        paint.getTextBounds(text, 0, text.length(), bounds);
+
+        description.setTextSize(bounds.height());
     }
 }

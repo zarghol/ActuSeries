@@ -143,7 +143,9 @@ public class ListSerieFragment extends android.support.v4.app.ListFragment {
     }*/
 
     public void notifyDataChanged() {
-        this.adapter.notifyDataSetChanged();
+        if (this.adapter != null) {
+            this.adapter.notifyDataSetChanged();
+        }
     }
 
 }
