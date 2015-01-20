@@ -8,6 +8,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.activities.fragment.TypeSeriesDisplayed;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.EventBus;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
@@ -24,7 +25,7 @@ public class GetSeriesTask extends AsyncTask<Void, Serie, Void> {
         // Debug the task thread name
         Log.d("actuseries", Thread.currentThread().getName() + " récupérations des infos");
 
-        List<Serie> series = AccesBetaseries.getSeries();
+        List<Serie> series = AccesBetaseries.getSeries(TypeSeriesDisplayed.ALL);
 
         if (series.size() == 0) {
             series = AccesBetaseries.recupereSeriesMembre();

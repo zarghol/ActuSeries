@@ -8,6 +8,10 @@ public enum SerieStatus {
     FINI("Ended"),
     AUTRE("Autre");
 
+    public String getStringStatus() {
+        return stringStatus;
+    }
+
     final private String stringStatus;
 
     private SerieStatus(String status) {
@@ -22,4 +26,5 @@ public enum SerieStatus {
         }
         throw new IllegalArgumentException("unknown status.");
     }
+
 }

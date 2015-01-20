@@ -27,12 +27,13 @@ public class Serie {
 
     private String url;
     private int id;
-    private String url_banner;
     private Bitmap banner;
+
     private String description;
     private int dureeEpisode;
     private List<String> genres;
     private int id_thetvdb;
+
     private SerieStatus statut;
     private int anneeCreation;
 
@@ -43,7 +44,6 @@ public class Serie {
         this.url = url;
         this.nomSerie = nom;
 
-        this.url_banner = null;
         this.description = "";
         this.dureeEpisode = 0;
         this.genres = new ArrayList<>();
@@ -57,7 +57,7 @@ public class Serie {
     public Serie(JSONObject show) {
         try {
             this.nomSerie = show.getString("title");
-            this.active = show.getJSONObject("user").getBoolean("archived");
+            this.active = !show.getJSONObject("user").getBoolean("archived");
             this.url = show.getString("resource_url");
             this.id = show.getInt("id");
             this.id_thetvdb = show.getInt("thetvdb_id");
@@ -80,14 +80,6 @@ public class Serie {
 
     public String getNomSerie() {
         return this.nomSerie;
-    }
-
-    public String getUrlBanner() {
-        return this.url_banner;
-    }
-
-    public void setUrlBanner(String urlBanner) {
-        this.url_banner = urlBanner;
     }
 
     public List<Episode> getEpisodes() {
@@ -117,6 +109,39 @@ public class Serie {
 
     public void clearEpisodes(){
         episodes.clear();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getDureeEpisode() {
+        return dureeEpisode;
+    }
+
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public int getAnneeCreation() {
+        return anneeCreation;
+    }
+
+    public SerieStatus getStatut() {
+        return statut;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public boolean toutVue() {
+        for (Episode e : this.episodes) {
+            if (!e.estVue()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

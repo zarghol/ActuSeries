@@ -9,6 +9,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.activities.fragment.TypeSeriesDisplayed;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.metier.Episode;
 
@@ -23,7 +24,8 @@ public class DetailEpisodeActivity extends ActionBarActivity {
 
         int indexSerie = this.getIntent().getExtras().getInt("indexSerie", 0);
         int indexEpisode = this.getIntent().getExtras().getInt("indexEpisode", 0);
-        this.episode = AccesBetaseries.getSeries().get(indexSerie).getEpisodes().get(indexEpisode);
+        TypeSeriesDisplayed typeSeriesDisplayed = TypeSeriesDisplayed.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
+        this.episode = AccesBetaseries.getSeries(typeSeriesDisplayed).get(indexSerie).getEpisodes().get(indexEpisode);
 
         TextView label = (TextView) findViewById(R.id.textView_label_episode);
         String text = "Épisode " + this.episode.getSaison() + "x" + this.episode.getNumEpisode() + " - " + this.episode.getNomEpisode();

@@ -17,7 +17,7 @@ import actuseries.android.com.actuseries.metier.Serie;
 /**
  * Created by Clement on 08/01/2015.
  */
-class LogAdapterSeries extends BaseAdapter {
+public class LogAdapterSeries extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Serie> series;
 

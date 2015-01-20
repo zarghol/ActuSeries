@@ -1,6 +1,7 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -8,50 +9,61 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
-import java.util.List;
-
 import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.activities.fragment.TypeSeriesDisplayed;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.EventBus;
 import actuseries.android.com.actuseries.event.GetEpisodesResultEvent;
 import actuseries.android.com.actuseries.metier.Episode;
+import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 
 /**
  * Created by Clement on 08/01/2015.
  */
-public class ListEpisodesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class DetailSerieActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
 	private LogAdapterEpisodes adapter;
-	private List<Episode> episodes;
+	private Serie serie;
     ListView lv;
 	private int numSerie;
+    private TypeSeriesDisplayed typeSeriesDisplayed;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.list_episodes_activity);
+		setContentView(R.layout.detail_serie_activity);
 
 		this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
+        this.typeSeriesDisplayed = TypeSeriesDisplayed.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
 
 		this.lv = (ListView) findViewById(R.id.listeEpisodes);
         this.lv.setEmptyView(findViewById(R.id.noEpisodesTextView));
         this.lv.setOnItemClickListener(this);
 
-        this.episodes = AccesBetaseries.getSeries().get(this.numSerie).getEpisodes();
+        this.serie = AccesBetaseries.getSeries(this.typeSeriesDisplayed).get(this.numSerie);
 
-        if (this.episodes.size() == 0) {
-            new GetEpisodesTask().execute(numSerie);
+        if (this.serie.getEpisodes().size() == 0) {
+            new GetEpisodesTask().execute(numSerie, this.typeSeriesDisplayed.getPosition());
         }
 
-        this.adapter = new LogAdapterEpisodes(this.episodes, getApplicationContext());
+        this.adapter = new LogAdapterEpisodes(this.serie.getEpisodes(), getApplicationContext());
         this.lv.setAdapter(this.adapter);
 
-
+        TextView titre = (TextView) findViewById(R.id.textView_titre);
+        titre.setText(this.serie.getNomSerie());
+/*        BitmapDrawable bd = new BitmapDrawable(this.serie.getBanner());
+        titre.setBackground(bd);*/
+        TextView statut = (TextView) findViewById(R.id.textView_statut);
+        statut.setText("Statut : " + this.serie.getStatut().getStringStatus());
+        TextView description = (TextView) findViewById(R.id.textView_description);
+        description.setText(this.serie.getDescription());
         //on s'abonne au bus d'évènements
         EventBus.getInstance().register(this);
     }
@@ -103,7 +115,7 @@ public class ListEpisodesActivity extends ActionBarActivity implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d("actuseries", "clique ! ");
-        Episode e = this.episodes.get(position);
+        Episode e = this.serie.getEpisodes().get(position);
 
         Intent j = new Intent(this, DetailEpisodeActivity.class);
         j.putExtra("indexSerie", this.numSerie);
@@ -114,10 +126,10 @@ public class ListEpisodesActivity extends ActionBarActivity implements AdapterVi
     //on reçoit le message associé à l'évènement de récupération des épisodes
     @Subscribe
     public void onGetEpisodesTaskResult(GetEpisodesResultEvent event) {
-        Log.d("actuseries", "nb episodes: " + episodes.size());
-        this.episodes = event.getEpisodes();
+        /*Log.d("actuseries", "nb episodes: " + episodes.size());
+        this.serie.getEpisodes() = event.getEpisodes();
         Log.d("actuseries", "nb episodes: " + episodes.size());
         adapter.notifyDataSetChanged();
-        Log.d("actuseries", "nb episodes: " + episodes.size());
+        Log.d("actuseries", "nb episodes: " + episodes.size());*/
     }
 }

@@ -14,7 +14,7 @@ import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.metier.Episode;
 
 
-class LogAdapterEpisodes extends BaseAdapter {
+public class LogAdapterEpisodes extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<Episode> episodes;
 
