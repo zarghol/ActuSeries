@@ -7,7 +7,7 @@ import java.util.List;
 
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.GetEpisodesResultEvent;
 import actuseries.android.com.actuseries.metier.Episode;
 
@@ -27,6 +27,6 @@ public class GetEpisodesTask extends AsyncTask<Integer, Void, List<Episode>> {
     @Override
     protected void onPostExecute(List<Episode> episodes) {
         //on poste un évènement dans le bus d'évènement qui indique la récupération des épisodes réussie
-        EventBus.getInstance().post(new GetEpisodesResultEvent(episodes));
+        TaskManager.post(new GetEpisodesResultEvent(episodes));
     }
 }

@@ -3,7 +3,7 @@ package actuseries.android.com.actuseries.tasks;
 import android.os.AsyncTask;
 
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.metier.Member;
 
@@ -22,6 +22,6 @@ public class LoginTask extends AsyncTask<String, Void, Member> {
     @Override
     protected void onPostExecute(Member member) {
         //on poste un évènement dans le bus d'évènement qui indique la connexion réussie
-        EventBus.getInstance().post(new LoginResultEvent(member != null));
+        TaskManager.post(new LoginResultEvent(member != null));
     }
 }

@@ -64,7 +64,6 @@ public class AccesBetaseries {
         AccesBetaseries inst = AccesBetaseries.getInstance();
         inst.betaSeries.destroyToken();
         inst.setMembreConnecte(null);
-
     }
 
     public static Member creationCompte(String identifiant, String password, String email) {
@@ -82,7 +81,8 @@ public class AccesBetaseries {
     }
 
     public static List<Serie> getSeries(SeriesDisplay seriesDisplay) {
-        return seriesDisplay.sort(AccesBetaseries.getInstance().membreConnecte.getSeries());
+        List<Serie> series = AccesBetaseries.getInstance().membreConnecte.getSeries();
+        return seriesDisplay == null ? series : seriesDisplay.sort(series);
     }
 
     public static boolean estConnecte() {
