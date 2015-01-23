@@ -4,27 +4,22 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
-import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
 import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
  * Created by Clement on 08/01/2015.
  */
-// TODO afficher onglet pour passer entre épisodes a voir uniquement, série actus, et séries archivées
 public class SeriesListActivity extends MainMenuActionBarActivity implements android.support.v7.app.ActionBar.TabListener {
 
     SeriesDisplayPagerAdapter seriesDisplayPagerAdapter;
     ViewPager mViewPager;
-
-    private GetSeriesTask currentTask;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,35 +61,18 @@ public class SeriesListActivity extends MainMenuActionBarActivity implements and
         }
 
         /* fin */
-        this.currentTask = new GetSeriesTask();
-        this.currentTask.execute();
-
-        //on s'abonne au bus d'évènements
-        EventBus.getInstance().register(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(this.currentTask != null && this.currentTask.isCancelled()) {
-            this.currentTask.execute();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        //on se désabonne du bus d'évènement
-        EventBus.getInstance().unregister(this);
-        super.onDestroy();
+        TaskManager.launchTask(GetSeriesTask.class, null);
     }
 
     @Override
     public void onStop() {
-        if(this.currentTask != null) {
-            Log.d("actuseries", "cancelling recup banniere");
-            this.currentTask.cancel(true);
-            this.currentTask = null;
-        }
+        TaskManager.cancelTask(GetSeriesTask.class);
+
         super.onPause();
     }
 

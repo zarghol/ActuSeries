@@ -11,7 +11,7 @@ import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.tasks.LoginTask;
 
@@ -28,8 +28,6 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         passwordEditText = (EditText) findViewById(R.id.password_editText);
         findViewById(R.id.connect_button).setOnClickListener(this);
         findViewById(R.id.signup_button).setOnClickListener(this);
-        //on s'abonne au bus d'évènements
-        EventBus.getInstance().register(this);
     }
 
     @Override
@@ -41,13 +39,6 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
     }
 
     @Override
-    protected void onDestroy() {
-        //on se désabonne du bus d'évènement
-        EventBus.getInstance().unregister(this);
-        super.onDestroy();
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         //TODO: masquer le bouton de deconnexion (on n'est pas encore connecté... duh !)
         return super.onPrepareOptionsMenu(menu);
@@ -56,7 +47,8 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.connect_button) {
-            new LoginTask().execute(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+            String[] params = {usernameEditText.getText().toString(), passwordEditText.getText().toString()};
+            TaskManager.launchTask(LoginTask.class, params);
         } else {
             Intent i = new Intent(this, SignUpActivity.class);
             startActivity(i);

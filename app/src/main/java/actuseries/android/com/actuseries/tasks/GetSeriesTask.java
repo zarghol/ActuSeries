@@ -7,7 +7,7 @@ import java.util.List;
 
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.EventBus;
+import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
 import actuseries.android.com.actuseries.metier.Serie;
 
@@ -39,13 +39,13 @@ public class GetSeriesTask extends AsyncTask<Void, Serie, Void> {
     @Override
     protected void onProgressUpdate(Serie... values) {
         super.onProgressUpdate(values);
-        EventBus.getInstance().post(new GetSerieResultEvent(values[0]));
+        TaskManager.post(new GetSerieResultEvent(values[0]));
     }
 
     @Override
     protected void onPostExecute(Void rien) {
         //on poste un évènement dans le bus d'évènement qui indique la récupération des séries réussie
         // TODO poster un evenement indiquant la fin de récuperation totale
-        //EventBus.getInstance().post(new GetSeriesResultEvent(series));
+        //EventBus.getBus().post(new GetSeriesResultEvent(series));
     }
 }

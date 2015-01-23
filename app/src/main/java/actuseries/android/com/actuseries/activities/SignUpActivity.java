@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.tasks.SignupTask;
 
 /**
@@ -59,8 +60,8 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
               !this.passwordEditText.getText().toString().equals("") &&
               this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
 
-            SignupTask task = new SignupTask();
-            task.execute(loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString());
+            String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString()};
+            TaskManager.launchTask(SignupTask.class, params);
         }
 
         this.finish();
