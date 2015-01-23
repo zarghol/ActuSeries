@@ -21,7 +21,6 @@ import actuseries.android.com.actuseries.metier.Serie;
  */
 public class SeriesListFragment extends android.support.v4.app.ListFragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "TypeSerie";
 
     private List<Serie> series;
@@ -29,7 +28,6 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
     private SeriesDisplay seriesDisplay;
 
 
-    //private OnFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -70,32 +68,7 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
 
 
         this.getListView().setEmptyView(noseriesTextView);*/
-
-
-        //this.getListView().setOnItemClickListener(this);
-
-
     }
-
-
-
-
-/*    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }*/
-
-/*    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }*/
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -106,12 +79,6 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
         j.putExtra("typePosition", this.seriesDisplay.getPosition());
 
         startActivityForResult(j, 1);
-
-        /*if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(this.series.get(position));
-        }*/
     }
 
     /**

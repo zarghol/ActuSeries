@@ -2,19 +2,14 @@ package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.EventBus;
-import actuseries.android.com.actuseries.event.GetEpisodesResultEvent;
 import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
@@ -55,41 +50,28 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         TextView titre = (TextView) findViewById(R.id.textView_titre);
         titre.setText(this.serie.getNomSerie());
 /*        BitmapDrawable bd = new BitmapDrawable(this.serie.getBanner());
-        titre.setBackground(bd);*/
+        titre.setBackground(bd); <--- ça fait moche */
         TextView statut = (TextView) findViewById(R.id.textView_statut);
         statut.setText("Statut : " + this.serie.getStatut().getStringStatus());
         this.description = (TextView) findViewById(R.id.textView_description);
         this.description.setText(this.serie.getDescription());
-        //on s'abonne au bus d'évènements
-        EventBus.getInstance().register(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        //on se désabonne du bus d'évènement
-        EventBus.getInstance().unregister(this);
-        super.onDestroy();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        Log.d("actuseries", "clique ! ");
-        Episode e = this.serie.getEpisodes().get(position);
-
         Intent episodeDetailActivityIntent = new Intent(this, EpisodeDetailActivity.class);
         episodeDetailActivityIntent.putExtra("indexSerie", this.numSerie);
         episodeDetailActivityIntent.putExtra("indexEpisode", position);
         startActivityForResult(episodeDetailActivityIntent, 1);
     }
 
-    //on reçoit le message associé à l'évènement de récupération des épisodes
+/*    //on reçoit le message associé à l'évènement de récupération des épisodes <=== plus besoin, on récupère plus tot
     @Subscribe
     public void onGetEpisodesTaskResult(GetEpisodesResultEvent event) {
-        /*Log.d("actuseries", "nb episodes: " + episodes.size());
+        Log.d("actuseries", "nb episodes: " + episodes.size());
         this.serie.getEpisodes() = event.getEpisodes();
         Log.d("actuseries", "nb episodes: " + episodes.size());
         adapter.notifyDataSetChanged();
-        Log.d("actuseries", "nb episodes: " + episodes.size());*/
-    }
+        Log.d("actuseries", "nb episodes: " + episodes.size());
+    }*/
 }
