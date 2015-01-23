@@ -3,26 +3,34 @@ package actuseries.android.com.actuseries.activities.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.metier.Serie;
 
 /**
  * Created by Clement on 20/01/2015.
  */
-public enum TypeSeriesDisplayed {
-    TOVIEW(0, "A voir"),
-    ARCHIVED(1, "Archivée"),
-    ACTIVE(2, "Active"),
+public enum SeriesDisplay {
+//    FIXME: Utiliser les ressources et pas des chaînes en dur !
+//    WATCHLIST(0, R.string.series_list_watchlist),
+//    ARCHIVED(1, R.string.series_list_archived),
+//    ACTIVE(2, R.string.series_list_active),
+//    ALL(3, R.string.series_list_all);
+    WATCHLIST(0, "A voir"),
+    ARCHIVED(1, "Archivées"),
+    ACTIVE(2, "Actives"),
     ALL(3, "Toutes");
 
     private int position;
+//    private int label;
     private String label;
 
-    private TypeSeriesDisplayed(int position, String label) {
+//    private SeriesDisplay(int position, int label) {
+    private SeriesDisplay(int position, String label) {
         this.position = position;
         this.label = label;
     }
 
-    public List<Serie> trieSeries(List<Serie> series) {
+    public List<Serie> sort(List<Serie> series) {
 
         if (this == ALL) {
             return series;
@@ -32,7 +40,7 @@ public enum TypeSeriesDisplayed {
 
         for (Serie s : series) {
             if (s.isActive()) {
-                if (this == ACTIVE || (this == TOVIEW && !s.toutVue())) {
+                if (this == ACTIVE || (this == WATCHLIST && !s.toutVue())) {
                     result.add(s);
                 }
             } else if (this == ARCHIVED) {
@@ -47,12 +55,13 @@ public enum TypeSeriesDisplayed {
         return this.position;
     }
 
+//    public int getLabel() {
     public String getLabel() {
         return this.label;
     }
 
-    public  static TypeSeriesDisplayed fromPosition(int position) {
-        for (TypeSeriesDisplayed t : TypeSeriesDisplayed.values()) {
+    public  static SeriesDisplay fromPosition(int position) {
+        for (SeriesDisplay t : SeriesDisplay.values()) {
             if (t.position == position) {
                 return t;
             }

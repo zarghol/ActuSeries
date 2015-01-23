@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.tasks.SignupTask;
 
 /**
@@ -37,7 +36,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -47,7 +46,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);

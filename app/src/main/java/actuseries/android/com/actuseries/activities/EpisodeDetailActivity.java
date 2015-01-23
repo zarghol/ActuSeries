@@ -9,23 +9,23 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.activities.fragment.TypeSeriesDisplayed;
+import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.metier.Episode;
 
-public class DetailEpisodeActivity extends ActionBarActivity {
+public class EpisodeDetailActivity extends ActionBarActivity {
 
     private Episode episode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_episode);
+        setContentView(R.layout.episode_detail_activity);
 
         int indexSerie = this.getIntent().getExtras().getInt("indexSerie", 0);
         int indexEpisode = this.getIntent().getExtras().getInt("indexEpisode", 0);
-        TypeSeriesDisplayed typeSeriesDisplayed = TypeSeriesDisplayed.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
-        this.episode = AccesBetaseries.getSeries(typeSeriesDisplayed).get(indexSerie).getEpisodes().get(indexEpisode);
+        SeriesDisplay seriesDisplay = SeriesDisplay.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
+        this.episode = AccesBetaseries.getSeries(seriesDisplay).get(indexSerie).getEpisodes().get(indexEpisode);
 
         TextView label = (TextView) findViewById(R.id.textView_label_episode);
         String text = "Épisode " + this.episode.getSaison() + "x" + this.episode.getNumEpisode() + " - " + this.episode.getNomEpisode();
@@ -39,7 +39,7 @@ public class DetailEpisodeActivity extends ActionBarActivity {
 
         if (this.episode.estVue()) {
             Button boutonVue = (Button) findViewById(R.id.button_vue);
-            boutonVue.setText(R.string.nonvu);
+            boutonVue.setText(R.string.episode_detail_activity_unmark_watched);
         }
 
     }
@@ -48,7 +48,7 @@ public class DetailEpisodeActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -60,7 +60,7 @@ public class DetailEpisodeActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_settings) {
             return true;
         }
 

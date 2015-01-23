@@ -4,14 +4,11 @@ import android.graphics.Point;
 import android.util.Log;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-import actuseries.android.com.actuseries.activities.fragment.TypeSeriesDisplayed;
+import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Member;
 import actuseries.android.com.actuseries.metier.Serie;
-import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
  * Created by Clement on 11/12/2014.
@@ -91,8 +88,8 @@ public class AccesBetaseries {
         this.betaSeries = new BetaSeries(cleApi, membreConnecte);
     }
 
-    public static List<Serie> getSeries(TypeSeriesDisplayed typeSeriesDisplayed) {
-        return typeSeriesDisplayed.trieSeries(AccesBetaseries.getInstance().membreConnecte.getSeries());
+    public static List<Serie> getSeries(SeriesDisplay seriesDisplay) {
+        return seriesDisplay.sort(AccesBetaseries.getInstance().membreConnecte.getSeries());
     }
 
     public static boolean estConnecte() {

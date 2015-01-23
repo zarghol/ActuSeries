@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.activities.fragment.ListSerieFragment;
+import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.EventBus;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
@@ -23,9 +23,9 @@ import actuseries.android.com.actuseries.tasks.GetSeriesTask;
  * Created by Clement on 08/01/2015.
  */
 // TODO afficher onglet pour passer entre épisodes a voir uniquement, série actus, et séries archivées
-public class ListSeriesActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener{
+public class SeriesListActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener{
 
-    SectionsPagerAdapter sectionsPagerAdapter;
+    SeriesDisplayPagerAdapter seriesDisplayPagerAdapter;
     ViewPager mViewPager;
 
     private GetSeriesTask currentTask;
@@ -34,19 +34,19 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_series_activity);
+        setContentView(R.layout.series_list_activity);
 
         /* pour tabs */
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        seriesDisplayPagerAdapter = new SeriesDisplayPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
-        mViewPager.setAdapter(sectionsPagerAdapter);
+        mViewPager.setAdapter(seriesDisplayPagerAdapter);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -59,14 +59,14 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
         });
 
         // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < sectionsPagerAdapter.getCount(); i++) {
+        for (int i = 0; i < seriesDisplayPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by
             // the adapter. Also specify this Activity object, which implements
             // the TabListener interface, as the callback (listener) for when
             // this tab is selected.
             getSupportActionBar().addTab(
                     getSupportActionBar().newTab()
-                            .setText(sectionsPagerAdapter.getPageTitle(i))
+                            .setText(seriesDisplayPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
 
@@ -106,7 +106,7 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -116,7 +116,7 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_settings) {
             return true;
         } else if (id == R.id.action_deconnexion) {
             new Thread(new Runnable() {
@@ -166,7 +166,7 @@ public class ListSeriesActivity extends ActionBarActivity implements android.sup
             AccesBetaseries.setScreenSize(p);
         }*/
 
-        ListSerieFragment fragment = (ListSerieFragment) this.sectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
+        SeriesListFragment fragment = (SeriesListFragment) this.seriesDisplayPagerAdapter.getItem(mViewPager.getCurrentItem());
 
         fragment.notifyDataChanged();
     }

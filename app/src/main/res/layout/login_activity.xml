@@ -10,7 +10,7 @@
 
    <EditText
         android:id="@+id/login_editText"
-        android:hint="@string/login_hint"
+        android:hint="@string/login_activity_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
@@ -19,7 +19,7 @@
    <EditText
         android:id="@+id/password_editText"
         android:inputType="textPassword"
-        android:hint="@string/password_hint"
+        android:hint="@string/signup_activity_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_editText"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/password_editText"
         android:layout_marginTop="@dimen/default_margin_top"
-        android:text="@string/connect_button"
+        android:text="@string/login_activity_connect"
     />
     <TextView
         android:id="@+id/no_account_textView"
@@ -40,7 +40,7 @@
         android:layout_below="@id/connect_button"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/default_margin_top"
-        android:text="@string/no_account_yet"
+        android:text="@string/login_activity_no_account_yet"
         android:textSize="@dimen/default_text_size"/>
     <Button
         android:id="@+id/signup_button"
@@ -48,6 +48,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/no_account_textView"
         android:layout_marginTop="@dimen/default_margin_top"
-        android:text="@string/signup_button"/>
+        android:text="@string/login_activity_signup"/>
 
 </RelativeLayout>

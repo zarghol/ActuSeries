@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -14,14 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.activities.fragment.TypeSeriesDisplayed;
+import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.EventBus;
 import actuseries.android.com.actuseries.event.GetEpisodesResultEvent;
@@ -32,34 +29,34 @@ import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 /**
  * Created by Clement on 08/01/2015.
  */
-public class DetailSerieActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, OnClickListener {
+public class SerieDetailActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, OnClickListener {
 
-    private LogAdapterEpisodes adapter;
+    private EpisodesLogAdapter adapter;
     private Serie serie;
     ListView lv;
     private int numSerie;
-    private TypeSeriesDisplayed typeSeriesDisplayed;
+    private SeriesDisplay seriesDisplay;
     private TextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_serie_activity);
+        setContentView(R.layout.serie_detail_activity);
 
         this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
-        this.typeSeriesDisplayed = TypeSeriesDisplayed.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
+        this.seriesDisplay = SeriesDisplay.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
 
         this.lv = (ListView) findViewById(R.id.listeEpisodes);
         this.lv.setEmptyView(findViewById(R.id.noEpisodesTextView));
         this.lv.setOnItemClickListener(this);
 
-        this.serie = AccesBetaseries.getSeries(this.typeSeriesDisplayed).get(this.numSerie);
+        this.serie = AccesBetaseries.getSeries(this.seriesDisplay).get(this.numSerie);
 
         if (this.serie.getEpisodes().size() == 0) {
-            new GetEpisodesTask().execute(numSerie, this.typeSeriesDisplayed.getPosition());
+            new GetEpisodesTask().execute(numSerie, this.seriesDisplay.getPosition());
         }
 
-        this.adapter = new LogAdapterEpisodes(this.serie.getEpisodes(), getApplicationContext());
+        this.adapter = new EpisodesLogAdapter(this.serie.getEpisodes(), getApplicationContext());
         this.lv.setAdapter(this.adapter);
 
         TextView titre = (TextView) findViewById(R.id.textView_titre);
@@ -85,7 +82,7 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -95,7 +92,7 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_settings) {
             return true;
         } else if (id == R.id.action_deconnexion) {
             new Thread(new Runnable() {
@@ -125,7 +122,7 @@ public class DetailSerieActivity extends ActionBarActivity implements AdapterVie
         Log.d("actuseries", "clique ! ");
         Episode e = this.serie.getEpisodes().get(position);
 
-        Intent j = new Intent(this, DetailEpisodeActivity.class);
+        Intent j = new Intent(this, EpisodeDetailActivity.class);
         j.putExtra("indexSerie", this.numSerie);
         j.putExtra("indexEpisode", position);
         startActivityForResult(j, 1);

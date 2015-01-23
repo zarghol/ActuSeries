@@ -13,7 +13,7 @@
             android:id="@+id/nomEpisode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/labelEpisode"
+            android:text="@string/episode_item_title"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ff000000" />
 
@@ -21,7 +21,7 @@
             android:id="@+id/numEpisode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/labelSaison"
+            android:text="@string/episode_item_number"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ff000000" />
 

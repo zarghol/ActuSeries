@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="titleS">Liste des séries</string>
-    <string name="labelSerie">Nom de la série</string>
+    <string name="serie_item_title">Nom de la série</string>
 </resources>

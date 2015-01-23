@@ -1,19 +1,14 @@
 package actuseries.android.com.actuseries.tasks;
 
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ListView;
 
 import java.util.List;
 
-import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.activities.fragment.TypeSeriesDisplayed;
+import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.EventBus;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
-import actuseries.android.com.actuseries.event.GetSeriesResultEvent;
-import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.metier.Serie;
 
 /**
@@ -25,7 +20,7 @@ public class GetSeriesTask extends AsyncTask<Void, Serie, Void> {
         // Debug the task thread name
         Log.d("actuseries", Thread.currentThread().getName() + " récupérations des infos");
 
-        List<Serie> series = AccesBetaseries.getSeries(TypeSeriesDisplayed.ALL);
+        List<Serie> series = AccesBetaseries.getSeries(SeriesDisplay.ALL);
 
         if (series.size() == 0) {
             series = AccesBetaseries.recupereSeriesMembre();

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="labelEpisode">Épisode XXxYY - Titre</string>
-    <string name="labelSaison">Numéro de la saison</string>
-    <string name="titleE">Liste des épisodes</string>
-    <string name="descriptionEpisode">Il était une fois, un épisode de série qui s\'affichait dans une application Android.
-        Cet épisode était tout content que plein de gens puissent le voir !
-    </string>
-    <string name="nonvu">Marquer comme vu</string>
-    <string name="vu">Marquer comme non vu</string>
+    <string name="episode_item_title">Épisode XXxYY - Titre</string>
+    <string name="episode_item_number">Numéro de la saison</string>
 </resources>

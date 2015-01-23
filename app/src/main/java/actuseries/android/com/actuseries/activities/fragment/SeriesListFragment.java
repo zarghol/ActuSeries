@@ -7,8 +7,8 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import actuseries.android.com.actuseries.activities.DetailSerieActivity;
-import actuseries.android.com.actuseries.activities.LogAdapterSeries;
+import actuseries.android.com.actuseries.activities.SerieDetailActivity;
+import actuseries.android.com.actuseries.activities.SeriesLogAdapter;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.metier.Serie;
 
@@ -19,20 +19,20 @@ import actuseries.android.com.actuseries.metier.Serie;
  * Activities containing this fragment MUST implement the {@link }
  * interface.
  */
-public class ListSerieFragment extends android.support.v4.app.ListFragment {
+public class SeriesListFragment extends android.support.v4.app.ListFragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "TypeSerie";
 
     private List<Serie> series;
-    private LogAdapterSeries adapter;
-    private  TypeSeriesDisplayed typeSeriesDisplayed;
+    private SeriesLogAdapter adapter;
+    private SeriesDisplay seriesDisplay;
 
 
     //private OnFragmentInteractionListener mListener;
 
-    public static ListSerieFragment newInstance(TypeSeriesDisplayed param1) {
-        ListSerieFragment fragment = new ListSerieFragment();
+    public static SeriesListFragment newInstance(SeriesDisplay param1) {
+        SeriesListFragment fragment = new SeriesListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1.name());
         fragment.setArguments(args);
@@ -43,7 +43,7 @@ public class ListSerieFragment extends android.support.v4.app.ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ListSerieFragment() {
+    public SeriesListFragment() {
     }
 
     @Override
@@ -51,10 +51,10 @@ public class ListSerieFragment extends android.support.v4.app.ListFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            this.typeSeriesDisplayed = TypeSeriesDisplayed.valueOf(getArguments().getString(ARG_PARAM1));
-            this.series = AccesBetaseries.getSeries(this.typeSeriesDisplayed);
+            this.seriesDisplay = SeriesDisplay.valueOf(getArguments().getString(ARG_PARAM1));
+            this.series = AccesBetaseries.getSeries(this.seriesDisplay);
         }
-        this.adapter = new LogAdapterSeries(this.series, getActivity());
+        this.adapter = new SeriesLogAdapter(this.series, getActivity());
         setListAdapter(this.adapter);
 
 
@@ -101,9 +101,9 @@ public class ListSerieFragment extends android.support.v4.app.ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        Intent j = new Intent(getActivity(), DetailSerieActivity.class);
+        Intent j = new Intent(getActivity(), SerieDetailActivity.class);
         j.putExtra("numSerie", position);
-        j.putExtra("typePosition", this.typeSeriesDisplayed.getPosition());
+        j.putExtra("typePosition", this.seriesDisplay.getPosition());
 
         startActivityForResult(j, 1);
 

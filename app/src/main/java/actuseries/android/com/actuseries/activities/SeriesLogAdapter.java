@@ -17,11 +17,11 @@ import actuseries.android.com.actuseries.metier.Serie;
 /**
  * Created by Clement on 08/01/2015.
  */
-public class LogAdapterSeries extends BaseAdapter {
+public class SeriesLogAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Serie> series;
 
-    public LogAdapterSeries(List<Serie> series, Context c) {
+    public SeriesLogAdapter(List<Serie> series, Context c) {
         this.series = series;
         this.inflater = LayoutInflater.from(c);
     }
@@ -32,13 +32,13 @@ public class LogAdapterSeries extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int arg0) {
-        return this.series.get(arg0);
+    public Object getItem(int position) {
+        return this.series.get(position);
     }
 
     @Override
-    public long getItemId(int arg0) {
-        return arg0;
+    public long getItemId(int position) {
+        return position;
     }
 
     private class ViewHolder {

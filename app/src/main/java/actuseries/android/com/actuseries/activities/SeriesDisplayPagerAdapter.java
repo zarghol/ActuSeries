@@ -4,15 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import actuseries.android.com.actuseries.activities.fragment.ListSerieFragment;
-import actuseries.android.com.actuseries.activities.fragment.TypeSeriesDisplayed;
+import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
+import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 
 /**
  * Created by Clement on 20/01/2015.
  */
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SeriesDisplayPagerAdapter extends FragmentPagerAdapter {
 
-    public SectionsPagerAdapter(FragmentManager fm) {
+    public SeriesDisplayPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -21,17 +21,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
 
-        return ListSerieFragment.newInstance(TypeSeriesDisplayed.fromPosition(position));
+        return SeriesListFragment.newInstance(SeriesDisplay.fromPosition(position));
     }
 
     @Override
     public int getCount() {
         // Show 3 total pages.
-        return TypeSeriesDisplayed.values().length;
+        return SeriesDisplay.values().length;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return TypeSeriesDisplayed.fromPosition(position).getLabel();
+        return SeriesDisplay.fromPosition(position).getLabel();
     }
 }

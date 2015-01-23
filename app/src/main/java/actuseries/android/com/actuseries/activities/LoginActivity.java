@@ -1,10 +1,8 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,9 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
-
-import java.util.Observable;
-import java.util.Observer;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
@@ -58,7 +53,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -68,7 +63,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        return id == R.id.menu_settings || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -82,7 +77,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     public void passeAuth() {
-        Intent i = new Intent(this, ListSeriesActivity.class);
+        Intent i = new Intent(this, SeriesListActivity.class);
         startActivity(i);
         this.finish();
     }

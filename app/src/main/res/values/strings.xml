@@ -2,9 +2,7 @@
 <resources>
 
     <string name="app_name">ActuSeries</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_deconnexion">Deconnexion</string>
-    <string name="title_activity_detail_episode">DetailEpisodeActivity</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="action_logout">Deconnexion</string>
 
 </resources>
