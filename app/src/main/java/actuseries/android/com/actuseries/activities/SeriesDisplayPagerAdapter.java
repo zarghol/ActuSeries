@@ -1,5 +1,6 @@
 package actuseries.android.com.actuseries.activities;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,8 +13,11 @@ import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
  */
 public class SeriesDisplayPagerAdapter extends FragmentPagerAdapter {
 
-    public SeriesDisplayPagerAdapter(FragmentManager fm) {
+    private Context context;
+
+    public SeriesDisplayPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.context = context;
     }
 
     @Override
@@ -32,6 +36,6 @@ public class SeriesDisplayPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return SeriesDisplay.fromPosition(position).getLabel();
+        return context.getResources().getString(SeriesDisplay.fromPosition(position).getLabel());
     }
 }

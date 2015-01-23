@@ -31,7 +31,7 @@ public class SeriesListActivity extends MainMenuActionBarActivity implements and
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        seriesDisplayPagerAdapter = new SeriesDisplayPagerAdapter(getSupportFragmentManager());
+        seriesDisplayPagerAdapter = new SeriesDisplayPagerAdapter(getSupportFragmentManager(), this);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.seriesList_pager);

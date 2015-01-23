@@ -3,28 +3,23 @@ package actuseries.android.com.actuseries.activities.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.metier.Serie;
 
 /**
  * Created by Clement on 20/01/2015.
  */
 public enum SeriesDisplay {
-    //    FIXME: Utiliser les ressources et pas des chaînes en dur !
-//    WATCHLIST(0, R.string.series_list_watchlist),
-//    ARCHIVED(1, R.string.series_list_archived),
-//    ACTIVE(2, R.string.series_list_active),
-//    ALL(3, R.string.series_list_all);
-    WATCHLIST(0, "A voir"),
-    ARCHIVED(1, "Archivées"),
-    ACTIVE(2, "Actives"),
-    ALL(3, "Toutes");
+    WATCHLIST(0, R.string.seriesList_watchlist),
+    ARCHIVED(1, R.string.seriesList_archived),
+    ACTIVE(2, R.string.seriesList_active),
+    ALL(3, R.string.seriesList_all);
 
     private int position;
-    //    private int label;
-    private String label;
+    private int label;
 
-    //    private SeriesDisplay(int position, int label) {
-    private SeriesDisplay(int position, String label) {
+
+    private SeriesDisplay(int position, int label) {
         this.position = position;
         this.label = label;
     }
@@ -63,8 +58,7 @@ public enum SeriesDisplay {
         return this.position;
     }
 
-    //    public int getLabel() {
-    public String getLabel() {
+    public int getLabel() {
         return this.label;
     }
 }
