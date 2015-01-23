@@ -2,13 +2,14 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@id/menu_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        />
 
     <item
-        android:id="@+id/action_deconnexion"
+        android:id="@id/menu_logout"
         android:orderInCategory="99"
         android:title="@string/action_logout"
         app:showAsAction="never"/>

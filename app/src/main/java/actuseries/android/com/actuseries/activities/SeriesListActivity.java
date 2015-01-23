@@ -1,11 +1,9 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +12,6 @@ import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.EventBus;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
 import actuseries.android.com.actuseries.tasks.GetSeriesTask;
@@ -23,7 +20,7 @@ import actuseries.android.com.actuseries.tasks.GetSeriesTask;
  * Created by Clement on 08/01/2015.
  */
 // TODO afficher onglet pour passer entre épisodes a voir uniquement, série actus, et séries archivées
-public class SeriesListActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener{
+public class SeriesListActivity extends MainMenuActionBarActivity implements android.support.v7.app.ActionBar.TabListener {
 
     SeriesDisplayPagerAdapter seriesDisplayPagerAdapter;
     ViewPager mViewPager;
@@ -59,15 +56,15 @@ public class SeriesListActivity extends ActionBarActivity implements android.sup
         });
 
         // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < seriesDisplayPagerAdapter.getCount(); i++) {
+        for(int i = 0; i < seriesDisplayPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by
             // the adapter. Also specify this Activity object, which implements
             // the TabListener interface, as the callback (listener) for when
             // this tab is selected.
             getSupportActionBar().addTab(
-                    getSupportActionBar().newTab()
-                            .setText(seriesDisplayPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
+                  getSupportActionBar().newTab()
+                        .setText(seriesDisplayPagerAdapter.getPageTitle(i))
+                        .setTabListener(this));
         }
 
         /* fin */
@@ -81,13 +78,13 @@ public class SeriesListActivity extends ActionBarActivity implements android.sup
     @Override
     public void onResume() {
         super.onResume();
-        if (this.currentTask != null && this.currentTask.isCancelled()) {
+        if(this.currentTask != null && this.currentTask.isCancelled()) {
             this.currentTask.execute();
         }
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         //on se désabonne du bus d'évènement
         EventBus.getInstance().unregister(this);
         super.onDestroy();
@@ -95,50 +92,12 @@ public class SeriesListActivity extends ActionBarActivity implements android.sup
 
     @Override
     public void onStop() {
-        if (this.currentTask != null) {
+        if(this.currentTask != null) {
             Log.d("actuseries", "cancelling recup banniere");
             this.currentTask.cancel(true);
             this.currentTask = null;
         }
         super.onPause();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.menu_settings) {
-            return true;
-        } else if (id == R.id.action_deconnexion) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    AccesBetaseries.deconnexionMembre();
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent j = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(j);
-                            finish();
-                        }
-                    });
-                }
-            }).start();
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

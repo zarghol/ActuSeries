@@ -1,0 +1,13 @@
+<resources>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_user">Utilisateur</string>
+
+    <string name="pref_title_stay_logged_in">Rester connecté</string>
+    <string name="pref_description_stay_logged_in">Garde la connexion à la fermeture de l\'application</string>
+
+
+</resources>

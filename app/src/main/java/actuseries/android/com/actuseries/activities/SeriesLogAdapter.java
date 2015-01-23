@@ -41,26 +41,26 @@ public class SeriesLogAdapter extends BaseAdapter {
         return position;
     }
 
-    private class ViewHolder {
-        TextView nomSerie;
-        ImageView banniereView;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null){
+        if(convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.serie_item, null);
             holder.nomSerie = (TextView) convertView.findViewById(R.id.nom_serie);
             holder.banniereView = (ImageView) convertView.findViewById(R.id.bannerView);
             convertView.setTag(holder);
-        }else{
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.nomSerie.setText(this.series.get(position).getNomSerie());
         Bitmap bm = this.series.get(position).getBanner();
         holder.banniereView.setImageBitmap(bm);
         return convertView;
+    }
+
+    private class ViewHolder {
+        TextView nomSerie;
+        ImageView banniereView;
     }
 }

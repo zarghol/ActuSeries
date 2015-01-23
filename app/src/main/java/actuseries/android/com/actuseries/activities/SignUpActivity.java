@@ -46,7 +46,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.menu_settings) {
+        if(id == R.id.menu_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -54,10 +54,10 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (!this.loginEditText.getText().toString().equals("") &&
-                !this.emailEditText.getText().toString().equals("") &&
-                !this.passwordEditText.getText().toString().equals("") &&
-                this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
+        if(!this.loginEditText.getText().toString().equals("") &&
+              !this.emailEditText.getText().toString().equals("") &&
+              !this.passwordEditText.getText().toString().equals("") &&
+              this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
 
             SignupTask task = new SignupTask();
             task.execute(loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString());

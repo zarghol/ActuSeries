@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
+import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
 
 /**
  * Created by Clement on 20/01/2015.

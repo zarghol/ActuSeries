@@ -31,6 +31,13 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
 
     //private OnFragmentInteractionListener mListener;
 
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+    public SeriesListFragment() {
+    }
+
     public static SeriesListFragment newInstance(SeriesDisplay param1) {
         SeriesListFragment fragment = new SeriesListFragment();
         Bundle args = new Bundle();
@@ -39,18 +46,11 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
         return fragment;
     }
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public SeriesListFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
+        if(getArguments() != null) {
             this.seriesDisplay = SeriesDisplay.valueOf(getArguments().getString(ARG_PARAM1));
             this.series = AccesBetaseries.getSeries(this.seriesDisplay);
         }
@@ -113,6 +113,7 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
             mListener.onFragmentInteraction(this.series.get(position));
         }*/
     }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -126,7 +127,6 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
 /*    public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(Serie serie);
     }*/
-
     public void notifyDataChanged() {
         if(this.adapter != null) {
             this.adapter.notifyDataSetChanged();
