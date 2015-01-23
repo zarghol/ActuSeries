@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="episodeDetailActivity_summary">Il était une fois un petit épisode qui rêvait qu\'on le regarde…</string>
     <string name="episodeDetailActivity_unmarkWatched">Marquer comme non vu</string>
     <string name="episodeDetailActivity_markWatched">Marquer comme vu</string>
-    <string name="episodeDetailActivity_title">Épisode XXxYY - Titre</string>
 </resources>

@@ -7,7 +7,7 @@
             android:defaultValue="true"
             android:key="stay_logged_in"
             android:summary="@string/settingsFragment_desription_stayLoggedIn"
-            android:title="@string/settingFragment_title_stayLoggedIn"/>
+            android:title="@string/settingsFragment_title_stayLoggedIn"/>
 
     </PreferenceCategory>
 
