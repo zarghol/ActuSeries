@@ -44,8 +44,8 @@ public class EpisodesLogAdapter extends BaseAdapter {
         if(convertview == null) {
             holder = new ViewHolder();
             convertview = inflater.inflate(R.layout.episode_item, null);
-            holder.nomEpisode = (TextView) convertview.findViewById(R.id.nomEpisode);
-            holder.numEpisode = (TextView) convertview.findViewById(R.id.numEpisode);
+            holder.nomEpisode = (TextView) convertview.findViewById(R.id.episodeItem_textView_title);
+            holder.numEpisode = (TextView) convertview.findViewById(R.id.episodeItem_textView_number);
 
         } else {
             holder = (ViewHolder) convertview.getTag();

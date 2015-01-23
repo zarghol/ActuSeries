@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="action_logout">Log out</string>
+    <string name="action_settings">Settings</string>
     <string name="app_name">ActuSeries</string>
-    <string name="action_settings">Paramètres</string>
-    <string name="action_logout">Deconnexion</string>
-
+    <string name="episodeDetailActivity_markWatched">Mark as watched</string>
+    <string name="episodeDetailActivity_summary">Once upon a time, a little episode wished he was being watched by lots of people...</string>
+    <string name="episodeDetailActivity_title">Episode SSxEE - Title</string>
+    <string name="episodeDetailActivity_unmarkWatched">Unmark as watched</string>
+    <string name="episodeItem_number">Episode number</string>
+    <string name="episodeItem_title">Episode SSxEE - Title</string>
+    <string name="loginActivity_connect">Connect</string>
+    <string name="loginActivity_login">Login</string>
+    <string name="loginActivity_noAccountYet">No account yet ?</string>
+    <string name="loginActivity_password">Password</string>
+    <string name="loginActivity_signup">Sign up</string>
+    <string name="serieDetailActivity_noEpisodes">No episodes</string>
+    <string name="serieDetailActivity_status">Status : </string>
+    <string name="serieDetailActivity_summary">Blah blah…</string>
+    <string name="serieDetailActivity_title">Serie title</string>
+    <string name="seriesList_active">Active</string>
+    <string name="seriesList_all">All</string>
+    <string name="seriesList_archived">Archived</string>
+    <string name="seriesList_watchlist">Watchlist</string>
+    <string name="settingFragment_title_stayLoggedIn">Stay logged in</string>
+    <string name="settingsActivity_title">Settings</string>
+    <string name="settingsFragment_desription_stayLoggedIn">Keep the connection active when closing the application</string>
+    <string name="settingsFragment_header_user">User</string>
+    <string name="signupActivity_email">E-mail</string>
+    <string name="signupActivity_login">Login</string>
+    <string name="signupActivity_password">Password</string>
+    <string name="signupActivity_passwordConfirm">Confirm password</string>
+    <string name="signupActivity_signup">Submit</string>
 </resources>

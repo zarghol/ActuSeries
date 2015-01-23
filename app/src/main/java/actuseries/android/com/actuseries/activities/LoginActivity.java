@@ -24,10 +24,10 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-        usernameEditText = (EditText) findViewById(R.id.login_editText);
-        passwordEditText = (EditText) findViewById(R.id.password_editText);
-        findViewById(R.id.connect_button).setOnClickListener(this);
-        findViewById(R.id.signup_button).setOnClickListener(this);
+        usernameEditText = (EditText) findViewById(R.id.login_editText_login);
+        passwordEditText = (EditText) findViewById(R.id.login_editText_password);
+        findViewById(R.id.login_button_connect).setOnClickListener(this);
+        findViewById(R.id.login_button_signup).setOnClickListener(this);
         //on s'abonne au bus d'évènements
         EventBus.getInstance().register(this);
     }
@@ -55,7 +55,7 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.connect_button) {
+        if(v.getId() == R.id.login_button_connect) {
             new LoginTask().execute(usernameEditText.getText().toString(), passwordEditText.getText().toString());
         } else {
             Intent i = new Intent(this, SignUpActivity.class);
@@ -70,6 +70,7 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
     }
 
     //on reçoit le message associé à l'évènement de connexion
+    //FIXME: AsyncTask
     @Subscribe
     public void onLoginTaskResult(LoginResultEvent event) {
         if(event.getResult()) {

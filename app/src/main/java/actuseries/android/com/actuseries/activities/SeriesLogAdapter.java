@@ -47,8 +47,8 @@ public class SeriesLogAdapter extends BaseAdapter {
         if(convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.serie_item, null);
-            holder.nomSerie = (TextView) convertView.findViewById(R.id.nom_serie);
-            holder.banniereView = (ImageView) convertView.findViewById(R.id.bannerView);
+            holder.nomSerie = (TextView) convertView.findViewById(R.id.serieItem_textView_title);
+            holder.banniereView = (ImageView) convertView.findViewById(R.id.serieItem_imageView_banner);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

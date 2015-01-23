@@ -21,7 +21,6 @@ import actuseries.android.com.actuseries.metier.Serie;
  */
 public class SeriesListFragment extends android.support.v4.app.ListFragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "TypeSerie";
 
     private List<Serie> series;

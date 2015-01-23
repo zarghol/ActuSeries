@@ -39,8 +39,8 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
         this.seriesDisplay = SeriesDisplay.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
 
-        this.lv = (ListView) findViewById(R.id.listeEpisodes);
-        this.lv.setEmptyView(findViewById(R.id.noEpisodesTextView));
+        this.lv = (ListView) findViewById(R.id.serieDetail_listView_episodes);
+        this.lv.setEmptyView(findViewById(R.id.serieDetail_textView_noEpisodes));
         this.lv.setOnItemClickListener(this);
 
         this.serie = AccesBetaseries.getSeries(this.seriesDisplay).get(this.numSerie);
@@ -52,13 +52,13 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         this.adapter = new EpisodesLogAdapter(this.serie.getEpisodes(), getApplicationContext());
         this.lv.setAdapter(this.adapter);
 
-        TextView titre = (TextView) findViewById(R.id.textView_titre);
+        TextView titre = (TextView) findViewById(R.id.serieDetail_textView_title);
         titre.setText(this.serie.getNomSerie());
 /*        BitmapDrawable bd = new BitmapDrawable(this.serie.getBanner());
         titre.setBackground(bd);*/
-        TextView statut = (TextView) findViewById(R.id.textView_statut);
-        statut.setText("Statut : " + this.serie.getStatut().getStringStatus());
-        this.description = (TextView) findViewById(R.id.textView_description);
+        TextView statut = (TextView) findViewById(R.id.serieDetail_textView_status);
+        statut.setText(getResources().getText(R.string.serieDetailActivity_status) + this.serie.getStatut().getStringStatus());
+        this.description = (TextView) findViewById(R.id.serieDetail_textView_summary);
         this.description.setText(this.serie.getDescription());
         //on s'abonne au bus d'évènements
         EventBus.getInstance().register(this);

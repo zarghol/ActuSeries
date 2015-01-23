@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="serie_item_title">Nom de la série</string>
+    <string name="serieItem_title">Nom de la série</string>
 </resources>

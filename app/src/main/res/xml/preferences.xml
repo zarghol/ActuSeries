@@ -1,13 +1,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/pref_header_user">
+        android:title="@string/settingsFragment_header_user">
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="stay_logged_in"
-            android:summary="@string/pref_description_stay_logged_in"
-            android:title="@string/pref_title_stay_logged_in"/>
+            android:summary="@string/settingsFragment_desription_stayLoggedIn"
+            android:title="@string/settingFragment_title_stayLoggedIn"/>
 
     </PreferenceCategory>
 

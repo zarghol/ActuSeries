@@ -25,12 +25,12 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
 
-        this.loginEditText = (EditText) findViewById(R.id.user_editText);
-        this.emailEditText = (EditText) findViewById(R.id.email_editText);
-        this.passwordEditText = (EditText) findViewById(R.id.password_editText);
-        this.passwordConfirmEditText = (EditText) findViewById(R.id.password_confirm_editText);
+        this.loginEditText = (EditText) findViewById(R.id.signup_editText_login);
+        this.emailEditText = (EditText) findViewById(R.id.signup_editText_email);
+        this.passwordEditText = (EditText) findViewById(R.id.signup_editText_password);
+        this.passwordConfirmEditText = (EditText) findViewById(R.id.signup_editText_passwordConfirm);
 
-        findViewById(R.id.signup_button).setOnClickListener(this);
+        findViewById(R.id.signup_button_signup).setOnClickListener(this);
     }
 
     @Override
@@ -54,9 +54,9 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if(!this.loginEditText.getText().toString().equals("") &&
-              !this.emailEditText.getText().toString().equals("") &&
-              !this.passwordEditText.getText().toString().equals("") &&
+        if(!this.loginEditText.getText().toString().isEmpty() &&
+              !this.emailEditText.getText().toString().isEmpty() &&
+              !this.passwordEditText.getText().toString().isEmpty() &&
               this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
 
             SignupTask task = new SignupTask();

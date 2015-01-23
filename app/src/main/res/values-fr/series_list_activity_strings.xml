@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="seriesList_watchlist">A voir</string>
+    <string name="seriesList_archived">Archivées</string>
+    <string name="seriesList_active">Actives</string>
+    <string name="seriesList_all">Toutes</string>
+</resources>

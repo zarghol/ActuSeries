@@ -24,19 +24,19 @@ public class EpisodeDetailActivity extends MainMenuActionBarActivity {
         SeriesDisplay seriesDisplay = SeriesDisplay.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
         this.episode = AccesBetaseries.getSeries(seriesDisplay).get(indexSerie).getEpisodes().get(indexEpisode);
 
-        TextView label = (TextView) findViewById(R.id.textView_label_episode);
+        TextView label = (TextView) findViewById(R.id.episodeDetail_textView_title);
         String text = "Épisode " + this.episode.getSaison() + "x" + this.episode.getNumEpisode() + " - " + this.episode.getNomEpisode();
         label.setText(text);
 
-        TextView description = (TextView) findViewById(R.id.textView_description_episode);
+        TextView description = (TextView) findViewById(R.id.episodeDetail_textView_summary);
         description.setText(this.episode.getDescriptionEpisode());
 
-        RatingBar bar = (RatingBar) findViewById(R.id.ratingBar_note_episode);
+        RatingBar bar = (RatingBar) findViewById(R.id.episodeDetail_ratingBar_rating);
         bar.setRating(3.0f);
 
         if(this.episode.estVue()) {
-            Button boutonVue = (Button) findViewById(R.id.button_vue);
-            boutonVue.setText(R.string.episode_detail_activity_unmark_watched);
+            Button boutonVue = (Button) findViewById(R.id.episodeDetail_button_watched);
+            boutonVue.setText(R.string.episodeDetailActivity_unmarkWatched);
         }
     }
 }

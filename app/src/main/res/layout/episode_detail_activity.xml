@@ -10,44 +10,45 @@
 
 
     <TextView
-        android:id="@+id/textView_label_episode"
+        android:id="@id/episodeDetail_textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="40dp"
-        android:text="@string/episode_detail_activity_title"
+        android:text="@string/episodeDetailActivity_title"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
-        android:id="@+id/textView_description_episode"
+        android:id="@id/episodeDetail_textView_summary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ratingBar_note_episode"
+        android:layout_above="@id/episodeDetail_ratingBar_rating"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/textView_label_episode"
+        android:layout_below="@id/episodeDetail_textView_title"
         android:layout_marginTop="38dp"
-        android:text="@string/episode_detail_activity_summary"
+        android:text="@string/episodeDetailActivity_summary"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <RatingBar
-        android:id="@id/ratingBar_note_episode"
+        android:id="@id/episodeDetail_ratingBar_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button_vue"
+        android:layout_above="@id/episodeDetail_button_watched"
         android:layout_centerHorizontal="true"/>
 
     <Button
-        android:id="@id/button_vue"
+        android:id="@id/episodeDetail_button_watched"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:drawableStart="@drawable/eye"
         android:drawableLeft="@drawable/eye"
-        android:text="@string/episode_detail_activity_unmark_watched"/>
+        android:text="@string/episodeDetailActivity_unmarkWatched"/>
 
 </RelativeLayout>

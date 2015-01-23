@@ -4,12 +4,12 @@
                 android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/bannerView"
+        android:id="@id/serieItem_imageView_banner"
         android:layout_width="match_parent"
         android:layout_height="100dp"/>
 
     <TextView
-        android:id="@+id/nom_serie"
+        android:id="@id/serieItem_textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -18,7 +18,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:background="#7f000000"
-        android:text="@string/serie_item_title"
+        android:text="@string/serieItem_title"
         android:textColor="#fffffeda"
         android:textSize="30dp"/>
 

@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- main_menu -->
+    <!-- main menu -->
     <item name="menu_settings" type="id"/>
     <item name="menu_logout" type="id"/>
 
-    <!--  -->
-    <!--  -->
-    <!--  -->
-    <!--  -->
-    <!--  -->
-    <!--  -->
-    <!--  -->
+    <!-- login activity -->
+    <item name="login_editText_login" type="id"/>
+    <item name="login_editText_password" type="id"/>
+    <item name="login_button_connect" type="id"/>
+    <item name="login_textView_noAccount" type="id"/>
+    <item name="login_button_signup" type="id"/>
+
+    <!-- signup activity -->
+    <item name="signup_editText_login" type="id"/>
+    <item name="signup_editText_password" type="id"/>
+    <item name="signup_editText_email" type="id"/>
+    <item name="signup_editText_passwordConfirm" type="id"/>
+    <item name="signup_button_signup" type="id"/>
+
+    <!-- series list activity -->
+    <item name="seriesList_pager" type="id"/>
+
+    <!-- serie detail activity -->
+    <item name="serieDetail_textView_title" type="id"/>
+    <item name="serieDetail_textView_status" type="id"/>
+    <item name="serieDetail_listView_episodes" type="id"/>
+    <item name="serieDetail_textView_summary" type="id"/>
+    <item name="serieDetail_textView_noEpisodes" type="id"/>
+
+    <!-- serie item -->
+    <item name="serieItem_imageView_banner" type="id"/>
+    <item name="serieItem_textView_title" type="id"/>
+
+    <!-- episode detail activity -->
+    <item name="episodeDetail_textView_title" type="id"/>
+    <item name="episodeDetail_textView_summary" type="id"/>
+    <item name="episodeDetail_ratingBar_rating" type="id"/>
+    <item name="episodeDetail_button_watched" type="id"/>
+
+    <!-- episode item -->
+    <item name="episodeItem_textView_title" type="id"/>
+    <item name="episodeItem_textView_number" type="id"/>
+    <item name="episodeItem_imageButton_watched" type="id"/>
+
 
 </resources>

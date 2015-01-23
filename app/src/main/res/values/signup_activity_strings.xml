@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Signup activity ressources -->
-    <string name="signup_activity_login">Nom d\'utilisateur</string>
-    <string name="signup_activity_email">Adresse e-mail</string>
-    <string name="signup_activity_password_confirm">Confirmation mot de passe</string>
-    <string name="signup_activity_signup">Valider</string>
-</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="settingsActivity_title">Paramètres</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="settingsFragment_header_user">Utilisateur</string>
+
+    <string name="settingFragment_title_stayLoggedIn">Rester connecté</string>
+    <string name="settingsFragment_desription_stayLoggedIn">Garde la connexion à la fermeture de l\'application</string>
+
+
+</resources>

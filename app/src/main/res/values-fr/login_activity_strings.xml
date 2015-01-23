@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Login activity ressources -->
+    <string name="loginActivity_login">Nom d\'utilisateur</string>
+    <string name="loginActivity_password">Mot de passe</string>
+    <string name="loginActivity_connect">Connexion</string>
+    <string name="loginActivity_signup">S\'inscrire</string>
+    <string name="loginActivity_noAccountYet">Pas encore de compte BetaSeries?</string>
+</resources>
