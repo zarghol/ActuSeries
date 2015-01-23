@@ -1,26 +1,18 @@
 package actuseries.android.com.actuseries.betaseries;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.util.Log;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.codec.digest.DigestUtils;
 
 import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Member;
 import actuseries.android.com.actuseries.metier.Serie;
-import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
  * Created by Clement on 11/12/2014.
@@ -52,7 +44,7 @@ public class BetaSeries {
         try {
             JSONObject json = request.send();
             return new Member(json.getString("token"), json.getJSONObject("user").getString("login"));
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("ActuSeries", "erreur de récupération de token ", e);
             return null;
         }
@@ -71,7 +63,7 @@ public class BetaSeries {
         try {
             JSONObject json = request.send();
             return new Member(json.getString("token"), json.getJSONObject("user").getString("login"));
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("ActuSeries", "erreur lors de la creation de compte utilisateur", e);
         }
         return null;
@@ -83,7 +75,7 @@ public class BetaSeries {
 
         try {
             request.send();
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de la deconnexion", e);
         }
     }
@@ -97,13 +89,13 @@ public class BetaSeries {
 
             JSONArray array = memberjson.getJSONArray("shows");
 
-            for (int i = 0; i < array.length(); i++) {
+            for(int i = 0; i < array.length(); i++) {
                 JSONObject show = array.getJSONObject(i);
                 member.addSerie(new Serie(show));
             }
 
             member.fillMember(memberjson);
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de la récupération du membre", e);
         }
     }
@@ -119,7 +111,7 @@ public class BetaSeries {
 
         int heightBanniere = 100;
 
-        int widthBanniere = realSize.y == 0 ? 390 : (realSize.x * heightBanniere ) / realSize.y;
+        int widthBanniere = realSize.y == 0 ? 390 : (realSize.x * heightBanniere) / realSize.y;
 
 
         request.addOption("height", "" + heightBanniere);
@@ -128,13 +120,13 @@ public class BetaSeries {
 
         try {
             serie.setBanner(request.getImage());
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de la récupération de la banniere", e);
         }
     }
 
     public void recupEpisodes(Serie serie) {
-        if(serie.getEpisodes().size()!= 0){
+        if(serie.getEpisodes().size() != 0) {
             serie.clearEpisodes();
         }
         Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.EPISODES);
@@ -144,14 +136,14 @@ public class BetaSeries {
         try {
             JSONArray episodes = request.send().getJSONArray("episodes");
 
-            for (int i = 0; i < episodes.length(); i++) {
+            for(int i = 0; i < episodes.length(); i++) {
                 JSONObject ep = episodes.getJSONObject(i);
                 Episode episode = new Episode(ep);
                 serie.addEpisode(episode);
             }
 
             serie.trieEpisode();
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de la récupération des épisodes", e);
         }
     }
@@ -169,10 +161,10 @@ public class BetaSeries {
             List<String> result = new ArrayList<String>();
 
             JSONObject shows = json.getJSONObject("shows");
-            for (int i = 0; i < (shows.length() > 5 ? 5 : shows.length()); i++) {
+            for(int i = 0; i < (shows.length() > 5 ? 5 : shows.length()); i++) {
                 result.add(shows.getJSONObject("title").getString("" + i));
             }
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("ActuSeries", "erreur de recherche", e);
         }
     }
@@ -182,7 +174,7 @@ public class BetaSeries {
         Request request = new Request();
         request.setApiKey(this.apiKey);
 
-        if (this.member != null) {
+        if(this.member != null) {
             request.setToken(this.member.getToken());
         }
 
@@ -197,7 +189,7 @@ public class BetaSeries {
         byte[] mdpCrypt = DigestUtils.md5(chaine);
 
         String m = "";
-        for (int i = 0; i < mdpCrypt.length; i++) {
+        for(int i = 0; i < mdpCrypt.length; i++) {
             m += String.format("%02x", mdpCrypt[i]);
         }
 

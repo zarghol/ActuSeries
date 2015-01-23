@@ -7,11 +7,6 @@ public enum SerieStatus {
     ENCOURS("Continuing"),
     FINI("Ended"),
     AUTRE("Autre");
-
-    public String getStringStatus() {
-        return stringStatus;
-    }
-
     final private String stringStatus;
 
     private SerieStatus(String status) {
@@ -19,12 +14,16 @@ public enum SerieStatus {
     }
 
     public static SerieStatus valueOfByString(String value) throws IllegalArgumentException {
-        for (SerieStatus status : SerieStatus.values()) {
-            if (status.stringStatus.equals(value)) {
+        for(SerieStatus status : SerieStatus.values()) {
+            if(status.stringStatus.equals(value)) {
                 return status;
             }
         }
         throw new IllegalArgumentException("unknown status.");
+    }
+
+    public String getStringStatus() {
+        return stringStatus;
     }
 
 }

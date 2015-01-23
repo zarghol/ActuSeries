@@ -1,6 +1,5 @@
 package actuseries.android.com.actuseries.metier;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +31,11 @@ public class Member {
         this.series = new ArrayList<>();
     }
 
+    public static Member getFromPersistance() {
+        // TODO unimplemented method
+        return null;
+    }
+
     public void fillMember(JSONObject member, List<Serie> series) {
         try {
             this.login = member.getString("login");
@@ -44,23 +48,18 @@ public class Member {
             this.nbSeasons = stats.getInt("seasons");
             this.nbShows = stats.getInt("shows");
 
-            if (series != null) {
+            if(series != null) {
                 this.series = series;
             }
 
 
-        } catch (JSONException e) {
+        } catch(JSONException e) {
             e.printStackTrace();
         }
     }
 
     public void fillMember(JSONObject member) {
         this.fillMember(member, null);
-    }
-
-    public static Member getFromPersistance() {
-        // TODO unimplemented method
-        return null;
     }
 
     public String getToken() {

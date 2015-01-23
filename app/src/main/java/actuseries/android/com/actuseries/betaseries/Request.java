@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +49,7 @@ public class Request {
         this.httpMethod = HttpMethod.GET;
     }
 
-    public JSONObject send() throws Exception{
+    public JSONObject send() throws Exception {
         InputStream is = null;
         JSONObject retour = null;
         try {
@@ -59,7 +58,7 @@ public class Request {
             Log.d("actuseries", "connecté pour url :" + this.urlStringForRequest());
             int response = conn.getResponseCode();
             Log.d("actuseries", "The response is: " + response);
-            if (response != 200) {
+            if(response != 200) {
                 Exception e = new Exception("code : " + response + " : " + conn.getResponseMessage());
                 throw e;
             }
@@ -68,14 +67,14 @@ public class Request {
 
             JSONObject json = new JSONObject(IOUtils.toString(is));
 
-            if (json.getJSONArray("errors").length() > 0) {
+            if(json.getJSONArray("errors").length() > 0) {
                 Exception e = new Exception("code : " + json.getJSONArray("errors").getJSONObject(0).getInt("code"));
                 throw e;
             } else {
                 retour = json;
             }
         } finally {
-            if (is != null) {
+            if(is != null) {
                 is.close();
             }
         }
@@ -92,7 +91,7 @@ public class Request {
             Log.d("actuseries", "connecté pour url :" + this.urlStringForRequest());
             int response = conn.getResponseCode();
             Log.d("actuseries", "The response is: " + response);
-            if (response != 200) {
+            if(response != 200) {
                 Exception e = new Exception("code : " + response + " : " + conn.getResponseMessage());
                 throw e;
             }
@@ -103,7 +102,7 @@ public class Request {
             options.inSampleSize = 8;*/
             retour = BitmapFactory.decodeStream(is);
         } finally {
-            if (is != null) {
+            if(is != null) {
                 is.close();
             }
         }
@@ -121,12 +120,12 @@ public class Request {
             conn.setRequestProperty("X-BetaSeries-Key", this.apiKey);
             conn.setRequestProperty("X-BetaSeries-Version", betaseriesVersionAPI);
 
-            if (!this.token.equals("")) {
+            if(!this.token.equals("")) {
                 conn.setRequestProperty("X-BetaSeries-Token", this.token);
             }
             conn.setDoInput(true);
             return conn;
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -134,18 +133,18 @@ public class Request {
 
     private String urlStringForRequest() {
         StringBuilder builder = new StringBuilder(betaseriesAPIUrl + this.category.getContenu() + "/" + this.method.getMethod());
-        if (this.chaineObject != null) {
+        if(this.chaineObject != null) {
             builder.append("/" + this.chaineObject);
         }
 
-        if (this.options.size() > 0) {
+        if(this.options.size() > 0) {
             builder.append("?");
 
-            for (Map.Entry entree : this.options.entrySet()) {
+            for(Map.Entry entree : this.options.entrySet()) {
                 builder.append(entree.getKey() + "=" + entree.getValue() + "&");
             }
 
-            builder.deleteCharAt(builder.length()-1);
+            builder.deleteCharAt(builder.length() - 1);
         }
 
         return builder.toString();

@@ -15,24 +15,23 @@ import actuseries.android.com.actuseries.metier.Serie;
  */
 public class AccesBetaseries {
     private final static String cleApi = "e88a334499a9";
+    private static AccesBetaseries instance;
     private Member membreConnecte;
     private BetaSeries betaSeries;
-
-    private static AccesBetaseries instance;
     private Point screenSize;
-
-    private static AccesBetaseries getInstance() {
-        if (instance == null) {
-            instance = new AccesBetaseries();
-        }
-        return instance;
-    }
 
     private AccesBetaseries() {
         this.membreConnecte = Member.getFromPersistance();
         String token = this.membreConnecte != null ? this.membreConnecte.getToken() : "";
         this.screenSize = new Point();
         this.betaSeries = new BetaSeries(cleApi);
+    }
+
+    private static AccesBetaseries getInstance() {
+        if(instance == null) {
+            instance = new AccesBetaseries();
+        }
+        return instance;
     }
 
     public static Member connexionMembre(final String identifiant, final String password) {
@@ -49,7 +48,6 @@ public class AccesBetaseries {
     }
 
 
-
     public static void recupereSerieAvecBanniere(Serie s) {
         AccesBetaseries inst = AccesBetaseries.getInstance();
 
@@ -63,9 +61,9 @@ public class AccesBetaseries {
     }
 
     public static void deconnexionMembre() {
-       AccesBetaseries inst = AccesBetaseries.getInstance();
-       inst.betaSeries.destroyToken();
-       inst.setMembreConnecte(null);
+        AccesBetaseries inst = AccesBetaseries.getInstance();
+        inst.betaSeries.destroyToken();
+        inst.setMembreConnecte(null);
 
     }
 
@@ -75,17 +73,12 @@ public class AccesBetaseries {
         return inst.membreConnecte;
     }
 
-    public static void setScreenSize(Point screenSize) {
-        AccesBetaseries.getInstance().screenSize = screenSize;
-    }
-
     public static Point getScreenSize() {
         return AccesBetaseries.getInstance().screenSize;
     }
 
-    private void setMembreConnecte(Member membreConnecte) {
-        this.membreConnecte = membreConnecte;
-        this.betaSeries = new BetaSeries(cleApi, membreConnecte);
+    public static void setScreenSize(Point screenSize) {
+        AccesBetaseries.getInstance().screenSize = screenSize;
     }
 
     public static List<Serie> getSeries(SeriesDisplay seriesDisplay) {
@@ -96,5 +89,10 @@ public class AccesBetaseries {
         AccesBetaseries inst = AccesBetaseries.getInstance();
         return inst.membreConnecte != null && !inst.membreConnecte.getToken().equals("");
 
+    }
+
+    private void setMembreConnecte(Member membreConnecte) {
+        this.membreConnecte = membreConnecte;
+        this.betaSeries = new BetaSeries(cleApi, membreConnecte);
     }
 }

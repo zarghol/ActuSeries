@@ -1,7 +1,5 @@
 package actuseries.android.com.actuseries.event;
 
-import java.util.List;
-
 import actuseries.android.com.actuseries.metier.Serie;
 
 /**

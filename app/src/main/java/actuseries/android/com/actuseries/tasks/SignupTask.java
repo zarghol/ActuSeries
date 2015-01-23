@@ -20,8 +20,9 @@ public class SignupTask extends AsyncTask<String, Void, Member> {
         return AccesBetaseries.creationCompte(login, password, email);
 
     }
+
     @Override
-    protected void onPostExecute(Member member){
+    protected void onPostExecute(Member member) {
         //on poste un évènement dans le bus d'évènement qui indique la connexion réussie
         EventBus.getInstance().post(new LoginResultEvent(member != null));
     }

@@ -1,15 +1,9 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,7 +22,7 @@ import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 /**
  * Created by Clement on 08/01/2015.
  */
-public class SerieDetailActivity extends MainMenuActionBarActivity implements AdapterView.OnItemClickListener, OnClickListener {
+public class SerieDetailActivity extends MainMenuActionBarActivity implements AdapterView.OnItemClickListener {
 
     ListView lv;
     private EpisodesLogAdapter adapter;
@@ -66,7 +60,6 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         statut.setText("Statut : " + this.serie.getStatut().getStringStatus());
         this.description = (TextView) findViewById(R.id.textView_description);
         this.description.setText(this.serie.getDescription());
-        this.description.setOnClickListener(this);
         //on s'abonne au bus d'évènements
         EventBus.getInstance().register(this);
     }
@@ -98,23 +91,5 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         Log.d("actuseries", "nb episodes: " + episodes.size());
         adapter.notifyDataSetChanged();
         Log.d("actuseries", "nb episodes: " + episodes.size());*/
-    }
-
-    @Override
-    public void onClick(View v) {
-        Paint paint = new Paint();
-        Rect bounds = new Rect();
-
-        int text_height = 0;
-        int text_width = 0;
-
-        paint.setTypeface(Typeface.DEFAULT);
-        paint.setTextSize(description.getWidth());
-
-        String text = description.getText().toString();
-
-        paint.getTextBounds(text, 0, text.length(), bounds);
-
-        description.setTextSize(bounds.height());
     }
 }

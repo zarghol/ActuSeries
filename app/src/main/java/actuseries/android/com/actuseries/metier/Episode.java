@@ -4,8 +4,6 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-
 /**
  * Created by Clement on 19/12/2014.
  */
@@ -36,7 +34,7 @@ public class Episode implements Comparable<Episode> {
             this.numSaison = ep.getInt("season");
             this.id = ep.getInt("id");
             this.vue = ep.getJSONObject("user").getBoolean("seen");
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("ActuSeries", "erreur de creation d'episode", e);
         }
     }
@@ -69,13 +67,13 @@ public class Episode implements Comparable<Episode> {
 
     @Override
     public int compareTo(Episode another) {
-        if (another.getNumEpisode() == this.getNumEpisode() && another.getSaison() == this.getSaison()) {
+        if(another.getNumEpisode() == this.getNumEpisode() && another.getSaison() == this.getSaison()) {
             return 0;
         }
 
-        if (another.getSaison() < this.getSaison()) {
+        if(another.getSaison() < this.getSaison()) {
             return 1;
-        } else if (another.getSaison() > this.getSaison() || another.getNumEpisode() > this.getNumEpisode()) {
+        } else if(another.getSaison() > this.getSaison() || another.getNumEpisode() > this.getNumEpisode()) {
             return -1;
         } else {
             return 1;

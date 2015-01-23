@@ -1,21 +1,15 @@
 package actuseries.android.com.actuseries.metier;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import actuseries.android.com.actuseries.betaseries.Request;
 
 /**
  * Created by Clement on 19/12/2014.
@@ -65,7 +59,7 @@ public class Serie {
             this.anneeCreation = show.getInt("creation");
             this.genres = new ArrayList<>();
             JSONArray genresjson = show.getJSONArray("genres");
-            for (int i = 0; i < genresjson.length(); i++) {
+            for(int i = 0; i < genresjson.length(); i++) {
                 this.genres.add(genresjson.getString(i));
             }
 
@@ -73,7 +67,7 @@ public class Serie {
             this.dureeEpisode = show.getInt("length");
 
             this.episodes = new ArrayList<>();
-        } catch (JSONException e) {
+        } catch(JSONException e) {
             Log.e("ActuSeries", "erreur de creation de serie", e);
         }
     }
@@ -107,7 +101,7 @@ public class Serie {
         this.banner = banner;
     }
 
-    public void clearEpisodes(){
+    public void clearEpisodes() {
         episodes.clear();
     }
 
@@ -136,8 +130,8 @@ public class Serie {
     }
 
     public boolean toutVue() {
-        for (Episode e : this.episodes) {
-            if (!e.estVue()) {
+        for(Episode e : this.episodes) {
+            if(!e.estVue()) {
                 return false;
             }
         }
@@ -146,7 +140,7 @@ public class Serie {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || !o.getClass().equals(Serie.class)) {
+        if(o == null || !o.getClass().equals(Serie.class)) {
             return false;
         }
         Serie s = (Serie) o;
