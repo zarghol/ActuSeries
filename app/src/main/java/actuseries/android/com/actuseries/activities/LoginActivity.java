@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -40,7 +42,8 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        //TODO: masquer le bouton de deconnexion (on n'est pas encore connecté... duh !)
+        //on masque le bouton de déconnexion (on n'est pas encore connecté)
+        menu.getItem(0).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
