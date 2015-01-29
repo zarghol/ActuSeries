@@ -15,6 +15,8 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import actuseries.android.com.actuseries.metier.BetaseriesException;
+
 /**
  * Created by Clement on 10/12/2014.
  */
@@ -68,8 +70,8 @@ public class Request {
             JSONObject json = new JSONObject(IOUtils.toString(is));
 
             if(json.getJSONArray("errors").length() > 0) {
-                Exception e = new Exception("code : " + json.getJSONArray("errors").getJSONObject(0).getInt("code"));
-                throw e;
+                BetaseriesException exception = new BetaseriesException(json.getJSONArray("errors").getJSONObject(0));
+                throw exception;
             } else {
                 retour = json;
             }
