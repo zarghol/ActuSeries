@@ -58,6 +58,8 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         statut.setText(getResources().getText(R.string.serieDetailActivity_status) + " " + this.serie.getStatut().getStringStatus());
         this.description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
         this.description.setText(this.serie.getDescription());
+
+        // TODO gérer les cliques sur les boutons eye
     }
 
     @Override

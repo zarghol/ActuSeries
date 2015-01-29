@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 import actuseries.android.com.actuseries.R;
@@ -46,7 +49,7 @@ public class EpisodesLogAdapter extends BaseAdapter {
             convertview = inflater.inflate(R.layout.episode_item, null);
             holder.nomEpisode = (TextView) convertview.findViewById(R.id.episodeItem_textView_title);
             holder.numEpisode = (TextView) convertview.findViewById(R.id.episodeItem_textView_number);
-
+            holder.boutonVueEpisode = (ImageButton) convertview.findViewById(R.id.episodeItem_imageButton_watched);
         } else {
             holder = (ViewHolder) convertview.getTag();
         }
@@ -54,6 +57,13 @@ public class EpisodesLogAdapter extends BaseAdapter {
         Episode e = episodes.get(pos);
         holder.nomEpisode.setText(e.getNomEpisode());
         holder.numEpisode.setText(e.getSaison() + " x " + e.getNumEpisode());
+        if (e.getDate().after(new Date())) {
+            holder.boutonVueEpisode.setEnabled(false);
+            holder.boutonVueEpisode.setAlpha(0.0f);
+        } else {
+            holder.boutonVueEpisode.setAlpha(e.estVue() ? 0.5f : 1.0f);
+            holder.boutonVueEpisode.setEnabled(!e.estVue());
+        }
 
         convertview.setTag(holder);
         return convertview;
@@ -62,5 +72,6 @@ public class EpisodesLogAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView nomEpisode;
         TextView numEpisode;
+        ImageButton boutonVueEpisode;
     }
 }
