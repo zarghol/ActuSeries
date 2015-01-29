@@ -16,7 +16,8 @@ public class ConnectivityChecker {
     }
 
     //méthode permettant de vérifier si une connexion est disponible
-    public boolean connectivityAvailable() {
+    public static boolean connectivityAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }

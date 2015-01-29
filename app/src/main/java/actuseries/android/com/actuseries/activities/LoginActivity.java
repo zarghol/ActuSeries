@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -16,6 +14,7 @@ import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.tasks.LoginTask;
+import actuseries.android.com.actuseries.tools.ConnectivityChecker;
 
 public class LoginActivity extends MainMenuActionBarActivity implements View.OnClickListener {
 
@@ -49,7 +48,7 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.login_button_connect) {
+        if(v.getId() == R.id.login_button_connect && ConnectivityChecker.connectivityAvailable(this)) {
             String[] params = {usernameEditText.getText().toString(), passwordEditText.getText().toString()};
             TaskManager.launchTask(LoginTask.class, params);
         } else {
