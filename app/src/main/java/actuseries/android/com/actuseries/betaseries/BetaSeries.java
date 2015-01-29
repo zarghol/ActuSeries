@@ -148,9 +148,6 @@ public class BetaSeries {
         }
     }
 
-
-// AVANCE
-
     public void searchShow(String name) {
         Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.SEARCH);
 
@@ -166,6 +163,31 @@ public class BetaSeries {
             }
         } catch(Exception e) {
             Log.e("ActuSeries", "erreur de recherche", e);
+        }
+    }
+
+    public void writeSeen(Episode episode) {
+        Request request = this.buildRequest(RequestCategory.EPISODES, RequestMethod.WATCHED);
+        request.setHttpMethod(episode.estVue() ? HttpMethod.POST : HttpMethod.DELETE);
+        request.addOption("id", episode.getId() + "");
+
+        try {
+            request.send();
+        } catch(Exception e) {
+            Log.e("Actuseries", "erreur lors du marquage comme vu", e);
+        }
+    }
+
+    public void writeMark(Episode episode) {
+        Request request = this.buildRequest(RequestCategory.EPISODES, RequestMethod.NOTE);
+        request.setHttpMethod(HttpMethod.POST);
+        request.addOption("id", episode.getId() + "");
+        request.addOption("note", episode.getNoteEpisode() + "");
+
+        try {
+            request.send();
+        } catch(Exception e) {
+            Log.e("Actuseries", "erreur lors du marquage comme vu", e);
         }
     }
 
