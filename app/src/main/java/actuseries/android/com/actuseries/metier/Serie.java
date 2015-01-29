@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -131,7 +132,7 @@ public class Serie {
 
     public boolean toutVue() {
         for(Episode e : this.episodes) {
-            if(!e.estVue()) {
+            if(!e.estVue() && e.getDate().before(new Date())) {
                 return false;
             }
         }
