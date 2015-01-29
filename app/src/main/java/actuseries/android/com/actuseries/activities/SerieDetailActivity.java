@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ms.square.android.expandabletextview.ExpandableTextView;
+
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
@@ -25,7 +27,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
     private Serie serie;
     private int numSerie;
     private SeriesDisplay seriesDisplay;
-    private TextView description;
+    private ExpandableTextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
 //        titre.setBackground(bd); //<--- ça fait moche
         TextView statut = (TextView) findViewById(R.id.serieDetail_textView_status);
         statut.setText(getResources().getText(R.string.serieDetailActivity_status) + " " + this.serie.getStatut().getStringStatus());
-        this.description = (TextView) findViewById(R.id.serieDetail_textView_summary);
+        this.description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
         this.description.setText(this.serie.getDescription());
     }
 
