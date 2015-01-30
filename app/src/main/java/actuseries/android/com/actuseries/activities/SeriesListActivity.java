@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 
@@ -91,7 +92,7 @@ public class SeriesListActivity extends MainMenuActionBarActivity implements and
 
     //on reçoit le message associé à l'évènement de récupération d'une série
     @Subscribe
-    public void onGetSeriesTaskResult(GetSerieResultEvent event) {
+    public void onGetSerieTaskResult(GetSerieResultEvent event) {
         /*if (AccesBetaseries.getScreenSize().x == 0) {
             this.getListView().getMeasuredHeight();
             // TODO voir comment récupérer les dimensions d'une cellule !!!
@@ -100,7 +101,6 @@ public class SeriesListActivity extends MainMenuActionBarActivity implements and
             Log.d("actuseries", "size : "+ p);
             AccesBetaseries.setScreenSize(p);
         }*/
-
         SeriesListFragment fragment = (SeriesListFragment) this.seriesDisplayPagerAdapter.getItem(mViewPager.getCurrentItem());
 
         fragment.notifyDataChanged();

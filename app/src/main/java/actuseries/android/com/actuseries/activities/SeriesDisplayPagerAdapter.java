@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
 
@@ -14,18 +17,22 @@ import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
 public class SeriesDisplayPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
+    private List<SeriesListFragment> fragments;
 
     public SeriesDisplayPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
+        this.fragments = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            this.fragments.add(SeriesListFragment.newInstance(SeriesDisplay.fromPosition(i)));
+        }
     }
 
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-
-        return SeriesListFragment.newInstance(SeriesDisplay.fromPosition(position));
+        return this.fragments.get(position);
     }
 
     @Override

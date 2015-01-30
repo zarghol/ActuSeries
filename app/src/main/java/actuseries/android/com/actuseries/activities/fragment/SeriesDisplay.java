@@ -10,10 +10,10 @@ import actuseries.android.com.actuseries.metier.Serie;
  * Created by Clement on 20/01/2015.
  */
 public enum SeriesDisplay {
-    WATCHLIST(0, R.string.seriesList_watchlist),
-    ARCHIVED(1, R.string.seriesList_archived),
+    ALL(0, R.string.seriesList_all),
+    WATCHLIST(1, R.string.seriesList_watchlist),
     ACTIVE(2, R.string.seriesList_active),
-    ALL(3, R.string.seriesList_all);
+    ARCHIVED(3, R.string.seriesList_archived);
 
     private int position;
     private int label;

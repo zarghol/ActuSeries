@@ -55,7 +55,6 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
         this.adapter = new SeriesLogAdapter(this.series, getActivity());
         setListAdapter(this.adapter);
 
-
 /*        TextView noseriesTextView = new TextView(getActivity());
         noseriesTextView.setText("Pas de séries :(");
 
@@ -95,7 +94,7 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
         public void onFragmentInteraction(Serie serie);
     }*/
     public void notifyDataChanged() {
-        if(this.adapter != null) {
+        if (this.adapter != null) {
             this.adapter.notifyDataSetChanged();
         }
     }
