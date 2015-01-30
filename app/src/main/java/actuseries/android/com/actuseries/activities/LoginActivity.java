@@ -48,7 +48,9 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.login_button_connect && ConnectivityChecker.connectivityAvailable(this)) {
+        if (!ConnectivityChecker.connectivityAvailable(this)) {
+            Toast.makeText(getApplicationContext(), "Connexion réseau impossible", Toast.LENGTH_SHORT).show();
+        }else if(v.getId() == R.id.login_button_connect) {
             String[] params = {usernameEditText.getText().toString(), passwordEditText.getText().toString()};
             TaskManager.launchTask(LoginTask.class, params);
         } else {

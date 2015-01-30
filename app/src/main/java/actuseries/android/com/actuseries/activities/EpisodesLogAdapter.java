@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.List;
@@ -17,13 +19,16 @@ import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.metier.Episode;
 
 
+
 public class EpisodesLogAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Episode> episodes;
+    private SerieDetailActivity activity;
 
-    public EpisodesLogAdapter(List<Episode> episodes, Context c) {
+    public EpisodesLogAdapter(List<Episode> episodes, Context c, SerieDetailActivity activity) {
         this.episodes = episodes;
         this.inflater = LayoutInflater.from(c);
+        this.activity = activity;
     }
 
     @Override
@@ -57,6 +62,8 @@ public class EpisodesLogAdapter extends BaseAdapter {
         Episode e = episodes.get(pos);
         holder.nomEpisode.setText(e.getNomEpisode());
         holder.numEpisode.setText(e.getSaison() + " x " + e.getNumEpisode());
+
+        holder.boutonVueEpisode.setOnClickListener(this.activity);
         if (e.getDate().after(new Date())) {
             holder.boutonVueEpisode.setEnabled(false);
             holder.boutonVueEpisode.setAlpha(0.0f);

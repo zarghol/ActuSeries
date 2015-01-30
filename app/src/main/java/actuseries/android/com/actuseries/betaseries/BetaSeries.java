@@ -148,22 +148,24 @@ public class BetaSeries {
         }
     }
 
-    public void searchShow(String name) {
+    public List<Serie> searchShow(String name) {
         Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.SEARCH);
 
         request.addOption("title", name);
+        List<Serie> result = new ArrayList<>();
+
 
         try {
             JSONObject json = request.send();
-            List<String> result = new ArrayList<String>();
+            JSONArray shows = json.getJSONArray("shows");
 
-            JSONObject shows = json.getJSONObject("shows");
-            for(int i = 0; i < (shows.length() > 5 ? 5 : shows.length()); i++) {
-                result.add(shows.getJSONObject("title").getString("" + i));
+            for (int i = 0; i < shows.length(); i++) {
+                result.add(new Serie(shows.getJSONObject(i)));
             }
         } catch(Exception e) {
             Log.e("ActuSeries", "erreur de recherche", e);
         }
+        return result;
     }
 
     public void writeSeen(Episode episode) {

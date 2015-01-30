@@ -91,6 +91,10 @@ public class AccesBetaseries {
 
     }
 
+    public static List<Serie> rechercheSerie(String nomSerie) {
+        return AccesBetaseries.getInstance().betaSeries.searchShow(nomSerie);
+    }
+
     private void setMembreConnecte(Member membreConnecte) {
         this.membreConnecte = membreConnecte;
         this.betaSeries = new BetaSeries(cleApi, membreConnecte);

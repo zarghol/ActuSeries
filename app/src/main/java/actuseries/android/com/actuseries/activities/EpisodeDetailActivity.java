@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
@@ -44,10 +45,15 @@ public class EpisodeDetailActivity extends MainMenuActionBarActivity implements 
             @Override
             public void run() {
                 episode.toggleVue();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setBouton();
+                        Toast.makeText(getApplicationContext(), "episode marqué", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }).start();
-
-        this.setBouton();
     }
 
     public Button setBouton() {
