@@ -4,5 +4,7 @@
     <string name="app_name">ActuSeries</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_logout">Deconnexion</string>
+    <string name="searchActivity_title">Recherche</string>
+    <string name="action_search">Recherche</string>
 
 </resources>

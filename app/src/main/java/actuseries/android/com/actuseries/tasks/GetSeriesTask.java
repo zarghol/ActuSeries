@@ -24,7 +24,7 @@ public class GetSeriesTask extends AsyncTask<Void, Serie, Void> {
 
         if(series.size() == 0) {
             series = AccesBetaseries.recupereSeriesMembre();
-        }
+    }
 
         for(Serie s : series) {
             if(s.getBanner() == null) {

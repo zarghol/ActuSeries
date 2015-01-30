@@ -49,6 +49,10 @@ public abstract class MainMenuActionBarActivity extends ActionBarActivity {
                 this.actionLogout();
                 return true;
 
+            case R.id.menu_search:
+                this.actionSearch();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -63,6 +67,12 @@ public abstract class MainMenuActionBarActivity extends ActionBarActivity {
         TaskManager.cancelAllTasks();
         TaskManager.launchTask(LogoutTask.class, null);
         Intent j = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(j);
+        finish();
+    }
+
+    private void actionSearch() {
+        Intent j = new Intent(getApplicationContext(), SearchActivity.class);
         startActivity(j);
         finish();
     }

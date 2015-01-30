@@ -29,7 +29,7 @@ public enum RequestMethod {
     RECOMMEND("recommend"),
     REMOVE("remove"),
     SCRAPER("scraper"),
-    SEARCH("search"),
+    SEARCH("search_activity"),
     SHOWS("shows"),
     SIGNUP("signup"),
     WATCHED("watched");

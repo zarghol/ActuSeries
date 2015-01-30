@@ -43,6 +43,7 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
     public boolean onPrepareOptionsMenu(Menu menu) {
         //on masque le bouton de déconnexion (on n'est pas encore connecté)
         menu.getItem(0).setVisible(false);
+        menu.getItem(1).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
