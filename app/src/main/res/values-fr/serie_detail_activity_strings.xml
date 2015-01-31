@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="serieDetailActivity_status">Statut : </string>
-    <string name="serieDetailActivity_noEpisodes">Pas d\'épisodes..</string>
-</resources>

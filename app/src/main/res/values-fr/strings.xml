@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- global -->
     <string name="app_name">ActuSeries</string>
+
+    <!-- main menu -->
     <string name="action_settings">Paramètres</string>
     <string name="action_logout">Deconnexion</string>
+
+    <!-- episode detail activity -->
+    <string name="episodeDetailActivity_unmarkWatched">Marquer comme non vu</string>
+    <string name="episodeDetailActivity_markWatched">Marquer comme vu</string>
+
+    <!-- login activity -->
+    <string name="loginActivity_login">Nom d\'utilisateur</string>
+    <string name="loginActivity_password">Mot de passe</string>
+    <string name="loginActivity_connect">Connexion</string>
+    <string name="loginActivity_signup">S\'inscrire</string>
+    <string name="loginActivity_noAccountYet">Pas encore de compte BetaSeries ?</string>
+
+    <!-- serie detail activity -->
+    <string name="serieDetailActivity_status">Statut : </string>
+    <string name="serieDetailActivity_noEpisodes">Pas d\'épisodes..</string>
+
+    <!-- series list -->
+    <string name="seriesList_watchlist">A voir</string>
+    <string name="seriesList_archived">Archivées</string>
+    <string name="seriesList_active">Actives</string>
+    <string name="seriesList_all">Toutes</string>
+
+    <!-- settings activity -->
+    <string name="settingsActivity_title">Paramètres</string>
+    <string name="settingsFragment_header_user">Utilisateur</string>
+    <string name="settingsFragment_title_stayLoggedIn">Rester connecté</string>
+    <string name="settingsFragment_desription_stayLoggedIn">Garde la connexion à la fermeture de l\'application</string>
+    <string name="settingsFragment_title_login">Login</string>
+    <string name="settingsFragment_desription_login">Votre identifiant BetaSeries</string>
+    <string name="settingsFragment_title_token">Jeton d\'identification</string>
+    <string name="settingsFragment_description_token">Jeton correspondant à votre connection courante</string>
+
+
+    <!-- signup activity -->
+    <string name="signupActivity_login">Identifiant</string>
+    <string name="signupActivity_email">Adresse e-mail</string>
+    <string name="signupActivity_password">Password</string>
+    <string name="signupActivity_passwordConfirm">Confirmation mot de passe</string>
+    <string name="signupActivity_signup">Valider</string>
+    <!-- -->
 
 </resources>

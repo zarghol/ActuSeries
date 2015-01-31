@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="episodeDetailActivity_unmarkWatched">Marquer comme non vu</string>
-    <string name="episodeDetailActivity_markWatched">Marquer comme vu</string>
-</resources>
