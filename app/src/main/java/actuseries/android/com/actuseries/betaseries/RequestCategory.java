@@ -8,9 +8,9 @@ public enum RequestCategory {
     MEMBERS("members"),
     PLANNING("planning"),
     SHOWS("shows"),
+    EPISODES("episodes"),
     SUBTITLES("subtitles"),
     TIMELINE("timeline"),
-    // pas l'air d'être fonctionnel de leur coté
     PICTURES("pictures");
 
 

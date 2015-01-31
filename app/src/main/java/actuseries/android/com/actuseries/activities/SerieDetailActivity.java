@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
@@ -18,14 +22,14 @@ import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 /**
  * Created by Clement on 08/01/2015.
  */
-public class SerieDetailActivity extends MainMenuActionBarActivity implements AdapterView.OnItemClickListener {
+public class SerieDetailActivity extends MainMenuActionBarActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     ListView lv;
     private EpisodesLogAdapter adapter;
     private Serie serie;
     private int numSerie;
     private SeriesDisplay seriesDisplay;
-    private TextView description;
+    private ExpandableTextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
             new GetEpisodesTask().execute(numSerie, this.seriesDisplay.getPosition());
         }
 
-        this.adapter = new EpisodesLogAdapter(this.serie.getEpisodes(), getApplicationContext());
+        this.adapter = new EpisodesLogAdapter(this.serie.getEpisodes(), getApplicationContext(), this);
         this.lv.setAdapter(this.adapter);
 
         TextView titre = (TextView) findViewById(R.id.serieDetail_textView_title);
@@ -54,8 +58,12 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
 //        titre.setBackground(bd); //<--- ça fait moche
         TextView statut = (TextView) findViewById(R.id.serieDetail_textView_status);
         statut.setText(getResources().getText(R.string.serieDetailActivity_status) + " " + this.serie.getStatut().getStringStatus());
-        this.description = (TextView) findViewById(R.id.serieDetail_textView_summary);
+        this.description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
         this.description.setText(this.serie.getDescription());
+
+        // TODO gérer les cliques sur les boutons eye
+
+
     }
 
     @Override
@@ -65,6 +73,26 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         episodeDetailActivityIntent.putExtra("indexEpisode", position);
         startActivityForResult(episodeDetailActivityIntent, 1);
     }
+
+    public void onClick(View v) {
+        RelativeLayout layout = (RelativeLayout) v.getParent();
+        final int position = this.lv.getPositionForView(layout);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                serie.getEpisodes().get(position).toggleVue();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "episode marqué", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
+
+    }
+
+
 
 /*    //on reçoit le message associé à l'évènement de récupération des épisodes <=== plus besoin, on récupère plus tot
     @Subscribe

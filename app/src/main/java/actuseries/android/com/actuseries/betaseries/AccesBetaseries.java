@@ -91,8 +91,21 @@ public class AccesBetaseries {
 
     }
 
+    public static List<Serie> rechercheSerie(String nomSerie) {
+        return AccesBetaseries.getInstance().betaSeries.searchShow(nomSerie);
+    }
+
     private void setMembreConnecte(Member membreConnecte) {
         this.membreConnecte = membreConnecte;
         this.betaSeries = new BetaSeries(cleApi, membreConnecte);
+    }
+
+    public static void marqueVue(Episode episode) {
+        AccesBetaseries.getInstance().betaSeries.writeSeen(episode);
+    }
+
+    public static void marqueNote(Episode episode) {
+        AccesBetaseries.getInstance().betaSeries.writeMark(episode);
+
     }
 }

@@ -3,6 +3,7 @@
     <!-- main menu -->
     <item name="menu_settings" type="id"/>
     <item name="menu_logout" type="id"/>
+    <item name="menu_search" type="id"/>
 
     <!-- login activity -->
     <item name="login_editText_login" type="id"/>
@@ -42,6 +43,8 @@
     <item name="episodeItem_textView_title" type="id"/>
     <item name="episodeItem_textView_number" type="id"/>
     <item name="episodeItem_imageButton_watched" type="id"/>
+
+
 
 
 </resources>

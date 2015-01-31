@@ -46,7 +46,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:drawableLeft="@drawable/eye"
-        android:drawableStart="@drawable/eye"
         android:text="@string/episodeDetailActivity_unmarkWatched"/>
 
 </RelativeLayout>
