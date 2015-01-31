@@ -6,9 +6,20 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="stay_logged_in"
-            android:summary="@string/settingsFragment_desription_stayLoggedIn"
-            android:title="@string/settingsFragment_title_stayLoggedIn"/>
+            android:title="@string/settingsFragment_title_stayLoggedIn"
+            android:summary="@string/settingsFragment_desription_stayLoggedIn"/>
 
+        <Preference
+            android:key="login"
+            android:title="@string/settingsFragment_title_login"
+            android:summary="@string/settingsFragment_desription_login"
+            android:editable="false"/>
+
+        <Preference
+            android:key="token"
+            android:title="@string/settingsFragment_title_token"
+            android:summary="@string/settingsFragment_description_token"
+            android:editable="false"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
