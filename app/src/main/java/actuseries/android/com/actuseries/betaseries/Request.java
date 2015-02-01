@@ -57,9 +57,10 @@ public class Request {
         try {
             HttpsURLConnection conn = this.createConnection();
             conn.connect();
-            Log.d("actuseries", "connecté pour url :" + this.urlStringForRequest());
+            Log.d("actuseries", "connecté pour url : " + this.httpMethod.getMethod() + " " + this.urlStringForRequest());
             int response = conn.getResponseCode();
             Log.d("actuseries", "The response is: " + response);
+
             if(response != 200) {
                 Exception e = new Exception("code : " + response + " : " + conn.getResponseMessage());
                 throw e;
@@ -68,6 +69,8 @@ public class Request {
             is = conn.getInputStream();
 
             JSONObject json = new JSONObject(IOUtils.toString(is));
+
+
 
             if(json.getJSONArray("errors").length() > 0) {
                 BetaseriesException exception = new BetaseriesException(json.getJSONArray("errors").getJSONObject(0));
