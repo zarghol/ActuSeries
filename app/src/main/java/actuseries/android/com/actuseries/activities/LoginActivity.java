@@ -41,9 +41,9 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        //on masque le bouton de déconnexion (on n'est pas encore connecté)
-        menu.getItem(0).setVisible(false);
-        menu.getItem(1).setVisible(false);
+        //on masque les boutons de déconnexion et de recherche (on n'est pas encore connecté)
+        menu.findItem(R.id.menu_logout).setVisible(false);
+        menu.findItem(R.id.menu_search).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
