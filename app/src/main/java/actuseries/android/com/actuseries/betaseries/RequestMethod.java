@@ -32,7 +32,8 @@ public enum RequestMethod {
     SEARCH("search"),
     SHOWS("shows"),
     SIGNUP("signup"),
-    WATCHED("watched");
+    WATCHED("watched"),
+    SHOW("show");
 
     private String method;
 

@@ -106,6 +106,9 @@ public class AccesBetaseries {
 
     public static void marqueNote(Episode episode) {
         AccesBetaseries.getInstance().betaSeries.writeMark(episode);
+    }
 
+    public static void ajouteAuCompte(Serie serie) {
+        AccesBetaseries.getInstance().betaSeries.addToAccount(serie);
     }
 }

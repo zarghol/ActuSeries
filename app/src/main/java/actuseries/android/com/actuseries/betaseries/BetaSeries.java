@@ -189,11 +189,23 @@ public class BetaSeries {
         try {
             request.send();
         } catch(Exception e) {
-            Log.e("Actuseries", "erreur lors du marquage comme vu", e);
+            Log.e("Actuseries", "erreur lors du notage", e);
         }
     }
 
+    public void addToAccount(Serie serie) {
+        Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.SHOW);
+        request.setHttpMethod(HttpMethod.POST);
+        request.addOption("id", serie.getId() + "");
 
+        try {
+            request.send();
+        } catch(Exception e) {
+            Log.e("Actuseries", "erreur lors de l'ajout au compte", e);
+        }
+    }
+
+    
     private Request buildRequest(RequestCategory category, RequestMethod method) {
         Request request = new Request();
         request.setApiKey(this.apiKey);
@@ -207,7 +219,6 @@ public class BetaSeries {
 
         return request;
     }
-
 
     private String getMD5(String chaine) {
         byte[] mdpCrypt = DigestUtils.md5(chaine);
