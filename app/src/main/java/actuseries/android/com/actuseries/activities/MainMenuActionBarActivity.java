@@ -74,6 +74,5 @@ public abstract class MainMenuActionBarActivity extends ActionBarActivity {
     private void actionSearch() {
         Intent j = new Intent(getApplicationContext(), SearchActivity.class);
         startActivity(j);
-        finish();
     }
 }
