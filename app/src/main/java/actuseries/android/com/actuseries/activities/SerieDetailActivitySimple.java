@@ -2,6 +2,7 @@ package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -43,8 +44,10 @@ public class SerieDetailActivitySimple extends MainMenuActionBarActivity impleme
 
         this.serie = AccesBetaseries.getListRecherche().get(this.numSerie);
         this.buttonAddSerie.setOnClickListener(this);
-        if(AccesBetaseries.getSeries(SeriesDisplay.ALL).contains(this.serie))
-             this.buttonAddSerie.setSelected(false);
+        if(AccesBetaseries.getSeries(SeriesDisplay.ALL).contains(this.serie)) {
+            this.buttonAddSerie.setEnabled(false);
+            this.buttonAddSerie.setText("Cette série est déjà ajoutée.");
+        }
 
 
         TextView titre = (TextView) findViewById(R.id.serieDetail_textView_title);
