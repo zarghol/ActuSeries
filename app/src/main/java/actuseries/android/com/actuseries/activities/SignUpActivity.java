@@ -6,15 +6,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.tasks.SignupTask;
 
 /**
  * Created by Clement on 08/01/2015.
  */
-public class SignUpActivity extends ActionBarActivity implements View.OnClickListener {
+public class SignUpActivity extends MainMenuActionBarActivity implements View.OnClickListener {
 
     private EditText loginEditText;
     private EditText emailEditText;
@@ -60,10 +64,22 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
               !this.passwordEditText.getText().toString().isEmpty() &&
               this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
 
-            String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString()};
+            String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString().replace("+", "%2b")};
             TaskManager.launchTask(SignupTask.class, params);
         }
+    }
 
-        this.finish();
+    @Subscribe
+    public void onSignupTaskResult(LoginResultEvent event) {
+        if(event.getResult()) {
+            this.finish();
+        } else {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Erreur de création de compte. Identifiant déjà utilisé, ou pas.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 }

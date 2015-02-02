@@ -109,6 +109,7 @@ public class BetaSeries {
         Request request = this.buildRequest(RequestCategory.PICTURES, RequestMethod.SHOWS);
         request.addOption("id", "" + serie.getId());
 
+        // TODO récupérer des ressources
         int heightBanniere = 100;
 
         int widthBanniere = realSize.y == 0 ? 390 : (realSize.x * heightBanniere) / realSize.y;
