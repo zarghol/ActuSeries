@@ -3,6 +3,7 @@ package actuseries.android.com.actuseries.betaseries;
 import android.graphics.Point;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
@@ -19,12 +20,14 @@ public class AccesBetaseries {
     private Member membreConnecte;
     private BetaSeries betaSeries;
     private Point screenSize;
+    private List<Serie> listRecherche;
 
     private AccesBetaseries() {
         this.membreConnecte = Member.getFromPersistance();
         String token = this.membreConnecte != null ? this.membreConnecte.getToken() : "";
         this.screenSize = new Point();
         this.betaSeries = new BetaSeries(cleApi);
+        this.listRecherche = new ArrayList<Serie>();
     }
 
     private static AccesBetaseries getInstance() {
@@ -91,8 +94,10 @@ public class AccesBetaseries {
 
     }
 
-    public static List<Serie> rechercheSerie(String nomSerie) {
-        return AccesBetaseries.getInstance().betaSeries.searchShow(nomSerie);
+    public static void rechercheSerie(String nomSerie) {
+        AccesBetaseries inst = AccesBetaseries.getInstance();
+        inst.listRecherche.clear();
+        inst.listRecherche.addAll(inst.betaSeries.searchShow(nomSerie));
     }
 
     private void setMembreConnecte(Member membreConnecte) {
@@ -106,6 +111,14 @@ public class AccesBetaseries {
 
     public static void marqueNote(Episode episode) {
         AccesBetaseries.getInstance().betaSeries.writeMark(episode);
-
     }
+
+    public static void ajouteAuCompte(Serie serie) {
+        AccesBetaseries.getInstance().betaSeries.addToAccount(serie);
+    }
+
+    public static List<Serie> getListRecherche() {
+        return AccesBetaseries.getInstance().listRecherche;
+    }
+
 }

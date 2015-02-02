@@ -3,11 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <SearchView
+        android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchText"
-        android:hint="Recherche d&apos;une série...." />
+        android:layout_height="wrap_content">
+
+        </SearchView>
 
     <ListView
         android:layout_width="match_parent"

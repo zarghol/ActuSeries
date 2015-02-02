@@ -24,6 +24,8 @@
     <!-- serie detail activity -->
     <string name="serieDetailActivity_status">Statut : </string>
     <string name="serieDetailActivity_noEpisodes">Pas d\'épisodes..</string>
+    <string name="button_add_serie">Ajouter la série</string>
+
 
     <!-- series list -->
     <string name="seriesList_watchlist">A voir</string>
@@ -48,6 +50,11 @@
     <string name="signupActivity_password">Password</string>
     <string name="signupActivity_passwordConfirm">Confirmation mot de passe</string>
     <string name="signupActivity_signup">Valider</string>
+    <string name="lenghtEpisode">Durée :</string>
+    <string name="genre">Genre :</string>
+    <string name="statut">Statut :</string>
     <!-- -->
+
+
 
 </resources>

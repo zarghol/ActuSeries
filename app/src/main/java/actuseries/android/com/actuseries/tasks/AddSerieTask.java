@@ -3,25 +3,20 @@ package actuseries.android.com.actuseries.tasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.List;
-
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.GetSerieResultEvent;
 import actuseries.android.com.actuseries.event.GetSeriesResultEvent;
-import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
-import actuseries.android.com.actuseries.metier.Member;
 import actuseries.android.com.actuseries.metier.Serie;
 
 /**
  * Created by Clement on 23/01/2015.
  */
-public class SearchTask extends AsyncTask<String, Void, Void> {
+public class AddSerieTask extends AsyncTask<Serie, Void, Void> {
 
     @Override
-    protected Void doInBackground(String[] params) {
-        Log.d("actuseries", Thread.currentThread().getName() + " récupération de la recherche");
-        AccesBetaseries.rechercheSerie(params[0]);
+    protected Void doInBackground(Serie... serie) {
+        Log.d("actuseries", Thread.currentThread().getName() + " Ajout de la série!");
+        AccesBetaseries.ajouteAuCompte(serie[0]);
         return null;
     }
 
@@ -29,6 +24,6 @@ public class SearchTask extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void rien) {
         //on poste un évènement dans le bus d'évènement qui indique la récupération des séries réussie
         // TODO poster un evenement indiquant la fin de récuperation totale
-        TaskManager.post(new GetSeriesResultEvent());
+        Log.d("actuseries","nia");
     }
 }

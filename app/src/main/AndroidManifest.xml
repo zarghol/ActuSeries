@@ -28,7 +28,7 @@
         </activity>
         <activity
             android:name=".activities.SerieDetailActivity"
-            android:parentActivityName=".activities.SeriesListActivity" >
+            android:parentActivityName=".activities.SeriesListActivity"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -47,7 +47,19 @@
         </activity>
         <activity
             android:name=".activities.SearchActivity"
-            android:label="@string/searchActivity_title" >
+            android:label="@string/searchActivity_title"
+            android:parentActivityName=".activities.SerieDetailActivity" >
+        <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".activities.SerieDetailActivity" />
+        </activity>
+        <activity
+            android:name=".activities.SerieDetailActivitySimple"
+            android:label="@string/searchActivity_title"
+            android:parentActivityName=".activities.SearchActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.SearchActivity" />
         </activity>
     </application>
 

@@ -6,7 +6,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.squareup.otto.Subscribe;
+
 import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.event.LogoutResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.tasks.LogoutTask;
 
@@ -64,16 +68,32 @@ public abstract class MainMenuActionBarActivity extends ActionBarActivity {
     }
 
     private void actionLogout() {
-        TaskManager.cancelAllTasks();
-        TaskManager.launchTask(LogoutTask.class, null);
+/*        TaskManager.cancelAllTasks();
+        TaskManager.launchTask(LogoutTask.class, null);*/
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TaskManager.cancelAllTasks();
+                AccesBetaseries.deconnexionMembre();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        }).start();
+    }
+
+/*    @Subscribe
+    public void onLogoutEvent(LogoutResultEvent event) {
         Intent j = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(j);
         finish();
-    }
+    }*/
 
     private void actionSearch() {
         Intent j = new Intent(getApplicationContext(), SearchActivity.class);
         startActivity(j);
-        finish();
     }
 }

@@ -29,10 +29,11 @@ public enum RequestMethod {
     RECOMMEND("recommend"),
     REMOVE("remove"),
     SCRAPER("scraper"),
-    SEARCH("search_activity"),
+    SEARCH("search"),
     SHOWS("shows"),
     SIGNUP("signup"),
-    WATCHED("watched");
+    WATCHED("watched"),
+    SHOW("show");
 
     private String method;
 

@@ -34,12 +34,12 @@ public enum SeriesDisplay {
     }
 
     public List<Serie> sort(List<Serie> series) {
+        List<Serie> result = new ArrayList<>();
 
         if(this == ALL) {
-            return series;
+            result.addAll(series);
+            return result;
         }
-
-        List<Serie> result = new ArrayList<>();
 
         for(Serie s : series) {
             if(s.isActive()) {

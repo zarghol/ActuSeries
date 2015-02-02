@@ -1,20 +1,12 @@
 package actuseries.android.com.actuseries.activities;
 
-import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ListAdapter;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
+import android.widget.SearchView;
 
 import com.squareup.otto.Subscribe;
 
@@ -22,17 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.GetSeriesResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.metier.Serie;
-import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 import actuseries.android.com.actuseries.tasks.SearchTask;
 
 
 /**
  * Created by Clement on 08/01/2015.
  */
-public class SearchActivity extends ActionBarActivity {
+public class SearchActivity extends MainMenuActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
     private List<Serie> listSerie;
     private SeriesLogAdapter adapter;
 
@@ -41,43 +33,47 @@ public class SearchActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
 
-        listSerie = new ArrayList<Serie>();
-        // Set up the ViewPager with the sections adapter.
-        adapter = new SeriesLogAdapter(listSerie, getBaseContext());
+        this.listSerie = AccesBetaseries.getListRecherche();
+        this.adapter = new SeriesLogAdapter(this.listSerie, getBaseContext());
 
         ListView listSearch = (ListView) findViewById(R.id.list_search);
-        listSearch.setAdapter(adapter);
-        final EditText searchText = (EditText) findViewById(R.id.searchText);
-        searchText.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+        listSearch.setAdapter(this.adapter);
 
-            }
+        listSearch.setOnItemClickListener(this);
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            public void afterTextChanged(Editable s) {
-                String[] listNom = {searchText.getText().toString()};
-                TaskManager.launchTask(SearchTask.class, listNom);
-            }
-        });
-
-    }
-
-    @Override
-    public void onStop() {
-        TaskManager.cancelTask(SearchTask.class);
-        super.onPause();
+        SearchView searchText = (SearchView) findViewById(R.id.search_view);
+        searchText.setOnQueryTextListener(this);
     }
 
     //on reçoit le message associé à l'évènement de récupération d'une série
     @Subscribe
     public void onGetSeriesTaskResult(GetSeriesResultEvent event) {
-        this.listSerie = event.getSeries();
-        adapter.notifyDataSetChanged();
-
+        Log.d("actuseries", "recherche, nb series recues : " + this.listSerie.size());
+        this.adapter.notifyDataSetChanged();
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        String[] listNom = {query.replace(" ", "+")};
+/*        SearchTask task = new SearchTask();
+        task.execute(listNom);*/
+        TaskManager.launchTask(SearchTask.class, listNom);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent j = new Intent(this, SerieDetailActivitySimple.class);
+        j.putExtra("numSerie", position);
+
+        startActivityForResult(j, 1);
+    }
 }

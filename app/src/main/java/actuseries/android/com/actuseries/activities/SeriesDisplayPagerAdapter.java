@@ -17,22 +17,22 @@ import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
 public class SeriesDisplayPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
-    private List<SeriesListFragment> fragments;
+    private SeriesListFragment[] fragments;
 
-    public SeriesDisplayPagerAdapter(FragmentManager fm, Context context) {
+    public SeriesDisplayPagerAdapter(FragmentManager fm, Context context, int tabNumber) {
         super(fm);
         this.context = context;
-        this.fragments = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            this.fragments.add(SeriesListFragment.newInstance(SeriesDisplay.fromPosition(i)));
-        }
+        this.fragments = new SeriesListFragment[tabNumber];
     }
 
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return this.fragments.get(position);
+        if (this.fragments[position] == null){
+            this.fragments[position] = SeriesListFragment.newInstance(SeriesDisplay.fromPosition(position));
+        }
+        return this.fragments[position];
     }
 
     @Override
