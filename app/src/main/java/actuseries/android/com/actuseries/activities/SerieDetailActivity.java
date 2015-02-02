@@ -1,8 +1,8 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,11 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
+import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.metier.Episode;
+import actuseries.android.com.actuseries.event.LogoutResultEvent;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 
@@ -60,10 +61,6 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         statut.setText(getResources().getText(R.string.serieDetailActivity_status) + " " + this.serie.getStatut().getStringStatus());
         this.description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
         this.description.setText(this.serie.getDescription());
-
-        // TODO gérer les cliques sur les boutons eye
-
-
     }
 
     @Override
@@ -89,18 +86,5 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
                 });
             }
         }).start();
-
     }
-
-
-
-/*    //on reçoit le message associé à l'évènement de récupération des épisodes <=== plus besoin, on récupère plus tot
-    @Subscribe
-    public void onGetEpisodesTaskResult(GetEpisodesResultEvent event) {
-        Log.d("actuseries", "nb episodes: " + episodes.size());
-        this.serie.getEpisodes() = event.getEpisodes();
-        Log.d("actuseries", "nb episodes: " + episodes.size());
-        adapter.notifyDataSetChanged();
-        Log.d("actuseries", "nb episodes: " + episodes.size());
-    }*/
 }

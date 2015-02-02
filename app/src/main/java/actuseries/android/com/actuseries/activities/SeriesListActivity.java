@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 
@@ -68,13 +67,6 @@ public class SeriesListActivity extends MainMenuActionBarActivity implements and
     public void onResume() {
         super.onResume();
         TaskManager.launchTask(GetSeriesTask.class, null);
-    }
-
-    @Override
-    public void onStop() {
-        TaskManager.cancelTask(GetSeriesTask.class);
-
-        super.onStop();
     }
 
     @Override

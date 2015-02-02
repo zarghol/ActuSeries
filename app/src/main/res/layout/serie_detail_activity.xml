@@ -29,34 +29,46 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="Statut : En cours"/>
 
-    <com.ms.square.android.expandabletextview.ExpandableTextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
-        android:id="@id/serieDetail_textView_summary"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/serieDetail_textView_status"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/serieDetail_textView_status"
-        android:orientation="vertical"
-        expandableTextView:maxCollapsedLines="4"
-        expandableTextView:animDuration="200">
-        <TextView
-            android:id="@id/expandable_text"
+        android:id="@+id/serieDetail_scroll_view">
+        
+        <com.ms.square.android.expandabletextview.ExpandableTextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+            android:id="@id/serieDetail_textView_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="Ceci est une série GÉ-NIA-LI-SSIME !! Il faut absolument la voir !!! Nan, mais sérieux en plus il y a Ned qui meurt a la fin de la saison 1 !"/>
-        <ImageButton
-            android:id="@id/expand_collapse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_gravity="right|bottom"
-            android:background="@android:color/transparent"/>
-    </com.ms.square.android.expandabletextview.ExpandableTextView>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical"
+            expandableTextView:maxCollapsedLines="4"
+            expandableTextView:animDuration="200">
+            <TextView
+                android:id="@id/expandable_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Ceci est une série GÉ-NIA-LI-SSIME !! Il faut absolument la voir !!! Nan, mais sérieux en plus il y a Ned qui meurt a la fin de la saison 1 !"/>
+            <ImageButton
+                android:id="@id/expand_collapse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_gravity="right|bottom"
+                android:background="@android:color/transparent"/>
+        </com.ms.square.android.expandabletextview.ExpandableTextView>
+        </ScrollView>
+
+
 
 
     <ListView
@@ -64,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/serieDetail_textView_summary">
+        android:layout_below="@id/serieDetail_scroll_view">
     </ListView>
 
     <TextView
