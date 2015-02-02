@@ -23,4 +23,8 @@ public class BetaseriesException extends Exception {
     public String getMessage() {
         return "Unable to satisfy request. " + this.codeError + " : " + this.message;
     }
+
+    public String getPrintableMessage() {
+        return this.message;
+    }
 }

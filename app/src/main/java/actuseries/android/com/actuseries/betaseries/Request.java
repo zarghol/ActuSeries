@@ -62,11 +62,11 @@ public class Request {
             Log.d("actuseries", "The response is: " + response);
 
             if(response != 200) {
-                Exception e = new Exception("code : " + response + " : " + conn.getResponseMessage());
-                throw e;
+                is = conn.getErrorStream();
             }
-
-            is = conn.getInputStream();
+            else {
+                is = conn.getInputStream();
+            }
 
             JSONObject json = new JSONObject(IOUtils.toString(is));
 
