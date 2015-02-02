@@ -23,6 +23,7 @@
     <!-- serie detail activity -->
     <string name="serieDetailActivity_noEpisodes">No episodes</string>
     <string name="serieDetailActivity_status">Status : </string>
+    <string name="button_add_serie">Add this serie</string>
 
     <!-- series list -->
     <string name="seriesList_active">Active</string>
@@ -51,6 +52,9 @@
 
     <!-- search activity -->
     <string name="searchActivity_title">Search</string>
+    <string name="lenghtEpisode">Length :</string>
+    <string name="genre">Genre :</string>
+    <string name="statut">Statut :</string>
     <!-- -->
 
 </resources>

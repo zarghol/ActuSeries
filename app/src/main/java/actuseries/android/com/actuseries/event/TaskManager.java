@@ -8,6 +8,8 @@ import com.squareup.otto.Bus;
 import java.util.ArrayList;
 import java.util.List;
 
+import actuseries.android.com.actuseries.metier.Serie;
+
 /**
  * Created by charly on 14/01/2015.
  */
@@ -39,7 +41,7 @@ public class TaskManager {
         TaskManager.getInstance().bus.post(result);
     }
 
-    public static <T> void launchTask(Class<?> typeTask, T[] params) {
+    public static <T, S> void launchTask(Class<?> typeTask, S[] params) {
         try {
             AsyncTask task = (AsyncTask) typeTask.newInstance();
             TaskManager.getInstance().tasks.add(task);
