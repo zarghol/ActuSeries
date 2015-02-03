@@ -45,11 +45,4 @@ public class GetSeriesTask extends AsyncTask<Void, Serie, Void> {
         super.onProgressUpdate(values);
         TaskManager.post(new GetSerieResultEvent(values[0]));
     }
-
-    @Override
-    protected void onPostExecute(Void rien) {
-        //on poste un évènement dans le bus d'évènement qui indique la récupération des séries réussie
-        // TODO poster un evenement indiquant la fin de récuperation totale
-        //EventBus.getBus().post(new GetSeriesResultEvent(series));
-    }
 }

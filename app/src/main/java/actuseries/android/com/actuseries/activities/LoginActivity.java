@@ -66,8 +66,6 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         this.finish();
     }
 
-    //on reçoit le message associé à l'évènement de connexion
-    //FIXME: AsyncTask
     @Subscribe
     public void onLoginTaskResult(LoginResultEvent event) {
         if(event.getResult()) {
