@@ -4,6 +4,7 @@
     <!-- global -->
     <string name="app_name">ActuSeries</string>
 
+
     <!-- main menu -->
     <string name="action_settings">Paramètres</string>
     <string name="action_logout">Deconnexion</string>
@@ -11,6 +12,7 @@
     <string name="action_search">Recherche</string>
 
     <!-- episode detail activity -->
+    <string name="episode_detail_title">Détail Épisode</string>
     <string name="episodeDetailActivity_unmarkWatched">Marquer comme non vu</string>
     <string name="episodeDetailActivity_markWatched">Marquer comme vu</string>
 
@@ -22,6 +24,7 @@
     <string name="loginActivity_noAccountYet">Pas encore de compte BetaSeries ?</string>
 
     <!-- serie detail activity -->
+    <string name="serie_detail_title">Détail Série</string>
     <string name="serieDetailActivity_status">Statut : </string>
     <string name="serieDetailActivity_noEpisodes">Pas d\'épisodes..</string>
     <string name="button_add_serie">Ajouter la série</string>
@@ -35,6 +38,8 @@
 
     <!-- settings activity -->
     <string name="settingsActivity_title">Paramètres</string>
+
+    <!-- settings framgment -->
     <string name="settingsFragment_header_user">Utilisateur</string>
     <string name="settingsFragment_title_stayLoggedIn">Rester connecté</string>
     <string name="settingsFragment_desription_stayLoggedIn">Garde la connexion à la fermeture de l\'application</string>
@@ -45,6 +50,7 @@
 
 
     <!-- signup activity -->
+    <string name="signup_title">S\'enregistrer</string>
     <string name="signupActivity_login">Identifiant</string>
     <string name="signupActivity_email">Adresse e-mail</string>
     <string name="signupActivity_password">Password</string>

@@ -79,7 +79,9 @@ public abstract class MainMenuActionBarActivity extends ActionBarActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        Intent j = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(j);
+                        finish();
                     }
                 });
             }
