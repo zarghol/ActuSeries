@@ -10,6 +10,7 @@
     <string name="action_search">Search</string>
 
     <!-- episode detail activity -->
+    <string name="episode_detail_title">Episode Detail</string>
     <string name="episodeDetailActivity_markWatched">Mark as watched</string>
     <string name="episodeDetailActivity_unmarkWatched">Unmark as watched</string>
 
@@ -21,6 +22,7 @@
     <string name="loginActivity_signup">Sign up</string>
 
     <!-- serie detail activity -->
+    <string name="serie_detail_title">Serie Detail</string>
     <string name="serieDetailActivity_noEpisodes">No episodes</string>
     <string name="serieDetailActivity_status">Status : </string>
     <string name="button_add_serie">Add this serie</string>
@@ -44,6 +46,7 @@
     <string name="settingsFragment_description_token">Your current connection token</string>
 
     <!-- signup activity -->
+    <string name="signup_title">Register</string>
     <string name="signupActivity_email">E-mail</string>
     <string name="signupActivity_login">Login</string>
     <string name="signupActivity_password">Password</string>

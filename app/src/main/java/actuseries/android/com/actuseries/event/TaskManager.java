@@ -45,7 +45,7 @@ public class TaskManager {
         try {
             AsyncTask task = (AsyncTask) typeTask.newInstance();
             TaskManager.getInstance().tasks.add(task);
-            task.execute(params);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
         } catch (Exception e) {
             Log.e("actuseries", "erreur instantiation de tasks", e);
         }
