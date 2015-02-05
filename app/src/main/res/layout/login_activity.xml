@@ -31,6 +31,16 @@
         android:layout_below="@id/login_editText_password"
         android:layout_marginTop="@dimen/default_margin_top"
         android:text="@string/loginActivity_connect"/>
+    <ProgressBar
+        android:id="@id/login_progressBar_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        style="@android:style/Widget.ProgressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/login_editText_password"
+        android:layout_marginTop="@dimen/default_margin_top"
+    />
 
     <TextView
         android:id="@id/login_textView_noAccount"
