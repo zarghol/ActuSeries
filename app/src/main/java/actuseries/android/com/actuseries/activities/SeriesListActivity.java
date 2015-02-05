@@ -73,7 +73,6 @@ public class SeriesListActivity extends MainMenuActionBarActivity implements and
     @Override
     public void onStop() {
         TaskManager.cancelTask(GetSeriesTask.class);
-
         super.onStop();
     }
 

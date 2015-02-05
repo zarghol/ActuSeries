@@ -51,7 +51,7 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
     public void onClick(View v) {
         if (!ConnectivityChecker.connectivityAvailable(this)) {
             Toast.makeText(getApplicationContext(), "Connexion réseau impossible", Toast.LENGTH_SHORT).show();
-        }else if(v.getId() == R.id.login_button_connect) {
+        } else if(v.getId() == R.id.login_button_connect) {
             String[] params = {usernameEditText.getText().toString(), passwordEditText.getText().toString()};
             TaskManager.launchTask(LoginTask.class, params);
         } else {
@@ -60,14 +60,13 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         }
     }
 
-    public void passeAuth() {
+    private void passeAuth() {
         Intent i = new Intent(this, SeriesListActivity.class);
-        startActivity(i);
+        this.startActivity(i);
         this.finish();
     }
 
     //on reçoit le message associé à l'évènement de connexion
-    //FIXME: AsyncTask
     @Subscribe
     public void onLoginTaskResult(LoginResultEvent event) {
         if(event.getResult()) {

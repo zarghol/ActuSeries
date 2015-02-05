@@ -2,11 +2,15 @@ package actuseries.android.com.actuseries.activities.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
+import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.SerieDetailActivity;
 import actuseries.android.com.actuseries.activities.SeriesLogAdapter;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
@@ -54,8 +58,8 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
         }
         this.adapter = new SeriesLogAdapter(this.series, getActivity());
         setListAdapter(this.adapter);
-
-/*        TextView noseriesTextView = new TextView(getActivity());
+/*
+        TextView noseriesTextView = new TextView(getActivity());
         noseriesTextView.setText("Pas de séries :(");
 
         noseriesTextView.setTextColor(getResources().getColor(R.color.grey));
@@ -66,7 +70,8 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
         ((ViewGroup) getListView().getParent()).addView(noseriesTextView);
 
 
-        this.getListView().setEmptyView(noseriesTextView);*/
+        this.getListView().setEmptyView(noseriesTextView);
+//*/
     }
 
     @Override
