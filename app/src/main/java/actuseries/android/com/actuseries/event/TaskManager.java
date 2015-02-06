@@ -59,7 +59,7 @@ public class TaskManager {
         TaskManager.getInstance().tasks.clear();
     }
 
-    public static void cancelTask(Class<?> taskClass) {
+    public static boolean cancelTask(Class<?> taskClass) {
         int location = -1;
         for (AsyncTask task : TaskManager.getInstance().tasks) {
             if (task.getClass().equals(taskClass)) {
@@ -70,6 +70,8 @@ public class TaskManager {
         }
         if (location != -1) {
             TaskManager.getInstance().tasks.remove(location);
+            return true;
         }
+        return false;
     }
 }

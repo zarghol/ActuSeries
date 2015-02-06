@@ -114,7 +114,10 @@ public class AccesBetaseries {
     }
 
     public static void ajouteAuCompte(Serie serie) {
-        AccesBetaseries.getInstance().betaSeries.addToAccount(serie);
+        AccesBetaseries inst = AccesBetaseries.getInstance();
+        if (inst.betaSeries.addToAccount(serie)) {
+            inst.membreConnecte.addSerie(serie);
+        }
     }
 
     public static List<Serie> getListRecherche() {

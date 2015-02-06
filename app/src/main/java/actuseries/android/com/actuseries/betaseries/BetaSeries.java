@@ -194,18 +194,31 @@ public class BetaSeries {
         }
     }
 
-    public void addToAccount(Serie serie) {
+    public boolean addToAccount(Serie serie) {
         Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.SHOW);
         request.setHttpMethod(HttpMethod.POST);
         request.addOption("id", serie.getId() + "");
 
         try {
             request.send();
+            return true;
         } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de l'ajout au compte", e);
         }
+        return false;
     }
 
+    public void archive(Serie serie) {
+        Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.ARCHIVE);
+        request.setHttpMethod(serie.isActive() ? HttpMethod.POST : HttpMethod.DELETE);
+        request.addOption("id", serie.getId() + "");
+
+        try {
+            request.send();
+        } catch (Exception e) {
+            Log.e("Actuseries", "erreur lors du marquage comme vu", e);
+        }
+    }
     
     private Request buildRequest(RequestCategory category, RequestMethod method) {
         Request request = new Request();
