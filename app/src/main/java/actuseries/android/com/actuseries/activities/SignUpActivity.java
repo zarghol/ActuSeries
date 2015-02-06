@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
+import java.util.regex.Pattern;
+
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
@@ -64,15 +66,40 @@ public class SignUpActivity extends MainMenuActionBarActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        if(!this.loginEditText.getText().toString().isEmpty() &&
-              !this.emailEditText.getText().toString().isEmpty() &&
-              !this.passwordEditText.getText().toString().isEmpty() &&
-              this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
+        if(!this.loginEditText.getText().toString().isEmpty())
+            if(!this.emailEditText.getText().toString().isEmpty())
+                if(!this.passwordEditText.getText().toString().isEmpty())
+                    if(this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString()))
+                    {
+                        String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString().replace("+", "%2b")};
+                        TaskManager.launchTask(SignupTask.class, params);
+                        signupButton.setVisibility(View.INVISIBLE);
+                        loadingProgressBar.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        passwordConfirmEditText.setError("Veuillez saisir à nouveau le mot de passe");
+                        passwordEditText.setError(null);
+                        loginEditText.setError(null);
+                        emailEditText.setError(null);
+                    }
+                else{
+                    passwordEditText.setError("Veuillez saisir le mot de passe");
+                    loginEditText.setError(null);
+                    emailEditText.setError(null);
+                    passwordConfirmEditText.setError(null);
 
-            String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString().replace("+", "%2b")};
-            TaskManager.launchTask(SignupTask.class, params);
-            signupButton.setVisibility(View.INVISIBLE);
-            loadingProgressBar.setVisibility(View.VISIBLE);
+                }
+            else{
+                emailEditText.setError("Veuillez saisir une adresse email valide");
+                loginEditText.setError(null);
+                passwordEditText.setError(null);
+                passwordConfirmEditText.setError(null);
+            }
+        else{
+            loginEditText.setError("Veuillez saisir un identifiant");
+            passwordEditText.setError(null);
+            emailEditText.setError(null);
+            passwordConfirmEditText.setError(null);
         }
     }
 
