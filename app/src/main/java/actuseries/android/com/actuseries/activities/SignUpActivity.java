@@ -66,15 +66,20 @@ public class SignUpActivity extends MainMenuActionBarActivity implements View.On
 
     @Override
     public void onClick(View v) {
+         if(inputsOk()) {
+             String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString().replace("+", "%2b")};
+             TaskManager.launchTask(SignupTask.class, params);
+             signupButton.setVisibility(View.INVISIBLE);
+             loadingProgressBar.setVisibility(View.VISIBLE);
+         }
+    }
+
+    private boolean inputsOk(){
         if(!this.loginEditText.getText().toString().isEmpty())
             if(!this.emailEditText.getText().toString().isEmpty())
                 if(!this.passwordEditText.getText().toString().isEmpty())
-                    if(this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString()))
-                    {
-                        String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString().replace("+", "%2b")};
-                        TaskManager.launchTask(SignupTask.class, params);
-                        signupButton.setVisibility(View.INVISIBLE);
-                        loadingProgressBar.setVisibility(View.VISIBLE);
+                    if(this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())){
+                        return true;
                     }
                     else{
                         passwordConfirmEditText.setError("Veuillez saisir à nouveau le mot de passe");
@@ -101,6 +106,7 @@ public class SignUpActivity extends MainMenuActionBarActivity implements View.On
             emailEditText.setError(null);
             passwordConfirmEditText.setError(null);
         }
+        return false;
     }
 
     @Subscribe

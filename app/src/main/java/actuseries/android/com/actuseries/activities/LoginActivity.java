@@ -58,10 +58,12 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         if (!ConnectivityChecker.connectivityAvailable(this)) {
             Toast.makeText(getApplicationContext(), "Connexion réseau impossible", Toast.LENGTH_SHORT).show();
         }else if(v.getId() == R.id.login_button_connect) {
-            String[] params = {usernameEditText.getText().toString(), passwordEditText.getText().toString()};
-            TaskManager.launchTask(LoginTask.class, params);
-            connectButton.setVisibility(View.INVISIBLE);
-            loadingProgressBar.setVisibility(View.VISIBLE);
+            if(inputsOk()) {
+                String[] params = {usernameEditText.getText().toString(), passwordEditText.getText().toString()};
+                TaskManager.launchTask(LoginTask.class, params);
+                connectButton.setVisibility(View.INVISIBLE);
+                loadingProgressBar.setVisibility(View.VISIBLE);
+            }
 
         } else {
             Intent i = new Intent(this, SignUpActivity.class);
@@ -75,6 +77,21 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         this.finish();
     }
 
+    private boolean inputsOk(){
+        if(!this.usernameEditText.getText().toString().isEmpty())
+            if(!this.passwordEditText.getText().toString().isEmpty()){
+                return true;
+            }
+            else{
+                passwordEditText.setError("Veuillez saisir votre mot de passe");
+                usernameEditText.setError(null);
+            }
+        else{
+            usernameEditText.setError("Veuillez saisir votre identifiant");
+            passwordEditText.setError(null);
+        }
+        return false;
+    }
     @Subscribe
     public void onLoginTaskResult(LoginResultEvent event) {
         loadingProgressBar.setVisibility(View.GONE);
