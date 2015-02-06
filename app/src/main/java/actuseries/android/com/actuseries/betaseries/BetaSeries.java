@@ -210,7 +210,7 @@ public class BetaSeries {
 
     public void archive(Serie serie) {
         Request request = this.buildRequest(RequestCategory.SHOWS, RequestMethod.ARCHIVE);
-        request.setHttpMethod(serie.isActive() ? HttpMethod.POST : HttpMethod.DELETE);
+        request.setHttpMethod(serie.isActive() ? HttpMethod.DELETE : HttpMethod.POST);
         request.addOption("id", serie.getId() + "");
 
         try {
