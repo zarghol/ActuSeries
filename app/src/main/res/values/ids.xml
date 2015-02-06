@@ -47,6 +47,11 @@
     <item name="episodeItem_textView_number" type="id"/>
     <item name="episodeItem_imageButton_watched" type="id"/>
 
+    <!-- search activity -->
+    <item name="list_search" type="id"/>
+    <item name="search_view" type="id"/>
+    <item name="search_progressBar_loading" type="id"/>
+
 
 
 
