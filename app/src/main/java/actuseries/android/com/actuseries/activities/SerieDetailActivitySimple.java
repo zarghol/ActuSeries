@@ -1,18 +1,12 @@
 package actuseries.android.com.actuseries.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
-
-import javax.xml.datatype.Duration;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
@@ -20,17 +14,13 @@ import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.AddSerieTask;
-import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 
 /**
  * Created by Mickaël on 08/01/2015.
  */
 public class SerieDetailActivitySimple extends MainMenuActionBarActivity implements View.OnClickListener{
 
-    private EpisodesLogAdapter adapter;
     private Serie serie;
-    private int numSerie;
-    private ExpandableTextView description;
     private Button buttonAddSerie;
 
     @Override
@@ -38,13 +28,15 @@ public class SerieDetailActivitySimple extends MainMenuActionBarActivity impleme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.serie_detail_activity_simple);
 
-        this.numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
+        int numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
         this.buttonAddSerie = (Button) findViewById(R.id.button_ajout_serie);
 
-        this.serie = AccesBetaseries.getListRecherche().get(this.numSerie);
+        this.serie = AccesBetaseries.getListRecherche().get(numSerie);
         this.buttonAddSerie.setOnClickListener(this);
-        if(AccesBetaseries.getSeries(SeriesDisplay.ALL).contains(this.serie))
-             this.buttonAddSerie.setSelected(false);
+        if(AccesBetaseries.getSeries(SeriesDisplay.ALL).contains(this.serie)) {
+            this.buttonAddSerie.setEnabled(false);
+            this.buttonAddSerie.setText("Cette série est déjà ajoutée.");
+        }
 
 
         TextView titre = (TextView) findViewById(R.id.serieDetail_textView_title);
@@ -61,19 +53,16 @@ public class SerieDetailActivitySimple extends MainMenuActionBarActivity impleme
         for(String s : this.serie.getGenres())
             genres += genres.equals(" ") ? s : " / " + s;
         genre.setText(genre.getText()+genres);
-        this.description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
-        this.description.setText(this.serie.getDescription());
-
-
-
+        ExpandableTextView description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
+        description.setText(this.serie.getDescription());
     }
 
     @Override
     public void onClick(View v) {
         if(v.equals(buttonAddSerie)) {
             Serie[] s = {this.serie};
-            TaskManager.launchTask(AddSerieTask.class,s);
-            Toast.makeText(this, "La série à été ajouté avec SUCCES!", Toast.LENGTH_SHORT);
+            TaskManager.launchTask(AddSerieTask.class, s);
+            Toast.makeText(this, R.string.serieDetailActivity_toast_serie_added, Toast.LENGTH_SHORT).show();
         }
     }
 

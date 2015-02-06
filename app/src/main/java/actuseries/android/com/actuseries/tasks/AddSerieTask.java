@@ -16,7 +16,11 @@ public class AddSerieTask extends AsyncTask<Serie, Void, Void> {
     @Override
     protected Void doInBackground(Serie... serie) {
         Log.d("actuseries", Thread.currentThread().getName() + " Ajout de la série!");
+        boolean taskCancelled = TaskManager.cancelTask(GetSeriesTask.class);
         AccesBetaseries.ajouteAuCompte(serie[0]);
+        if (taskCancelled) {
+            TaskManager.launchTask(GetSeriesTask.class, null);
+        }
         return null;
     }
 

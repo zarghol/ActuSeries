@@ -28,7 +28,6 @@ public class SearchTask extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void rien) {
         //on poste un évènement dans le bus d'évènement qui indique la récupération des séries réussie
-        // TODO poster un evenement indiquant la fin de récuperation totale
         TaskManager.post(new GetSeriesResultEvent());
     }
 }

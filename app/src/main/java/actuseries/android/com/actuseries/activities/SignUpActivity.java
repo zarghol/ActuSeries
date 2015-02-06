@@ -5,10 +5,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
+
+import java.util.regex.Pattern;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
@@ -24,6 +28,8 @@ public class SignUpActivity extends MainMenuActionBarActivity implements View.On
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText passwordConfirmEditText;
+    private ProgressBar loadingProgressBar;
+    private Button signupButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +40,9 @@ public class SignUpActivity extends MainMenuActionBarActivity implements View.On
         this.emailEditText = (EditText) findViewById(R.id.signup_editText_email);
         this.passwordEditText = (EditText) findViewById(R.id.signup_editText_password);
         this.passwordConfirmEditText = (EditText) findViewById(R.id.signup_editText_passwordConfirm);
-
-        findViewById(R.id.signup_button_signup).setOnClickListener(this);
+        this.loadingProgressBar = (ProgressBar) findViewById(R.id.signup_progressBar_loading);
+        this.signupButton = (Button) findViewById(R.id.signup_button_signup);
+        signupButton.setOnClickListener(this);
     }
 
     @Override
@@ -59,18 +66,53 @@ public class SignUpActivity extends MainMenuActionBarActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        if(!this.loginEditText.getText().toString().isEmpty() &&
-              !this.emailEditText.getText().toString().isEmpty() &&
-              !this.passwordEditText.getText().toString().isEmpty() &&
-              this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())) {
+         if(inputsOk()) {
+             String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString().replace("+", "%2b")};
+             TaskManager.launchTask(SignupTask.class, params);
+             signupButton.setVisibility(View.INVISIBLE);
+             loadingProgressBar.setVisibility(View.VISIBLE);
+         }
+    }
 
-            String[] params = {loginEditText.getText().toString(), passwordEditText.getText().toString(), emailEditText.getText().toString().replace("+", "%2b")};
-            TaskManager.launchTask(SignupTask.class, params);
+    private boolean inputsOk(){
+        if(!this.loginEditText.getText().toString().isEmpty())
+            if(!this.emailEditText.getText().toString().isEmpty())
+                if(!this.passwordEditText.getText().toString().isEmpty())
+                    if(this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())){
+                        return true;
+                    }
+                    else{
+                        passwordConfirmEditText.setError("Veuillez saisir à nouveau le mot de passe");
+                        passwordEditText.setError(null);
+                        loginEditText.setError(null);
+                        emailEditText.setError(null);
+                    }
+                else{
+                    passwordEditText.setError("Veuillez saisir le mot de passe");
+                    loginEditText.setError(null);
+                    emailEditText.setError(null);
+                    passwordConfirmEditText.setError(null);
+
+                }
+            else{
+                emailEditText.setError("Veuillez saisir une adresse email valide");
+                loginEditText.setError(null);
+                passwordEditText.setError(null);
+                passwordConfirmEditText.setError(null);
+            }
+        else{
+            loginEditText.setError("Veuillez saisir un identifiant");
+            passwordEditText.setError(null);
+            emailEditText.setError(null);
+            passwordConfirmEditText.setError(null);
         }
+        return false;
     }
 
     @Subscribe
     public void onSignupTaskResult(LoginResultEvent event) {
+        signupButton.setVisibility(View.VISIBLE);
+        loadingProgressBar.setVisibility(View.GONE);
         if(event.getResult()) {
             this.finish();
         } else {

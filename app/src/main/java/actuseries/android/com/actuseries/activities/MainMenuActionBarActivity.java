@@ -3,6 +3,7 @@ package actuseries.android.com.actuseries.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -78,19 +79,14 @@ public abstract class MainMenuActionBarActivity extends ActionBarActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        Intent j = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(j);
+                        finish();
                     }
                 });
             }
         }).start();
     }
-
-/*    @Subscribe
-    public void onLogoutEvent(LogoutResultEvent event) {
-        Intent j = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(j);
-        finish();
-    }*/
 
     private void actionSearch() {
         Intent j = new Intent(getApplicationContext(), SearchActivity.class);

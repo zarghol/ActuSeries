@@ -45,7 +45,7 @@ public class TaskManager {
         try {
             AsyncTask task = (AsyncTask) typeTask.newInstance();
             TaskManager.getInstance().tasks.add(task);
-            task.execute(params);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
         } catch (Exception e) {
             Log.e("actuseries", "erreur instantiation de tasks", e);
         }
@@ -59,7 +59,7 @@ public class TaskManager {
         TaskManager.getInstance().tasks.clear();
     }
 
-    public static void cancelTask(Class<?> taskClass) {
+    public static boolean cancelTask(Class<?> taskClass) {
         int location = -1;
         for (AsyncTask task : TaskManager.getInstance().tasks) {
             if (task.getClass().equals(taskClass)) {
@@ -70,6 +70,8 @@ public class TaskManager {
         }
         if (location != -1) {
             TaskManager.getInstance().tasks.remove(location);
+            return true;
         }
+        return false;
     }
 }

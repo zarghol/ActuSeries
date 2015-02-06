@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -20,6 +22,8 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
 
     private EditText usernameEditText;
     private EditText passwordEditText;
+    private ProgressBar loadingProgressBar;
+    private Button connectButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +31,9 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         setContentView(R.layout.login_activity);
         usernameEditText = (EditText) findViewById(R.id.login_editText_login);
         passwordEditText = (EditText) findViewById(R.id.login_editText_password);
-        findViewById(R.id.login_button_connect).setOnClickListener(this);
+        loadingProgressBar = (ProgressBar) findViewById(R.id.login_progressBar_loading);
+        connectButton = (Button) findViewById(R.id.login_button_connect);
+        connectButton.setOnClickListener(this);
         findViewById(R.id.login_button_signup).setOnClickListener(this);
     }
 
@@ -52,8 +58,12 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         if (!ConnectivityChecker.connectivityAvailable(this)) {
             Toast.makeText(getApplicationContext(), "Connexion réseau impossible", Toast.LENGTH_SHORT).show();
         } else if(v.getId() == R.id.login_button_connect) {
-            String[] params = {usernameEditText.getText().toString(), passwordEditText.getText().toString()};
-            TaskManager.launchTask(LoginTask.class, params);
+            if(inputsOk()) {
+                String[] params = {usernameEditText.getText().toString(), passwordEditText.getText().toString()};
+                TaskManager.launchTask(LoginTask.class, params);
+                connectButton.setVisibility(View.INVISIBLE);
+                loadingProgressBar.setVisibility(View.VISIBLE);
+            }
         } else {
             Intent i = new Intent(this, SignUpActivity.class);
             startActivity(i);
@@ -66,9 +76,26 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         this.finish();
     }
 
-    //on reçoit le message associé à l'évènement de connexion
+    private boolean inputsOk(){
+        if(!this.usernameEditText.getText().toString().isEmpty())
+            if(!this.passwordEditText.getText().toString().isEmpty()){
+                return true;
+            }
+            else{
+                passwordEditText.setError("Veuillez saisir votre mot de passe");
+                usernameEditText.setError(null);
+            }
+        else{
+            usernameEditText.setError("Veuillez saisir votre identifiant");
+            passwordEditText.setError(null);
+        }
+        return false;
+    }
+
     @Subscribe
     public void onLoginTaskResult(LoginResultEvent event) {
+        loadingProgressBar.setVisibility(View.GONE);
+        connectButton.setVisibility(View.VISIBLE);
         if(event.getResult()) {
             this.passeAuth();
         } else {

@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+
 /**
  * Created by Clement on 19/12/2014.
  */
@@ -20,7 +22,6 @@ public class Serie {
 
     private List<Episode> episodes;
 
-    private String url;
     private int id;
     private Bitmap banner;
 
@@ -36,7 +37,6 @@ public class Serie {
 
     public Serie(String nom, boolean active, String url) {
         this.active = active;
-        this.url = url;
         this.nomSerie = nom;
 
         this.description = "";
@@ -53,7 +53,6 @@ public class Serie {
         try {
             this.nomSerie = show.getString("title");
             this.active = !show.getJSONObject("user").getBoolean("archived");
-            this.url = show.getString("resource_url");
             this.id = show.getInt("id");
             this.id_thetvdb = show.getInt("thetvdb_id");
             this.description = show.getString("description");
@@ -130,6 +129,11 @@ public class Serie {
         return active;
     }
 
+    private void setActive(boolean active) {
+        this.active = active;
+        AccesBetaseries.archiveSerie(this);
+    }
+
     public boolean toutVue() {
         for(Episode e : this.episodes) {
             if(!e.estVue() && e.getDate().before(new Date())) {
@@ -146,5 +150,9 @@ public class Serie {
         }
         Serie s = (Serie) o;
         return this.getNomSerie().equals(s.getNomSerie()) && this.getId() == s.getId();
+    }
+
+    public void toggleArchive() {
+        this.setActive(!this.active);
     }
 }

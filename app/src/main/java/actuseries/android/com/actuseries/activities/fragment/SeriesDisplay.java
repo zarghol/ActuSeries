@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import actuseries.android.com.actuseries.R;
+import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Serie;
 
 /**
@@ -48,6 +49,23 @@ public enum SeriesDisplay {
                 }
             } else if(this == ARCHIVED) {
                 result.add(s);
+            }
+        }
+
+        return result;
+    }
+
+    public List<Episode> sortEpisodes(List<Episode> episodes) {
+        List<Episode> result = new ArrayList<>();
+
+        if(this != WATCHLIST) {
+            result.addAll(episodes);
+            return result;
+        }
+
+        for(Episode e : episodes) {
+            if (!e.estVue()) {
+                result.add(e);
             }
         }
 

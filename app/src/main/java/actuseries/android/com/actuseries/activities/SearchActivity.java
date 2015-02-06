@@ -3,9 +3,11 @@ package actuseries.android.com.actuseries.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import com.squareup.otto.Subscribe;
@@ -27,6 +29,8 @@ import actuseries.android.com.actuseries.tasks.SearchTask;
 public class SearchActivity extends MainMenuActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
     private List<Serie> listSerie;
     private SeriesLogAdapter adapter;
+    private ProgressBar loadingProgressBar;
+    private ListView listSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,9 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
 
         this.listSerie = AccesBetaseries.getListRecherche();
         this.adapter = new SeriesLogAdapter(this.listSerie, getBaseContext());
+        this.loadingProgressBar = (ProgressBar) findViewById(R.id.search_progressBar_loading);
 
-        ListView listSearch = (ListView) findViewById(R.id.list_search);
+        listSearch = (ListView) findViewById(R.id.list_search);
         listSearch.setAdapter(this.adapter);
 
         listSearch.setOnItemClickListener(this);
@@ -52,6 +57,12 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
         this.adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.menu_search).setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -59,6 +70,7 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
 /*        SearchTask task = new SearchTask();
         task.execute(listNom);*/
         TaskManager.launchTask(SearchTask.class, listNom);
+        listSearch.setEmptyView(loadingProgressBar);
         return true;
     }
 

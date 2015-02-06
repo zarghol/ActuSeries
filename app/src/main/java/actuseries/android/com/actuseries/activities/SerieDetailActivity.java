@@ -1,21 +1,24 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
+import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.metier.Episode;
+import actuseries.android.com.actuseries.event.GetSerieResultEvent;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 
@@ -24,12 +27,13 @@ import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
  */
 public class SerieDetailActivity extends MainMenuActionBarActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    ListView lv;
-    private EpisodesLogAdapter adapter;
+    private ListView lv;
+    private EpisodesAdapter adapter;
     private Serie serie;
     private int numSerie;
     private SeriesDisplay seriesDisplay;
-    private ExpandableTextView description;
+    private Button boutonArchive;
+    private ProgressBar loadingProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,8 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         this.seriesDisplay = SeriesDisplay.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
 
         this.lv = (ListView) findViewById(R.id.serieDetail_listView_episodes);
-        this.lv.setEmptyView(findViewById(R.id.serieDetail_textView_noEpisodes));
+        loadingProgressBar = (ProgressBar) findViewById(R.id.serieDetail_progressBar_loading);
+        this.lv.setEmptyView(loadingProgressBar);
         this.lv.setOnItemClickListener(this);
 
         this.serie = AccesBetaseries.getSeries(this.seriesDisplay).get(this.numSerie);
@@ -49,7 +54,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
             new GetEpisodesTask().execute(numSerie, this.seriesDisplay.getPosition());
         }
 
-        this.adapter = new EpisodesLogAdapter(this.serie.getEpisodes(), getApplicationContext(), this);
+        this.adapter = new EpisodesAdapter(this.seriesDisplay.sortEpisodes(this.serie.getEpisodes()), getApplicationContext(), this);
         this.lv.setAdapter(this.adapter);
 
         TextView titre = (TextView) findViewById(R.id.serieDetail_textView_title);
@@ -58,12 +63,14 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
 //        titre.setBackground(bd); //<--- ça fait moche
         TextView statut = (TextView) findViewById(R.id.serieDetail_textView_status);
         statut.setText(getResources().getText(R.string.serieDetailActivity_status) + " " + this.serie.getStatut().getStringStatus());
-        this.description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
-        this.description.setText(this.serie.getDescription());
+        ExpandableTextView description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
+        description.setText(this.serie.getDescription());
 
-        // TODO gérer les cliques sur les boutons eye
-
-
+        this.boutonArchive = (Button) findViewById(R.id.serieDetail_button_archive);
+        this.boutonArchive.setOnClickListener(this);
+        if (!this.serie.isActive()) {
+            this.boutonArchive.setText(R.string.serieDetailActivity_button_unarchive);
+        }
     }
 
     @Override
@@ -75,32 +82,51 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
     }
 
     public void onClick(View v) {
-        RelativeLayout layout = (RelativeLayout) v.getParent();
-        final int position = this.lv.getPositionForView(layout);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                serie.getEpisodes().get(position).toggleVue();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "episode marqué", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }).start();
+        if (v.equals(this.boutonArchive)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    serie.toggleArchive();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), (serie.isActive() ? R.string.serieDetailActivity_toast_serie_unarchived : R.string.serieDetailActivity_toast_serie_archived ), Toast.LENGTH_SHORT).show();
 
+                            if (!serie.isActive()) {
+                                boutonArchive.setText(R.string.serieDetailActivity_button_unarchive);
+                            } else {
+                                boutonArchive.setText(R.string.serieDetailActivity_button_archive);
+                            }
+                        }
+                    });
+                }
+            }).start();
+        } else {
+            RelativeLayout layout = (RelativeLayout) v.getParent();
+            final int position = this.lv.getPositionForView(layout);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    serie.getEpisodes().get(position).toggleVue();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), R.string.serieDetailActivity_toast_episode_marked, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).start();
+        }
     }
 
-
-
-/*    //on reçoit le message associé à l'évènement de récupération des épisodes <=== plus besoin, on récupère plus tot
     @Subscribe
-    public void onGetEpisodesTaskResult(GetEpisodesResultEvent event) {
-        Log.d("actuseries", "nb episodes: " + episodes.size());
-        this.serie.getEpisodes() = event.getEpisodes();
-        Log.d("actuseries", "nb episodes: " + episodes.size());
-        adapter.notifyDataSetChanged();
-        Log.d("actuseries", "nb episodes: " + episodes.size());
-    }*/
+    public void onDetailSerieReceived(GetSerieResultEvent serieEvent) {
+        Serie serie = serieEvent.getSerie();
+        // si on est entrain de récupérer les infos de la série en arriere plan et que celle-ci arrivent avec la liste des épisodes, on met à jour
+        if (serie.getId() == this.serie.getId()) {
+            this.serie = serieEvent.getSerie();
+            this.adapter = new EpisodesAdapter(this.seriesDisplay.sortEpisodes(this.serie.getEpisodes()), getApplicationContext(), this);
+            this.lv.setAdapter(this.adapter);
+        }
+    }
 }

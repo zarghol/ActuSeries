@@ -5,6 +5,7 @@ package actuseries.android.com.actuseries.betaseries;
  */
 public enum RequestMethod {
     ADD("add"),
+    ARCHIVE("archive"),
     AUTH("auth"),
     BADGES("badges"),
     DELETE("delete"),

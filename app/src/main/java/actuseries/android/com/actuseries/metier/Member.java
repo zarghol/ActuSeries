@@ -21,7 +21,6 @@ public class Member {
     private int nbSeasons;
     private int nbShows;
 
-    // TODO à revoir si intégration ici de la liste de séries
     private List<Serie> series;
 
 
@@ -74,6 +73,5 @@ public class Member {
 
     public void addSerie(Serie serie) {
         this.series.add(serie);
-        // TODO notify ??
     }
 }

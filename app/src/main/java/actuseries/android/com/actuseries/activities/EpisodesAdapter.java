@@ -17,12 +17,12 @@ import actuseries.android.com.actuseries.metier.Episode;
 
 
 
-public class EpisodesLogAdapter extends BaseAdapter {
+public class EpisodesAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Episode> episodes;
     private SerieDetailActivity activity;
 
-    public EpisodesLogAdapter(List<Episode> episodes, Context c, SerieDetailActivity activity) {
+    public EpisodesAdapter(List<Episode> episodes, Context c, SerieDetailActivity activity) {
         this.episodes = episodes;
         this.inflater = LayoutInflater.from(c);
         this.activity = activity;

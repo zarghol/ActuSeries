@@ -11,6 +11,7 @@
     <item name="login_button_connect" type="id"/>
     <item name="login_textView_noAccount" type="id"/>
     <item name="login_button_signup" type="id"/>
+    <item name="login_progressBar_loading" type="id"/>
 
     <!-- signup activity -->
     <item name="signup_editText_login" type="id"/>
@@ -18,6 +19,7 @@
     <item name="signup_editText_email" type="id"/>
     <item name="signup_editText_passwordConfirm" type="id"/>
     <item name="signup_button_signup" type="id"/>
+    <item name="signup_progressBar_loading" type="id"/>
 
     <!-- series list activity -->
     <item name="seriesList_pager" type="id"/>
@@ -28,6 +30,7 @@
     <item name="serieDetail_listView_episodes" type="id"/>
     <item name="serieDetail_textView_summary" type="id"/>
     <item name="serieDetail_textView_noEpisodes" type="id"/>
+    <item name="serieDetail_progressBar_loading" type="id"/>
 
     <!-- serie item -->
     <item name="serieItem_imageView_banner" type="id"/>
@@ -43,6 +46,11 @@
     <item name="episodeItem_textView_title" type="id"/>
     <item name="episodeItem_textView_number" type="id"/>
     <item name="episodeItem_imageButton_watched" type="id"/>
+
+    <!-- search activity -->
+    <item name="list_search" type="id"/>
+    <item name="search_view" type="id"/>
+    <item name="search_progressBar_loading" type="id"/>
 
 
 

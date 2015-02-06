@@ -21,6 +21,7 @@
         <activity android:name=".activities.SeriesListActivity" />
         <activity
             android:name=".activities.SignUpActivity"
+            android:label="@string/signup_title"
             android:parentActivityName=".activities.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -28,6 +29,7 @@
         </activity>
         <activity
             android:name=".activities.SerieDetailActivity"
+            android:label="@string/serie_detail_title"
             android:parentActivityName=".activities.SeriesListActivity"
             android:launchMode="singleTop">
             <meta-data
@@ -36,6 +38,7 @@
         </activity>
         <activity
             android:name=".activities.EpisodeDetailActivity"
+            android:label="@string/episode_detail_title"
             android:parentActivityName=".activities.SerieDetailActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
