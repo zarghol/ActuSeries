@@ -12,7 +12,7 @@ import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.metier.Episode;
 
-public class EpisodeDetailActivity extends MainMenuActionBarActivity implements View.OnClickListener {
+public class EpisodeDetailActivity extends MainMenuActionBarActivity implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
 
     private Episode episode;
 
@@ -34,7 +34,8 @@ public class EpisodeDetailActivity extends MainMenuActionBarActivity implements 
         description.setText(this.episode.getDescriptionEpisode());
 
         RatingBar bar = (RatingBar) findViewById(R.id.episodeDetail_ratingBar_rating);
-        bar.setRating(3.0f);
+        bar.setRating(this.episode.getNoteEpisode());
+        bar.setOnRatingBarChangeListener(this);
 
         this.setBouton().setOnClickListener(this);
     }
@@ -67,5 +68,16 @@ public class EpisodeDetailActivity extends MainMenuActionBarActivity implements 
             boutonVue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.eye, 0, 0, 0);
         }
         return boutonVue;
+    }
+
+    @Override
+    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+        final int rate = (int) rating;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                episode.setNoteEpisode(rate);
+            }
+        }).start();
     }
 }
