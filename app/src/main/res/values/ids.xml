@@ -30,6 +30,7 @@
     <item name="serieDetail_listView_episodes" type="id"/>
     <item name="serieDetail_textView_summary" type="id"/>
     <item name="serieDetail_textView_noEpisodes" type="id"/>
+    <item name="serieDetail_progressBar_loading" type="id"/>
 
     <!-- serie item -->
     <item name="serieItem_imageView_banner" type="id"/>

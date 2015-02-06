@@ -2,10 +2,10 @@ package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,14 +13,10 @@ import android.widget.Toast;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.otto.Subscribe;
 
-import java.util.List;
-
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
 import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
-import actuseries.android.com.actuseries.event.LogoutResultEvent;
-import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 
@@ -30,11 +26,12 @@ import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 public class SerieDetailActivity extends MainMenuActionBarActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     ListView lv;
-    private EpisodesLogAdapter adapter;
+    private EpisodesAdapter adapter;
     private Serie serie;
     private int numSerie;
     private SeriesDisplay seriesDisplay;
     private ExpandableTextView description;
+    private ProgressBar loadingProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +42,8 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         this.seriesDisplay = SeriesDisplay.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
 
         this.lv = (ListView) findViewById(R.id.serieDetail_listView_episodes);
-        this.lv.setEmptyView(findViewById(R.id.serieDetail_textView_noEpisodes));
+        loadingProgressBar = (ProgressBar) findViewById(R.id.serieDetail_progressBar_loading);
+        this.lv.setEmptyView(loadingProgressBar);
         this.lv.setOnItemClickListener(this);
 
         this.serie = AccesBetaseries.getSeries(this.seriesDisplay).get(this.numSerie);
@@ -54,7 +52,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
             new GetEpisodesTask().execute(numSerie, this.seriesDisplay.getPosition());
         }
 
-        this.adapter = new EpisodesLogAdapter(this.seriesDisplay.sortEpisodes(this.serie.getEpisodes()), getApplicationContext(), this);
+        this.adapter = new EpisodesAdapter(this.seriesDisplay.sortEpisodes(this.serie.getEpisodes()), getApplicationContext(), this);
         this.lv.setAdapter(this.adapter);
 
         TextView titre = (TextView) findViewById(R.id.serieDetail_textView_title);
@@ -94,10 +92,11 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
 
     @Subscribe
     public void onDetailSerieReceived(GetSerieResultEvent serieEvent) {
+        Serie serie = serieEvent.getSerie();
         // si on est entrain de récupérer les infos de la série en arriere plan et que celle-ci arrivent avec la liste des épisodes, on met à jour
-        if (serieEvent.getSerie().getId() == this.serie.getId()) {
+        if (serie.getId() == this.serie.getId()) {
             this.serie = serieEvent.getSerie();
-            this.adapter = new EpisodesLogAdapter(this.seriesDisplay.sortEpisodes(this.serie.getEpisodes()), getApplicationContext(), this);
+            this.adapter = new EpisodesAdapter(this.seriesDisplay.sortEpisodes(this.serie.getEpisodes()), getApplicationContext(), this);
             this.lv.setAdapter(this.adapter);
         }
     }

@@ -1,19 +1,12 @@
 package actuseries.android.com.actuseries.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
-
-import javax.xml.datatype.Duration;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
@@ -21,14 +14,13 @@ import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.AddSerieTask;
-import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 
 /**
  * Created by Mickaël on 08/01/2015.
  */
 public class SerieDetailActivitySimple extends MainMenuActionBarActivity implements View.OnClickListener{
 
-    private EpisodesLogAdapter adapter;
+    private EpisodesAdapter adapter;
     private Serie serie;
     private int numSerie;
     private ExpandableTextView description;
