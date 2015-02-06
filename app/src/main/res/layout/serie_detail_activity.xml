@@ -80,9 +80,6 @@
         </com.ms.square.android.expandabletextview.ExpandableTextView>
         </ScrollView>
 
-
-
-
     <ListView
         android:id="@id/serieDetail_listView_episodes"
         android:layout_width="match_parent"
@@ -90,17 +87,14 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@id/serieDetail_scroll_view">
     </ListView>
-
-    <TextView
-        android:id="@id/serieDetail_textView_noEpisodes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        android:text="@string/serieDetailActivity_noEpisodes"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/grey"
-        android:textSize="40dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+    <ProgressBar
+    android:id="@id/serieDetail_progressBar_loading"
+    style="@android:style/Widget.ProgressBar"
+    android:visibility="gone"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    />
 
 </RelativeLayout>

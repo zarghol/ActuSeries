@@ -33,6 +33,7 @@
     <string name="serieDetailActivity_toast_episode_marked">episode marqué</string>
     <string name="serieDetailActivity_toast_serie_archived">serie archivée</string>
     <string name="serieDetailActivity_toast_serie_unarchived">serie désarchivée</string>
+    <string name="serieDetailActivity_toast_serie_added">La série à été ajouté avec succès !</string>
 
 
     <!-- series list -->
