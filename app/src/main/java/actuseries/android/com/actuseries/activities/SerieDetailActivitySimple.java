@@ -20,7 +20,6 @@ import actuseries.android.com.actuseries.tasks.AddSerieTask;
  */
 public class SerieDetailActivitySimple extends MainMenuActionBarActivity implements View.OnClickListener{
 
-    private EpisodesAdapter adapter;
     private Serie serie;
     private Button buttonAddSerie;
 

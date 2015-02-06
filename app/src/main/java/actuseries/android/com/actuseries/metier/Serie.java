@@ -22,7 +22,6 @@ public class Serie {
 
     private List<Episode> episodes;
 
-    private String url;
     private int id;
     private Bitmap banner;
 
@@ -38,7 +37,6 @@ public class Serie {
 
     public Serie(String nom, boolean active, String url) {
         this.active = active;
-        this.url = url;
         this.nomSerie = nom;
 
         this.description = "";
@@ -55,7 +53,6 @@ public class Serie {
         try {
             this.nomSerie = show.getString("title");
             this.active = !show.getJSONObject("user").getBoolean("archived");
-            this.url = show.getString("resource_url");
             this.id = show.getInt("id");
             this.id_thetvdb = show.getInt("thetvdb_id");
             this.description = show.getString("description");
