@@ -3,6 +3,7 @@ package actuseries.android.com.actuseries.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -50,6 +51,12 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
     public void onGetSeriesTaskResult(GetSeriesResultEvent event) {
         Log.d("actuseries", "recherche, nb series recues : " + this.listSerie.size());
         this.adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.menu_search).setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
     }
 
 

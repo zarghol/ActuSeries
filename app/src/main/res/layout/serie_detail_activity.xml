@@ -17,6 +17,7 @@
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
+        android:layout_margin="20dp"
         tools:text="Titre de la série"/>
 
     <TextView
@@ -26,6 +27,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/serieDetail_textView_title"
+        android:layout_margin="5dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="Statut : En cours"/>
 
@@ -83,12 +85,12 @@
         android:id="@id/serieDetail_textView_noEpisodes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:focusable="false"
         android:text="@string/serieDetailActivity_noEpisodes"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/grey"
-        android:textSize="40dp"/>
+        android:textSize="40dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
