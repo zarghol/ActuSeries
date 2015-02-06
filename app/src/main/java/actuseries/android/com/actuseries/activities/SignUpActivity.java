@@ -1,7 +1,7 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,7 +76,7 @@ public class SignUpActivity extends MainMenuActionBarActivity implements View.On
 
     private boolean inputsOk(){
         if(!this.loginEditText.getText().toString().isEmpty())
-            if(!this.emailEditText.getText().toString().isEmpty())
+            if(!this.emailEditText.getText().toString().isEmpty() && Patterns.EMAIL_ADDRESS.matcher(this.emailEditText.getText().toString()).matches())
                 if(!this.passwordEditText.getText().toString().isEmpty())
                     if(this.passwordEditText.getText().toString().equals(this.passwordConfirmEditText.getText().toString())){
                         return true;
