@@ -20,6 +20,16 @@
         android:layout_margin="20dp"
         tools:text="Titre de la série"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="archive"
+        android:id="@+id/serieDetail_button_archive"
+        android:layout_alignBaseline="@id/serieDetail_textView_title"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:layout_alignParentEnd="true" />
+
     <TextView
         android:id="@id/serieDetail_textView_status"
         android:layout_width="wrap_content"

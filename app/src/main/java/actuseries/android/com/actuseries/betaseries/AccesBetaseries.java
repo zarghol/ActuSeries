@@ -124,4 +124,7 @@ public class AccesBetaseries {
         return AccesBetaseries.getInstance().listRecherche;
     }
 
+    public static void archiveSerie(Serie serie) {
+        AccesBetaseries.getInstance().betaSeries.archive(serie);
+    }
 }

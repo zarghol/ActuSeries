@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,12 +30,12 @@ import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
  */
 public class SerieDetailActivity extends MainMenuActionBarActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    ListView lv;
+    private ListView lv;
     private EpisodesLogAdapter adapter;
     private Serie serie;
     private int numSerie;
     private SeriesDisplay seriesDisplay;
-    private ExpandableTextView description;
+    private Button boutonArchive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +64,14 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
 //        titre.setBackground(bd); //<--- ça fait moche
         TextView statut = (TextView) findViewById(R.id.serieDetail_textView_status);
         statut.setText(getResources().getText(R.string.serieDetailActivity_status) + " " + this.serie.getStatut().getStringStatus());
-        this.description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
-        this.description.setText(this.serie.getDescription());
+        ExpandableTextView description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
+        description.setText(this.serie.getDescription());
+
+        this.boutonArchive = (Button) findViewById(R.id.serieDetail_button_archive);
+        this.boutonArchive.setOnClickListener(this);
+        if (!this.serie.isActive()) {
+            this.boutonArchive.setText(R.string.serieDetailActivity_button_unarchive);
+        }
     }
 
     @Override
@@ -76,20 +83,41 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
     }
 
     public void onClick(View v) {
-        RelativeLayout layout = (RelativeLayout) v.getParent();
-        final int position = this.lv.getPositionForView(layout);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                serie.getEpisodes().get(position).toggleVue();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "episode marqué", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }).start();
+        if (v.equals(this.boutonArchive)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    serie.toggleArchive();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), (serie.isActive() ? R.string.serieDetailActivity_toast_serie_unarchived : R.string.serieDetailActivity_toast_serie_archived ), Toast.LENGTH_SHORT).show();
+
+                            if (!serie.isActive()) {
+                                boutonArchive.setText(R.string.serieDetailActivity_button_unarchive);
+                            } else {
+                                boutonArchive.setText(R.string.serieDetailActivity_button_archive);
+                            }
+                        }
+                    });
+                }
+            }).start();
+        } else {
+            RelativeLayout layout = (RelativeLayout) v.getParent();
+            final int position = this.lv.getPositionForView(layout);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    serie.getEpisodes().get(position).toggleVue();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), R.string.serieDetailActivity_toast_episode_marked, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).start();
+        }
     }
 
     @Subscribe

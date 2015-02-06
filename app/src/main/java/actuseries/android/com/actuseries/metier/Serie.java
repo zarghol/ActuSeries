@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+
 /**
  * Created by Clement on 19/12/2014.
  */
@@ -130,6 +132,11 @@ public class Serie {
         return active;
     }
 
+    private void setActive(boolean active) {
+        this.active = active;
+        AccesBetaseries.archiveSerie(this);
+    }
+
     public boolean toutVue() {
         for(Episode e : this.episodes) {
             if(!e.estVue() && e.getDate().before(new Date())) {
@@ -146,5 +153,9 @@ public class Serie {
         }
         Serie s = (Serie) o;
         return this.getNomSerie().equals(s.getNomSerie()) && this.getId() == s.getId();
+    }
+
+    public void toggleArchive() {
+        this.setActive(!this.active);
     }
 }

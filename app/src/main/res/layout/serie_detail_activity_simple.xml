@@ -105,7 +105,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_add_serie"
+        android:text="@string/serieDetailActivity_button_add_serie"
         android:id="@+id/button_ajout_serie"
         android:layout_marginTop="57dp"
         android:layout_below="@+id/genreSimple"

@@ -25,7 +25,14 @@
     <string name="serie_detail_title">Serie Detail</string>
     <string name="serieDetailActivity_noEpisodes">No episodes</string>
     <string name="serieDetailActivity_status">Status : </string>
-    <string name="button_add_serie">Add this serie</string>
+    <string name="serieDetailActivity_button_add_serie">Add this serie</string>
+    <string name="serieDetailActivity_button_archive">Archive</string>
+    <string name="serieDetailActivity_button_unarchive">Unarchive</string>
+    <string name="serieDetailActivity_toast_episode_marked">episode marked</string>
+    <string name="serieDetailActivity_toast_serie_archived">serie archived</string>
+    <string name="serieDetailActivity_toast_serie_unarchived">serie unarchived</string>
+
+
 
     <!-- series list -->
     <string name="seriesList_active">Active</string>

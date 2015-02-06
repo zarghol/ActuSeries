@@ -27,7 +27,12 @@
     <string name="serie_detail_title">Détail Série</string>
     <string name="serieDetailActivity_status">Statut : </string>
     <string name="serieDetailActivity_noEpisodes">Pas d\'épisodes..</string>
-    <string name="button_add_serie">Ajouter la série</string>
+    <string name="serieDetailActivity_button_add_serie">Ajouter la série</string>
+    <string name="serieDetailActivity_button_archive">Archiver</string>
+    <string name="serieDetailActivity_button_unarchive">Désarchiver</string>
+    <string name="serieDetailActivity_toast_episode_marked">episode marqué</string>
+    <string name="serieDetailActivity_toast_serie_archived">serie archivée</string>
+    <string name="serieDetailActivity_toast_serie_unarchived">serie désarchivée</string>
 
 
     <!-- series list -->
