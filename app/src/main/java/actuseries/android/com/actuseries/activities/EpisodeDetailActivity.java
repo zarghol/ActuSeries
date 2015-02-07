@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Episode;
 
 public class EpisodeDetailActivity extends MainMenuActionBarActivity implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
@@ -24,7 +24,7 @@ public class EpisodeDetailActivity extends MainMenuActionBarActivity implements 
         int indexSerie = this.getIntent().getExtras().getInt("indexSerie", 0);
         int indexEpisode = this.getIntent().getExtras().getInt("indexEpisode", 0);
         SeriesDisplay seriesDisplay = SeriesDisplay.fromPosition(this.getIntent().getIntExtra("typePosition", 0));
-        this.episode = AccesBetaseries.getSeries(seriesDisplay).get(indexSerie).getEpisodes().get(indexEpisode);
+        this.episode = BetaSeriesCallerLocator.getService().getSeries(seriesDisplay).get(indexSerie).getEpisodes().get(indexEpisode);
 
         TextView label = (TextView) findViewById(R.id.episodeDetail_textView_title);
         String text = "Épisode " + this.episode.getSaison() + "x" + this.episode.getNumEpisode() + " - " + this.episode.getNomEpisode();

@@ -10,15 +10,15 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.TaskManager;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.AddSerieTask;
 
 /**
  * Created by Mickaël on 08/01/2015.
  */
-public class SerieDetailActivitySimple extends MainMenuActionBarActivity implements View.OnClickListener{
+public class SerieDetailActivitySimple extends MainMenuActionBarActivity implements View.OnClickListener {
 
     private Serie serie;
     private Button buttonAddSerie;
@@ -31,9 +31,9 @@ public class SerieDetailActivitySimple extends MainMenuActionBarActivity impleme
         int numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
         this.buttonAddSerie = (Button) findViewById(R.id.button_ajout_serie);
 
-        this.serie = AccesBetaseries.getListRecherche().get(numSerie);
+        this.serie = BetaSeriesCallerLocator.getService().getSearchResults().get(numSerie);
         this.buttonAddSerie.setOnClickListener(this);
-        if(AccesBetaseries.getSeries(SeriesDisplay.ALL).contains(this.serie)) {
+        if(BetaSeriesCallerLocator.getService().getSeries(SeriesDisplay.ALL).contains(this.serie)) {
             this.buttonAddSerie.setEnabled(false);
             this.buttonAddSerie.setText("Cette série est déjà ajoutée.");
         }
@@ -48,11 +48,12 @@ public class SerieDetailActivitySimple extends MainMenuActionBarActivity impleme
         TextView duree = (TextView) findViewById(R.id.lenghtEpisodeSimple);
 
         statut.setText(statut.getText() + " " + this.serie.getStatut().getStringStatus());
-        duree.setText(duree.getText()+" "+this.serie.getDureeEpisode());
+        duree.setText(duree.getText() + " " + this.serie.getDureeEpisode());
         String genres = " ";
-        for(String s : this.serie.getGenres())
+        for(String s : this.serie.getGenres()) {
             genres += genres.equals(" ") ? s : " / " + s;
-        genre.setText(genre.getText()+genres);
+        }
+        genre.setText(genre.getText() + genres);
         ExpandableTextView description = (ExpandableTextView) findViewById(R.id.serieDetail_textView_summary);
         description.setText(this.serie.getDescription());
     }

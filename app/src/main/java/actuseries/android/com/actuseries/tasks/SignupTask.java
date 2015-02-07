@@ -2,9 +2,9 @@ package actuseries.android.com.actuseries.tasks;
 
 import android.os.AsyncTask;
 
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
+import actuseries.android.com.actuseries.event.TaskManager;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Member;
 
 /**
@@ -17,7 +17,7 @@ public class SignupTask extends AsyncTask<String, Void, Member> {
         String login = params[0];
         String password = params[1];
         String email = params[2];
-        return AccesBetaseries.creationCompte(login, password, email);
+        return BetaSeriesCallerLocator.getService().accountCreation(login, password, email);
 
     }
 

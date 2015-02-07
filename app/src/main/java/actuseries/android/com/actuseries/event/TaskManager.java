@@ -8,25 +8,23 @@ import com.squareup.otto.Bus;
 import java.util.ArrayList;
 import java.util.List;
 
-import actuseries.android.com.actuseries.metier.Serie;
-
 /**
  * Created by charly on 14/01/2015.
  */
 public class TaskManager {
     private static TaskManager taskManager;
-    private List<AsyncTask> tasks;
     private final Bus bus = new Bus();
-
-    private static TaskManager getInstance() {
-        if (TaskManager.taskManager == null) {
-            TaskManager.taskManager = new TaskManager();
-        }
-        return TaskManager.taskManager;
-    }
+    private List<AsyncTask> tasks;
 
     private TaskManager() {
         this.tasks = new ArrayList<>();
+    }
+
+    private static TaskManager getInstance() {
+        if(TaskManager.taskManager == null) {
+            TaskManager.taskManager = new TaskManager();
+        }
+        return TaskManager.taskManager;
     }
 
     public static void register(Object object) {
@@ -46,13 +44,13 @@ public class TaskManager {
             AsyncTask task = (AsyncTask) typeTask.newInstance();
             TaskManager.getInstance().tasks.add(task);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-        } catch (Exception e) {
+        } catch(Exception e) {
             Log.e("actuseries", "erreur instantiation de tasks", e);
         }
     }
 
     public static void cancelAllTasks() {
-        for (AsyncTask task : TaskManager.getInstance().tasks) {
+        for(AsyncTask task : TaskManager.getInstance().tasks) {
             task.cancel(true);
         }
 
@@ -61,14 +59,14 @@ public class TaskManager {
 
     public static boolean cancelTask(Class<?> taskClass) {
         int location = -1;
-        for (AsyncTask task : TaskManager.getInstance().tasks) {
-            if (task.getClass().equals(taskClass)) {
+        for(AsyncTask task : TaskManager.getInstance().tasks) {
+            if(task.getClass().equals(taskClass)) {
                 location = TaskManager.getInstance().tasks.indexOf(task);
                 task.cancel(true);
                 break;
             }
         }
-        if (location != -1) {
+        if(location != -1) {
             TaskManager.getInstance().tasks.remove(location);
             return true;
         }

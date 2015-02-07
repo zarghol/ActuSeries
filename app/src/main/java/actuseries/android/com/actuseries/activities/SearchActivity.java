@@ -12,13 +12,12 @@ import android.widget.SearchView;
 
 import com.squareup.otto.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.GetSeriesResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.SearchTask;
 
@@ -37,7 +36,7 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
 
-        this.listSerie = AccesBetaseries.getListRecherche();
+        this.listSerie = BetaSeriesCallerLocator.getService().getSearchResults();
         this.adapter = new SeriesSimpleAdapter(this.listSerie, getBaseContext());
         this.loadingProgressBar = (ProgressBar) findViewById(R.id.search_progressBar_loading);
 

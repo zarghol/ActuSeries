@@ -4,11 +4,10 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 
 /**
  * Created by Clement on 19/12/2014.
@@ -67,22 +66,20 @@ public class Episode implements Comparable<Episode> {
 
     public void setVue(boolean vue) {
         this.vue = vue;
-        AccesBetaseries.marqueVue(this);
+        BetaSeriesCallerLocator.getService().markAsWatched(this);
     }
 
     public void toggleVue() {
         this.setVue(!this.vue);
     }
 
-    public void setNoteEpisode(int note) {
-        this.noteEpisode = note;
-        AccesBetaseries.marqueNote(this);
-    }
-
-
-
     public int getNoteEpisode() {
         return this.noteEpisode;
+    }
+
+    public void setNoteEpisode(int note) {
+        this.noteEpisode = note;
+        BetaSeriesCallerLocator.getService().setRating(this);
     }
 
     public Date getDate() {

@@ -1,20 +1,20 @@
-package actuseries.android.com.actuseries.metier;
+package actuseries.android.com.actuseries.betaseries;
 
 import org.json.JSONObject;
 
 /**
  * Created by Clement on 30/01/2015.
  */
-public class BetaseriesException extends Exception {
+public class BetaSeriesException extends Exception {
     private int codeError;
     private String message;
 
-    public BetaseriesException(int codeError, String message) {
+    public BetaSeriesException(int codeError, String message) {
         this.codeError = codeError;
         this.message = message;
     }
 
-    public BetaseriesException(JSONObject json) throws Exception{
+    public BetaSeriesException(JSONObject json) throws Exception {
         this.codeError = json.getInt("code");
         this.message = json.getString("text");
     }

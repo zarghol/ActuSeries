@@ -9,7 +9,7 @@ import java.util.List;
 
 import actuseries.android.com.actuseries.activities.SerieDetailActivity;
 import actuseries.android.com.actuseries.activities.SeriesLogAdapter;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Serie;
 
 /**
@@ -26,7 +26,6 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
     private List<Serie> series;
     private SeriesLogAdapter adapter;
     private SeriesDisplay seriesDisplay;
-
 
 
     /**
@@ -50,12 +49,12 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
 
         if(getArguments() != null) {
             this.seriesDisplay = SeriesDisplay.valueOf(getArguments().getString(ARG_PARAM1));
-            this.series = AccesBetaseries.getSeries(this.seriesDisplay);
+            this.series = BetaSeriesCallerLocator.getService().getSeries(this.seriesDisplay);
         }
         this.adapter = new SeriesLogAdapter(this.series, getActivity());
         setListAdapter(this.adapter);
-
-/*        TextView noseriesTextView = new TextView(getActivity());
+/*
+        TextView noseriesTextView = new TextView(getActivity());
         noseriesTextView.setText("Pas de séries :(");
 
         noseriesTextView.setTextColor(getResources().getColor(R.color.grey));
@@ -66,7 +65,8 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
         ((ViewGroup) getListView().getParent()).addView(noseriesTextView);
 
 
-        this.getListView().setEmptyView(noseriesTextView);*/
+        this.getListView().setEmptyView(noseriesTextView);
+//*/
     }
 
     @Override
@@ -81,9 +81,9 @@ public class SeriesListFragment extends android.support.v4.app.ListFragment {
     }
 
     public void notifyDataChanged() {
-        if (this.adapter != null) {
+        if(this.adapter != null) {
             this.series.clear();
-            this.series.addAll(AccesBetaseries.getSeries(this.seriesDisplay));
+            this.series.addAll(BetaSeriesCallerLocator.getService().getSeries(this.seriesDisplay));
             this.adapter.notifyDataSetChanged();
         }
     }

@@ -3,17 +3,12 @@ package actuseries.android.com.actuseries.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.squareup.otto.Subscribe;
-
 import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.LogoutResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
-import actuseries.android.com.actuseries.tasks.LogoutTask;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 
 /**
  *
@@ -75,7 +70,7 @@ public abstract class MainMenuActionBarActivity extends ActionBarActivity {
             @Override
             public void run() {
                 TaskManager.cancelAllTasks();
-                AccesBetaseries.deconnexionMembre();
+                BetaSeriesCallerLocator.getService().memberLogout();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -64,7 +64,7 @@ public enum SeriesDisplay {
         }
 
         for(Episode e : episodes) {
-            if (!e.estVue()) {
+            if(!e.estVue()) {
                 result.add(e);
             }
         }

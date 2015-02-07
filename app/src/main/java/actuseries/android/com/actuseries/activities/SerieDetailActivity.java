@@ -2,7 +2,6 @@ package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,8 +16,8 @@ import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.GetEpisodesTask;
 
@@ -48,7 +47,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
         this.lv.setEmptyView(loadingProgressBar);
         this.lv.setOnItemClickListener(this);
 
-        this.serie = AccesBetaseries.getSeries(this.seriesDisplay).get(this.numSerie);
+        this.serie = BetaSeriesCallerLocator.getService().getSeries(this.seriesDisplay).get(this.numSerie);
 
         if(this.serie.getEpisodes().size() == 0) {
             new GetEpisodesTask().execute(numSerie, this.seriesDisplay.getPosition());
@@ -68,7 +67,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
 
         this.boutonArchive = (Button) findViewById(R.id.serieDetail_button_archive);
         this.boutonArchive.setOnClickListener(this);
-        if (!this.serie.isActive()) {
+        if(!this.serie.isActive()) {
             this.boutonArchive.setText(R.string.serieDetailActivity_button_unarchive);
         }
     }
@@ -82,7 +81,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
     }
 
     public void onClick(View v) {
-        if (v.equals(this.boutonArchive)) {
+        if(v.equals(this.boutonArchive)) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -90,9 +89,9 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), (serie.isActive() ? R.string.serieDetailActivity_toast_serie_unarchived : R.string.serieDetailActivity_toast_serie_archived ), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), (serie.isActive() ? R.string.serieDetailActivity_toast_serie_unarchived : R.string.serieDetailActivity_toast_serie_archived), Toast.LENGTH_SHORT).show();
 
-                            if (!serie.isActive()) {
+                            if(!serie.isActive()) {
                                 boutonArchive.setText(R.string.serieDetailActivity_button_unarchive);
                             } else {
                                 boutonArchive.setText(R.string.serieDetailActivity_button_archive);
@@ -123,7 +122,7 @@ public class SerieDetailActivity extends MainMenuActionBarActivity implements Ad
     public void onDetailSerieReceived(GetSerieResultEvent serieEvent) {
         Serie serie = serieEvent.getSerie();
         // si on est entrain de récupérer les infos de la série en arriere plan et que celle-ci arrivent avec la liste des épisodes, on met à jour
-        if (serie.getId() == this.serie.getId()) {
+        if(serie.getId() == this.serie.getId()) {
             this.serie = serieEvent.getSerie();
             this.adapter = new EpisodesAdapter(this.seriesDisplay.sortEpisodes(this.serie.getEpisodes()), getApplicationContext(), this);
             this.lv.setAdapter(this.adapter);

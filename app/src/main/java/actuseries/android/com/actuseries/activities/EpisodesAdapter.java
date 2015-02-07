@@ -16,7 +16,6 @@ import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.metier.Episode;
 
 
-
 public class EpisodesAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Episode> episodes;
@@ -61,7 +60,7 @@ public class EpisodesAdapter extends BaseAdapter {
         holder.numEpisode.setText(e.getSaison() + " x " + e.getNumEpisode());
 
         holder.boutonVueEpisode.setOnClickListener(this.activity);
-        if (e.getDate().after(new Date())) {
+        if(e.getDate().after(new Date())) {
             holder.boutonVueEpisode.setEnabled(false);
             holder.boutonVueEpisode.setAlpha(0.0f);
         } else {

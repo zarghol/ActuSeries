@@ -6,9 +6,9 @@ import android.util.Log;
 import java.util.List;
 
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
+import actuseries.android.com.actuseries.event.TaskManager;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Serie;
 
 /**
@@ -20,19 +20,19 @@ public class GetSeriesTask extends AsyncTask<Void, Serie, Void> {
         // Debug the task thread name
         Log.d("actuseries", Thread.currentThread().getName() + " récupérations des infos");
 
-        List<Serie> series = AccesBetaseries.getSeries(SeriesDisplay.ALL);
+        List<Serie> series = BetaSeriesCallerLocator.getService().getSeries(SeriesDisplay.ALL);
 
         if(series.size() == 0) {
-            series = AccesBetaseries.recupereSeriesMembre();
+            series = BetaSeriesCallerLocator.getService().getMemberSeries();
         }
 
         for(Serie s : series) {
-            if (isCancelled()) {
+            if(isCancelled()) {
                 break;
             }
 
             if(s.getBanner() == null) {
-                AccesBetaseries.recupereSerieAvecBanniere(s);
+                BetaSeriesCallerLocator.getService().getSerieWithBanner(s);
             }
 
             this.publishProgress(s);

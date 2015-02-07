@@ -9,8 +9,8 @@ import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesListFragment;
-import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.GetSerieResultEvent;
+import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.tasks.GetSeriesTask;
 
 /**
