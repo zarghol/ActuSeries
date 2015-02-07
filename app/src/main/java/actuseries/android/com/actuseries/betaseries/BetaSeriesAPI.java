@@ -17,16 +17,16 @@ import actuseries.android.com.actuseries.metier.Serie;
 /**
  * Created by Clement on 11/12/2014.
  */
-public class BetaSeries {
+public class BetaSeriesAPI {
     private String apiKey;
     private Member member;
 
-    public BetaSeries(String apiKey, Member member) {
+    public BetaSeriesAPI(String apiKey, Member member) {
         this.apiKey = apiKey;
         this.member = member;
     }
 
-    public BetaSeries(String apiKey) {
+    public BetaSeriesAPI(String apiKey) {
         this(apiKey, null);
     }
 
@@ -80,7 +80,6 @@ public class BetaSeries {
         }
     }
 
-
     public void getMemberInformations(Member member) {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.INFOS);
 
@@ -101,7 +100,7 @@ public class BetaSeries {
     }
 
     public void recupInfoEpisode(Serie serie, Point size) {
-        this.recupEpisodes(serie);
+        this.getEpisodes(serie);
         this.recupBanner(serie, size);
     }
 
@@ -126,7 +125,7 @@ public class BetaSeries {
         }
     }
 
-    public void recupEpisodes(Serie serie) {
+    public void getEpisodes(Serie serie) {
         if(serie.getEpisodes().size() != 0) {
             serie.clearEpisodes();
         }

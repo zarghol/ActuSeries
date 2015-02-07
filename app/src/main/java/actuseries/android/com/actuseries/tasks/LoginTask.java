@@ -2,9 +2,10 @@ package actuseries.android.com.actuseries.tasks;
 
 import android.os.AsyncTask;
 
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.betaseries.BaseBetaSeriesCaller;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Member;
 
 /**
@@ -16,7 +17,7 @@ public class LoginTask extends AsyncTask<String, Void, Member> {
     protected Member doInBackground(String... params) {
         String login = params[0];
         String password = params[1];
-        return AccesBetaseries.connexionMembre(login, password);
+        return BetaSeriesCallerLocator.getService().memberLogin(login, password);
     }
 
     @Override

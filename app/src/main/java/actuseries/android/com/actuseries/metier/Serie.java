@@ -12,7 +12,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.betaseries.BaseBetaSeriesCaller;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 
 /**
  * Created by Clement on 19/12/2014.
@@ -131,7 +132,7 @@ public class Serie {
 
     private void setActive(boolean active) {
         this.active = active;
-        AccesBetaseries.archiveSerie(this);
+        BetaSeriesCallerLocator.getService().archiveSerie(this);
     }
 
     public boolean toutVue() {

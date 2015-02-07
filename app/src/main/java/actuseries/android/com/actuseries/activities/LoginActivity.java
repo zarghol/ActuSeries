@@ -12,9 +12,11 @@ import android.widget.Toast;
 import com.squareup.otto.Subscribe;
 
 import actuseries.android.com.actuseries.R;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.betaseries.BaseBetaSeriesCaller;
+import actuseries.android.com.actuseries.betaseries.BetaSeriesCaller;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.tasks.LoginTask;
 import actuseries.android.com.actuseries.tools.ConnectivityChecker;
 
@@ -35,11 +37,15 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         connectButton = (Button) findViewById(R.id.login_button_connect);
         connectButton.setOnClickListener(this);
         findViewById(R.id.login_button_signup).setOnClickListener(this);
+
+        // Initialize the service locators
+        BetaSeriesCallerLocator.provide(new BaseBetaSeriesCaller());
     }
 
     @Override
     protected void onResume() {
-        if(AccesBetaseries.estConnecte()) {
+        BetaSeriesCaller betaSeriesCaller = BetaSeriesCallerLocator.getService();
+        if(betaSeriesCaller.isLoggedIn()) {
             this.passeAuth();
         }
         super.onResume();

@@ -10,8 +10,9 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.betaseries.BaseBetaSeriesCaller;
 import actuseries.android.com.actuseries.event.TaskManager;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Serie;
 import actuseries.android.com.actuseries.tasks.AddSerieTask;
 
@@ -31,9 +32,9 @@ public class SerieDetailActivitySimple extends MainMenuActionBarActivity impleme
         int numSerie = this.getIntent().getExtras().getInt("numSerie", 0);
         this.buttonAddSerie = (Button) findViewById(R.id.button_ajout_serie);
 
-        this.serie = AccesBetaseries.getListRecherche().get(numSerie);
+        this.serie = BetaSeriesCallerLocator.getService().getSearchResults().get(numSerie);
         this.buttonAddSerie.setOnClickListener(this);
-        if(AccesBetaseries.getSeries(SeriesDisplay.ALL).contains(this.serie)) {
+        if(BetaSeriesCallerLocator.getService().getSeries(SeriesDisplay.ALL).contains(this.serie)) {
             this.buttonAddSerie.setEnabled(false);
             this.buttonAddSerie.setText("Cette série est déjà ajoutée.");
         }

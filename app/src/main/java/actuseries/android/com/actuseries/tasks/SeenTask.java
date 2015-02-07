@@ -2,11 +2,6 @@ package actuseries.android.com.actuseries.tasks;
 
 import android.os.AsyncTask;
 
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
-import actuseries.android.com.actuseries.event.LoginResultEvent;
-import actuseries.android.com.actuseries.event.TaskManager;
-import actuseries.android.com.actuseries.metier.Member;
-
 /**
  * Created by Clement on 30/01/2015.
  */

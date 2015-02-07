@@ -6,9 +6,10 @@ import android.util.Log;
 import java.util.List;
 
 import actuseries.android.com.actuseries.activities.fragment.SeriesDisplay;
-import actuseries.android.com.actuseries.betaseries.AccesBetaseries;
+import actuseries.android.com.actuseries.betaseries.BaseBetaSeriesCaller;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.event.GetEpisodesResultEvent;
+import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
 import actuseries.android.com.actuseries.metier.Episode;
 
 /**
@@ -21,7 +22,7 @@ public class GetEpisodesTask extends AsyncTask<Integer, Void, List<Episode>> {
         SeriesDisplay seriesDisplay = SeriesDisplay.fromPosition(params[1]);
         // Debug the task thread name
         Log.d("actuseries", Thread.currentThread().getName() + " récupérations des épisodes");
-        return AccesBetaseries.recupereEpisodes(AccesBetaseries.getSeries(seriesDisplay).get(numSerie));
+        return BetaSeriesCallerLocator.getService().getEpisodes(BetaSeriesCallerLocator.getService().getSeries(seriesDisplay).get(numSerie));
     }
 
     @Override
