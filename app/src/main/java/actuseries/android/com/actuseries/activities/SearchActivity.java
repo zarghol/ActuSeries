@@ -28,7 +28,7 @@ import actuseries.android.com.actuseries.tasks.SearchTask;
  */
 public class SearchActivity extends MainMenuActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
     private List<Serie> listSerie;
-    private SeriesLogAdapter adapter;
+    private SeriesSimpleAdapter adapter;
     private ProgressBar loadingProgressBar;
     private ListView listSearch;
 
@@ -38,13 +38,13 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
         setContentView(R.layout.search_activity);
 
         this.listSerie = AccesBetaseries.getListRecherche();
-        this.adapter = new SeriesLogAdapter(this.listSerie, getBaseContext());
+        this.adapter = new SeriesSimpleAdapter(this.listSerie, getBaseContext());
         this.loadingProgressBar = (ProgressBar) findViewById(R.id.search_progressBar_loading);
 
-        listSearch = (ListView) findViewById(R.id.list_search);
-        listSearch.setAdapter(this.adapter);
+        this.listSearch = (ListView) findViewById(R.id.list_search);
+        this.listSearch.setAdapter(this.adapter);
 
-        listSearch.setOnItemClickListener(this);
+        this.listSearch.setOnItemClickListener(this);
 
         SearchView searchText = (SearchView) findViewById(R.id.search_view);
         searchText.setOnQueryTextListener(this);
@@ -55,6 +55,7 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
     public void onGetSeriesTaskResult(GetSeriesResultEvent event) {
         Log.d("actuseries", "recherche, nb series recues : " + this.listSerie.size());
         this.adapter.notifyDataSetChanged();
+        this.loadingProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -63,14 +64,18 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
         return super.onPrepareOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onQueryTextSubmit(String query) {
+        Log.d("actuseries", "query recherche : " + query);
+        this.listSearch.setEmptyView(this.loadingProgressBar);
+
         String[] listNom = {query.replace(" ", "+")};
-/*        SearchTask task = new SearchTask();
-        task.execute(listNom);*/
+        TaskManager.cancelTask(SearchTask.class);
+        this.listSerie.clear();
+        this.adapter.notifyDataSetChanged();
+
         TaskManager.launchTask(SearchTask.class, listNom);
-        listSearch.setEmptyView(loadingProgressBar);
+        this.loadingProgressBar.setVisibility(View.VISIBLE);
         return true;
     }
 
@@ -79,10 +84,8 @@ public class SearchActivity extends MainMenuActionBarActivity implements SearchV
         return false;
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         Intent j = new Intent(this, SerieDetailActivitySimple.class);
         j.putExtra("numSerie", position);
 
