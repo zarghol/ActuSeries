@@ -22,6 +22,6 @@ public class LoginTask extends AsyncTask<String, Void, Member> {
     @Override
     protected void onPostExecute(Member member) {
         //on poste un évènement dans le bus d'évènement qui indique la connexion réussie
-        TaskManager.post(new LoginResultEvent(member != null));
+        TaskManager.post(new LoginResultEvent(member));
     }
 }

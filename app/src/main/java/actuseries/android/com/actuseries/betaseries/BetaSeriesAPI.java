@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import actuseries.android.com.actuseries.metier.Episode;
 import actuseries.android.com.actuseries.metier.Member;
@@ -19,23 +20,27 @@ import actuseries.android.com.actuseries.metier.Serie;
  */
 public class BetaSeriesAPI {
     private String apiKey;
-    private Member member;
+    private String token;
 
-    public BetaSeriesAPI(String apiKey, Member member) {
+    public BetaSeriesAPI(String apiKey, String token) {
         this.apiKey = apiKey;
-        this.member = member;
+        this.token = token;
     }
 
     public BetaSeriesAPI(String apiKey) {
         this(apiKey, null);
     }
 
-    public Member obtainMember(String username, String password) {
+    public Member login(String username, String password) {
         String passMD5 = this.getMD5(password);
-        return this.obtainMemberWithMD5(username, passMD5);
+        Member member = this.loginMD5(username, passMD5);
+        if(member != null) {
+            this.token = member.getToken();
+        }
+        return member;
     }
 
-    public Member obtainMemberWithMD5(String username, String passwordMD5) {
+    public Member loginMD5(String username, String passwordMD5) {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.AUTH);
         request.addOption("login", username);
         request.addOption("password", passwordMD5);
@@ -43,7 +48,7 @@ public class BetaSeriesAPI {
 
         try {
             JSONObject json = request.send();
-            return new Member(json.getString("token"), json.getJSONObject("user").getString("login"));
+            return new Member(json.getString("token"));
         } catch(Exception e) {
             Log.e("ActuSeries", "erreur de récupération de token ", e);
             return null;
@@ -62,7 +67,7 @@ public class BetaSeriesAPI {
 
         try {
             JSONObject json = request.send();
-            return new Member(json.getString("token"), json.getJSONObject("user").getString("login"));
+            return new Member(json.getString("token"));
         } catch(Exception e) {
             Log.e("ActuSeries", "erreur lors de la creation de compte utilisateur", e);
         }
@@ -78,41 +83,36 @@ public class BetaSeriesAPI {
         } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de la deconnexion", e);
         }
+        this.token = null;
     }
 
-    public void getMemberInformations(Member member) {
+    public Member getMemberInformation(boolean summary) {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.INFOS);
+        if(summary) {
+            request.addOption("summary", "true");
+        }
 
         try {
             JSONObject memberjson = request.send().getJSONObject("member");
-
-            JSONArray array = memberjson.getJSONArray("shows");
-
-            for(int i = 0; i < array.length(); i++) {
-                JSONObject show = array.getJSONObject(i);
-                member.addSerie(new Serie(show));
-            }
-
-            member.fillMember(memberjson);
+            return new Member(memberjson);
         } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de la récupération du membre", e);
         }
+        return null;
     }
 
-    public void recupInfoEpisode(Serie serie, Point size) {
+    public void getEpisodesInformation(Serie serie, Point size) {
         this.getEpisodes(serie);
-        this.recupBanner(serie, size);
+        this.getBanner(serie, size);
     }
 
-    public void recupBanner(Serie serie, Point realSize) {
+    public void getBanner(Serie serie, Point realSize) {
         Request request = this.buildRequest(RequestCategory.PICTURES, RequestMethod.SHOWS);
         request.addOption("id", "" + serie.getId());
 
-        // TODO récupérer des ressources
+        // TODO récupérer les dimensions depuis les ressources
         int heightBanniere = 100;
-
         int widthBanniere = realSize.y == 0 ? 390 : (realSize.x * heightBanniere) / realSize.y;
-
 
         request.addOption("height", "" + heightBanniere);
         request.addOption("width", "" + widthBanniere);
@@ -121,7 +121,7 @@ public class BetaSeriesAPI {
         try {
             serie.setBanner(request.getImage());
         } catch(Exception e) {
-            Log.e("Actuseries", "erreur lors de la récupération de la banniere", e);
+            Log.e("Actuseries", "erreur lors de la récupération de la bannière", e);
         }
     }
 
@@ -222,10 +222,7 @@ public class BetaSeriesAPI {
     private Request buildRequest(RequestCategory category, RequestMethod method) {
         Request request = new Request();
         request.setApiKey(this.apiKey);
-
-        if(this.member != null) {
-            request.setToken(this.member.getToken());
-        }
+        request.setToken(this.token);
 
         request.setCategory(category);
         request.setMethod(method);

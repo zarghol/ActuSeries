@@ -4,22 +4,24 @@
         android:title="@string/settingsFragment_header_user">
 
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="stay_logged_in"
+            android:key="@string/settingsKey_stayLoggedIn"
             android:title="@string/settingsFragment_title_stayLoggedIn"
-            android:summary="@string/settingsFragment_desription_stayLoggedIn"/>
+            android:summary="@string/settingsFragment_desription_stayLoggedIn"
+            android:defaultValue="true"/>
 
         <Preference
-            android:key="login"
+            android:key="@string/settingsKey_login"
             android:title="@string/settingsFragment_title_login"
             android:summary="@string/settingsFragment_desription_login"
-            android:editable="false"/>
+            android:editable="false"
+            android:defaultValue=""/>
 
         <Preference
-            android:key="token"
+            android:key="@string/settingsKey_token"
             android:title="@string/settingsFragment_title_token"
             android:summary="@string/settingsFragment_description_token"
-            android:editable="false"/>
+            android:editable="false"
+            android:defaultValue=""/>
     </PreferenceCategory>
 
 </PreferenceScreen>

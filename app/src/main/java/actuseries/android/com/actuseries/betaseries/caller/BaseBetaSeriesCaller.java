@@ -22,28 +22,41 @@ public class BaseBetaSeriesCaller implements BetaSeriesCaller {
     private Point screenSize;
     private List<Serie> searchResults;
 
-    public BaseBetaSeriesCaller() {
-        this.member = Member.getFromPersistance();
-        String token = this.member != null ? this.member.getToken() : "";
+    public BaseBetaSeriesCaller(String token) {
+        //TODO: initialiser screenSize aux dimensions de l'écran
         this.screenSize = new Point();
-        this.betaSeriesAPI = new BetaSeriesAPI(cleApi);
         this.searchResults = new ArrayList<Serie>();
+        if(token != null && !token.isEmpty()) {
+            this.betaSeriesAPI = new BetaSeriesAPI(cleApi, token);
+            this.member = new Member(token);
+        } else {
+            this.betaSeriesAPI = new BetaSeriesAPI(cleApi);
+            this.member = null;
+        }
     }
 
-    public Member memberLogin(final String identifiant, final String password) {
-        this.setMember(this.betaSeriesAPI.obtainMember(identifiant, password));
+    public BaseBetaSeriesCaller() {
+        this(null);
+    }
+
+    public Member memberLogin(final String login, final String password) {
+        this.member = this.betaSeriesAPI.login(login, password);
+        return this.member;
+    }
+
+    public Member getMemberSummary() {
+        this.member = this.betaSeriesAPI.getMemberInformation(true);
         return this.member;
     }
 
     public List<Serie> getMemberSeries() {
-        this.betaSeriesAPI.getMemberInformations(this.member);
+        this.member = this.betaSeriesAPI.getMemberInformation(false);
         Log.d("ActuSeries", "series : " + this.member.getSeries().size());
         return this.member.getSeries();
     }
 
     public void getSerieWithBanner(Serie s) {
-        this.betaSeriesAPI.recupInfoEpisode(s, this.screenSize);
-        //inst.betaSeries.recupBanner(s);
+        this.betaSeriesAPI.getEpisodesInformation(s, this.screenSize);
     }
 
     public List<Episode> getEpisodes(Serie s) {
@@ -53,11 +66,11 @@ public class BaseBetaSeriesCaller implements BetaSeriesCaller {
 
     public void memberLogout() {
         this.betaSeriesAPI.destroyToken();
-        this.setMember(null);
+        this.member = null;
     }
 
-    public Member accountCreation(String identifiant, String password, String email) {
-        this.setMember(this.betaSeriesAPI.createAccount(identifiant, password, email));
+    public Member accountCreation(String login, String password, String email) {
+        this.member = this.betaSeriesAPI.createAccount(login, password, email);
         return this.member;
     }
 
@@ -82,11 +95,6 @@ public class BaseBetaSeriesCaller implements BetaSeriesCaller {
     public void searchSerie(String nomSerie) {
         this.searchResults.clear();
         this.searchResults.addAll(this.betaSeriesAPI.searchShow(nomSerie));
-    }
-
-    private void setMember(Member member) {
-        this.member = member;
-        this.betaSeriesAPI = new BetaSeriesAPI(cleApi, member);
     }
 
     public void markAsWatched(Episode episode) {

@@ -1,7 +1,9 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +16,12 @@ import com.squareup.otto.Subscribe;
 import actuseries.android.com.actuseries.R;
 import actuseries.android.com.actuseries.betaseries.caller.BaseBetaSeriesCaller;
 import actuseries.android.com.actuseries.betaseries.caller.BetaSeriesCaller;
+import actuseries.android.com.actuseries.event.GetMemberSummaryResultEvent;
 import actuseries.android.com.actuseries.event.LoginResultEvent;
 import actuseries.android.com.actuseries.event.TaskManager;
 import actuseries.android.com.actuseries.locator.BetaSeriesCallerLocator;
+import actuseries.android.com.actuseries.metier.Member;
+import actuseries.android.com.actuseries.tasks.GetMemberSummaryTask;
 import actuseries.android.com.actuseries.tasks.LoginTask;
 import actuseries.android.com.actuseries.tools.ConnectivityChecker;
 
@@ -30,6 +35,10 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.autoLoginFromPersistence();
+
+        // Initialize view
         setContentView(R.layout.login_activity);
         usernameEditText = (EditText) findViewById(R.id.login_editText_login);
         passwordEditText = (EditText) findViewById(R.id.login_editText_password);
@@ -38,8 +47,18 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
         connectButton.setOnClickListener(this);
         findViewById(R.id.login_button_signup).setOnClickListener(this);
 
-        // Initialize the service locators
-        BetaSeriesCallerLocator.provide(new BaseBetaSeriesCaller());
+    }
+
+    private void autoLoginFromPersistence() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean stayLoggedIn = settings.getBoolean(getString(R.string.settingsKey_stayLoggedIn), false);
+        String token = settings.getString(getString(R.string.settingsKey_token), null);
+        if(stayLoggedIn && token != null && !token.isEmpty()) {
+            BetaSeriesCallerLocator.provide(new BaseBetaSeriesCaller(token));
+            TaskManager.launchTask(GetMemberSummaryTask.class, null);
+        } else {
+            BetaSeriesCallerLocator.provide(new BaseBetaSeriesCaller());
+        }
     }
 
     @Override
@@ -101,7 +120,29 @@ public class LoginActivity extends MainMenuActionBarActivity implements View.OnC
     public void onLoginTaskResult(LoginResultEvent event) {
         loadingProgressBar.setVisibility(View.GONE);
         connectButton.setVisibility(View.VISIBLE);
-        if(event.getResult()) {
+        Member member = event.getResult();
+        if(member != null) {
+            SharedPreferences.Editor settingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            settingsEditor.putString(getString(R.string.settingsKey_login), member.getLogin());
+            settingsEditor.putString(getString(R.string.settingsKey_token), member.getToken());
+            settingsEditor.apply();
+            this.passeAuth();
+        } else {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Erreur d'authentification", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    @Subscribe
+    public void onGetMemberSummaryTaskResult(GetMemberSummaryResultEvent event) {
+        loadingProgressBar.setVisibility(View.GONE);
+        connectButton.setVisibility(View.VISIBLE);
+        Member member = event.getResult();
+        if(member != null) {
             this.passeAuth();
         } else {
             this.runOnUiThread(new Runnable() {

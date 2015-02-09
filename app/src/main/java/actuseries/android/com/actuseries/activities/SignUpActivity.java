@@ -110,7 +110,7 @@ public class SignUpActivity extends MainMenuActionBarActivity implements View.On
     public void onSignupTaskResult(LoginResultEvent event) {
         signupButton.setVisibility(View.VISIBLE);
         loadingProgressBar.setVisibility(View.GONE);
-        if(event.getResult()) {
+        if(event.getResult() != null) {
             this.finish();
         } else {
             this.runOnUiThread(new Runnable() {

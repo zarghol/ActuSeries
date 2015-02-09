@@ -66,6 +66,10 @@
     <string name="lenghtEpisode">Length :</string>
     <string name="genre">Genre :</string>
     <string name="statut">Statut :</string>
-    <!-- -->
 
+    <!-- settings keys -->
+    <string name="settingsKey_stayLoggedIn">stay_logged_in</string>
+    <string name="settingsKey_login">login</string>
+    <string name="settingsKey_token">token</string>
+    <!-- -->
 </resources>

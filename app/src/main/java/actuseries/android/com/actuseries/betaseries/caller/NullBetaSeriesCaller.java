@@ -14,62 +14,80 @@ import actuseries.android.com.actuseries.metier.Serie;
  */
 public class NullBetaSeriesCaller implements BetaSeriesCaller {
 
-    public Member memberLogin(final String identifiant, final String password) {
+    @Override
+    public Member memberLogin(final String login, final String password) {
         return null;
     }
 
+    @Override
     public List<Serie> getMemberSeries() {
         return null;
     }
 
+    @Override
     public void getSerieWithBanner(Serie s) {
     }
 
+    @Override
     public List<Episode> getEpisodes(Serie s) {
         return null;
     }
 
+    @Override
     public void memberLogout() {
     }
 
-    public Member accountCreation(String identifiant, String password, String email) {
+    @Override
+    public Member accountCreation(String login, String password, String email) {
         return null;
     }
 
+    @Override
     public Point getScreenSize() {
         return null;
     }
 
+    @Override
     public void setScreenSize(Point screenSize) {
     }
 
+    @Override
+    public Member getMemberSummary() {
+        return null;
+    }
+
+    @Override
     public List<Serie> getSeries(SeriesDisplay seriesDisplay) {
         return null;
     }
 
+    @Override
     public boolean isLoggedIn() {
         return false;
     }
 
+    @Override
     public void searchSerie(String nomSerie) {
     }
 
-    private void setMembreConnecte(Member membreConnecte) {
-    }
-
+    @Override
     public void markAsWatched(Episode episode) {
     }
 
+    @Override
     public void setRating(Episode episode) {
     }
 
+    @Override
     public void addSerie(Serie serie) {
     }
 
+    @Override
     public List<Serie> getSearchResults() {
         return null;
     }
 
+    @Override
     public void archiveSerie(Serie serie) {
     }
 }

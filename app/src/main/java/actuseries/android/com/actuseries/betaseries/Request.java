@@ -120,7 +120,7 @@ public class Request {
             conn.setRequestProperty("X-BetaSeries-Key", this.apiKey);
             conn.setRequestProperty("X-BetaSeries-Version", betaseriesVersionAPI);
 
-            if(!this.token.equals("")) {
+            if(this.token != null && !this.token.isEmpty()) {
                 conn.setRequestProperty("X-BetaSeries-Token", this.token);
             }
             conn.setDoInput(true);
@@ -155,7 +155,7 @@ public class Request {
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.token = (token == null) ? "" : token;
     }
 
     public void setCategory(RequestCategory category) {

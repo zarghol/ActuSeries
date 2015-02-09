@@ -14,7 +14,7 @@ import actuseries.android.com.actuseries.metier.Serie;
  */
 public interface BetaSeriesCaller {
 
-    public Member memberLogin(final String identifiant, final String password);
+    public Member memberLogin(final String login, final String password);
 
     public List<Serie> getMemberSeries();
 
@@ -24,11 +24,13 @@ public interface BetaSeriesCaller {
 
     public void memberLogout();
 
-    public Member accountCreation(String identifiant, String password, String email);
+    public Member accountCreation(String login, String password, String email);
 
     public Point getScreenSize();
 
     public void setScreenSize(Point screenSize);
+
+    public Member getMemberSummary();
 
     public List<Serie> getSeries(SeriesDisplay seriesDisplay);
 
