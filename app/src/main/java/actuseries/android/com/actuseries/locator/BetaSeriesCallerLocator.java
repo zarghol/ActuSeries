@@ -15,10 +15,6 @@ public class BetaSeriesCallerLocator {
     }
 
     public static void provide(BetaSeriesCaller service) {
-        if(service == null) {
-            betaSeriesCaller = new NullBetaSeriesCaller();
-        } else {
-            betaSeriesCaller = service;
-        }
+        betaSeriesCaller = (service == null ? new NullBetaSeriesCaller() : service);
     }
 }

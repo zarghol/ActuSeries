@@ -19,25 +19,20 @@ import actuseries.android.com.actuseries.metier.Serie;
  * Created by Clement on 11/12/2014.
  */
 public class BetaSeriesAPI {
-    private String apiKey;
-    private String token;
+    private final static String apiKey = "e88a334499a9";
+    private final String token;
 
-    public BetaSeriesAPI(String apiKey, String token) {
-        this.apiKey = apiKey;
+    public BetaSeriesAPI(String token) {
         this.token = token;
     }
 
-    public BetaSeriesAPI(String apiKey) {
-        this(apiKey, null);
+    public BetaSeriesAPI() {
+        this(null);
     }
 
     public Member login(String username, String password) {
         String passMD5 = this.getMD5(password);
-        Member member = this.loginMD5(username, passMD5);
-        if(member != null) {
-            this.token = member.getToken();
-        }
-        return member;
+        return this.loginMD5(username, passMD5);
     }
 
     public Member loginMD5(String username, String passwordMD5) {
@@ -47,8 +42,8 @@ public class BetaSeriesAPI {
         request.setHttpMethod(HttpMethod.POST);
 
         try {
-            JSONObject json = request.send();
-            return new Member(json.getString("token"));
+            String token = request.send().getString("token");
+            return new Member(token);
         } catch(Exception e) {
             Log.e("ActuSeries", "erreur de récupération de token ", e);
             return null;
@@ -66,8 +61,8 @@ public class BetaSeriesAPI {
 
 
         try {
-            JSONObject json = request.send();
-            return new Member(json.getString("token"));
+            String token = request.send().getString("token");
+            return new Member(token);
         } catch(Exception e) {
             Log.e("ActuSeries", "erreur lors de la creation de compte utilisateur", e);
         }
@@ -83,10 +78,9 @@ public class BetaSeriesAPI {
         } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de la deconnexion", e);
         }
-        this.token = null;
     }
 
-    public Member getMemberInformation(boolean summary) {
+    public JSONObject getMemberInformation(boolean summary) {
         Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.INFOS);
         if(summary) {
             request.addOption("summary", "true");
@@ -94,7 +88,19 @@ public class BetaSeriesAPI {
 
         try {
             JSONObject memberjson = request.send().getJSONObject("member");
-            return new Member(memberjson);
+            return memberjson;
+        } catch(Exception e) {
+            Log.e("Actuseries", "erreur lors de la récupération du membre", e);
+        }
+        return null;
+    }
+
+    public JSONArray getListSeries() {
+        Request request = this.buildRequest(RequestCategory.MEMBERS, RequestMethod.INFOS);
+        Log.d("Actuseries", "token : " + this.token);
+
+        try {
+            return request.send().getJSONObject("member").getJSONArray("shows");
         } catch(Exception e) {
             Log.e("Actuseries", "erreur lors de la récupération du membre", e);
         }
@@ -221,7 +227,7 @@ public class BetaSeriesAPI {
 
     private Request buildRequest(RequestCategory category, RequestMethod method) {
         Request request = new Request();
-        request.setApiKey(this.apiKey);
+        request.setApiKey(BetaSeriesAPI.apiKey);
         request.setToken(this.token);
 
         request.setCategory(category);

@@ -16,8 +16,6 @@ public interface BetaSeriesCaller {
 
     public Member memberLogin(final String login, final String password);
 
-    public List<Serie> getMemberSeries();
-
     public void getSerieWithBanner(Serie s);
 
     public List<Episode> getEpisodes(Serie s);
@@ -47,4 +45,6 @@ public interface BetaSeriesCaller {
     public void addSerie(Serie serie);
 
     public void archiveSerie(Serie serie);
+
+    List<Serie> retrieveSeries();
 }

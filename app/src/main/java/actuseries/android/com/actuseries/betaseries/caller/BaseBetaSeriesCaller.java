@@ -16,43 +16,53 @@ import actuseries.android.com.actuseries.metier.Serie;
  * Created by Clement on 11/12/2014.
  */
 public class BaseBetaSeriesCaller implements BetaSeriesCaller {
-    private final static String cleApi = "e88a334499a9";
     private Member member;
     private BetaSeriesAPI betaSeriesAPI;
     private Point screenSize;
     private List<Serie> searchResults;
 
     public BaseBetaSeriesCaller(String token) {
-        //TODO: initialiser screenSize aux dimensions de l'écran
-        this.screenSize = new Point();
-        this.searchResults = new ArrayList<Serie>();
-        if(token != null && !token.isEmpty()) {
-            this.betaSeriesAPI = new BetaSeriesAPI(cleApi, token);
-            this.member = new Member(token);
-        } else {
-            this.betaSeriesAPI = new BetaSeriesAPI(cleApi);
-            this.member = null;
-        }
+        this();
+        this.betaSeriesAPI = new BetaSeriesAPI(token);
+        this.member = new Member(token);
     }
 
     public BaseBetaSeriesCaller() {
-        this(null);
+        //TODO: initialiser screenSize aux dimensions de l'écran
+        this.screenSize = new Point();
+        this.searchResults = new ArrayList<>();
+        this.betaSeriesAPI = new BetaSeriesAPI();
+    }
+
+    private void setMember(Member member) {
+        this.member = member;
+        this.betaSeriesAPI = new BetaSeriesAPI(member.getToken());
+    }
+
+    public Member accountCreation(String login, String password, String email) {
+        this.setMember(this.betaSeriesAPI.createAccount(login, password, email));
+        return this.member;
     }
 
     public Member memberLogin(final String login, final String password) {
-        this.member = this.betaSeriesAPI.login(login, password);
+        this.setMember(this.betaSeriesAPI.login(login, password));
         return this.member;
     }
 
     public Member getMemberSummary() {
-        this.member = this.betaSeriesAPI.getMemberInformation(true);
+        // on ne recrée pas un membre ici, on le complète (on garde le token dedans etc...)
+        this.member.retrieveInformation(this.betaSeriesAPI.getMemberInformation(true));
         return this.member;
     }
 
-    public List<Serie> getMemberSeries() {
-        this.member = this.betaSeriesAPI.getMemberInformation(false);
-        Log.d("ActuSeries", "series : " + this.member.getSeries().size());
-        return this.member.getSeries();
+    public List<Serie> getSeries(SeriesDisplay seriesDisplay) {
+        List<Serie> series = this.member.getSeries();
+        return seriesDisplay == null ? SeriesDisplay.ALL.sort(series) : seriesDisplay.sort(series);
+    }
+
+    public List<Serie> retrieveSeries() {
+        this.member.addSeries(this.betaSeriesAPI.getListSeries());
+        return this.getSeries(SeriesDisplay.ALL);
     }
 
     public void getSerieWithBanner(Serie s) {
@@ -67,11 +77,7 @@ public class BaseBetaSeriesCaller implements BetaSeriesCaller {
     public void memberLogout() {
         this.betaSeriesAPI.destroyToken();
         this.member = null;
-    }
-
-    public Member accountCreation(String login, String password, String email) {
-        this.member = this.betaSeriesAPI.createAccount(login, password, email);
-        return this.member;
+        this.betaSeriesAPI = new BetaSeriesAPI();
     }
 
     public Point getScreenSize() {
@@ -82,14 +88,8 @@ public class BaseBetaSeriesCaller implements BetaSeriesCaller {
         this.screenSize = screenSize;
     }
 
-    public List<Serie> getSeries(SeriesDisplay seriesDisplay) {
-        List<Serie> series = this.member.getSeries();
-        return seriesDisplay == null ? series : seriesDisplay.sort(series);
-    }
-
     public boolean isLoggedIn() {
         return this.member != null && !this.member.getToken().isEmpty();
-
     }
 
     public void searchSerie(String nomSerie) {

@@ -20,11 +20,6 @@ public class NullBetaSeriesCaller implements BetaSeriesCaller {
     }
 
     @Override
-    public List<Serie> getMemberSeries() {
-        return null;
-    }
-
-    @Override
     public void getSerieWithBanner(Serie s) {
     }
 
@@ -89,5 +84,10 @@ public class NullBetaSeriesCaller implements BetaSeriesCaller {
 
     @Override
     public void archiveSerie(Serie serie) {
+    }
+
+    @Override
+    public List<Serie> retrieveSeries() {
+        return null;
     }
 }

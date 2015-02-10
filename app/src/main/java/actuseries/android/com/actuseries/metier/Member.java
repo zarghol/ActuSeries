@@ -1,5 +1,7 @@
 package actuseries.android.com.actuseries.metier;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public class Member {
     private String login;
-    private String token;
+    private final String token;
     private String avatarUrl;
 
     // Stats
@@ -30,12 +32,7 @@ public class Member {
         this.series = new ArrayList<>();
     }
 
-    public Member(JSONObject member) {
-        this.series = new ArrayList<>();
-        fillMember(member);
-    }
-
-    private void fillMember(JSONObject member) {
+    public void retrieveInformation(JSONObject member) {
         try {
             this.login = member.getString("login");
             this.avatarUrl = member.getString("avatar");
@@ -47,16 +44,26 @@ public class Member {
             this.nbSeasons = stats.getInt("seasons");
             this.nbShows = stats.getInt("shows");
 
-            JSONArray array = member.optJSONArray("shows");
-            if(array != null) {
-                for(int i = 0; i < array.length(); i++) {
-                    JSONObject show = array.getJSONObject(i);
-                    this.addSerie(new Serie(show));
-                }
-            }
 
+
+            JSONArray array = member.optJSONArray("shows");
+            Log.d("actuseries", "dans fillMember : " + array);
+            if(array != null) {
+                this.addSeries(array);
+            }
         } catch(JSONException e) {
-            e.printStackTrace();
+            Log.e("actuseries", "erreur dans fillMember", e);
+        }
+    }
+
+    public void addSeries(JSONArray series) {
+        try {
+            for(int i = 0; i < series.length(); i++) {
+                JSONObject show = series.getJSONObject(i);
+                this.addSerie(new Serie(show));
+            }
+        } catch (JSONException e) {
+            Log.e("actuseries", "erreur dans addSeries", e);
         }
     }
 

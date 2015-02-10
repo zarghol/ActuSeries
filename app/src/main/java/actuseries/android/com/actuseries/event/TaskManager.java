@@ -39,7 +39,7 @@ public class TaskManager {
         TaskManager.getInstance().bus.post(result);
     }
 
-    public static <T, S> void launchTask(Class<?> typeTask, S[] params) {
+    public static <S> void launchTask(Class<?> typeTask, S[] params) {
         try {
             AsyncTask task = (AsyncTask) typeTask.newInstance();
             TaskManager.getInstance().tasks.add(task);

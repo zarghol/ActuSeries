@@ -22,8 +22,8 @@ public class GetSeriesTask extends AsyncTask<Void, Serie, Void> {
 
         List<Serie> series = BetaSeriesCallerLocator.getService().getSeries(SeriesDisplay.ALL);
 
-        if(series.size() == 0) {
-            series = BetaSeriesCallerLocator.getService().getMemberSeries();
+        if (series.size() == 0) {
+            series = BetaSeriesCallerLocator.getService().retrieveSeries();
         }
 
         for(Serie s : series) {

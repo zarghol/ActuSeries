@@ -1,7 +1,9 @@
 package actuseries.android.com.actuseries.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,8 +66,10 @@ public abstract class MainMenuActionBarActivity extends ActionBarActivity {
     }
 
     private void actionLogout() {
-/*        TaskManager.cancelAllTasks();
-        TaskManager.launchTask(LogoutTask.class, null);*/
+        SharedPreferences.Editor settingsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        settingsEditor.remove(getString(R.string.settingsKey_login));
+        settingsEditor.remove(getString(R.string.settingsKey_token));
+        settingsEditor.apply();
         new Thread(new Runnable() {
             @Override
             public void run() {
